@@ -1,6 +1,7 @@
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
+import 'package:recipemine/CustomeWidgets/TimerWidget.dart';
 import 'package:recipemine/pages/CookingAssistant.dart';
 import 'package:recipemine/pages/LoadingScreen.dart';
 import 'package:recipemine/pages/step1.dart';
@@ -23,6 +24,7 @@ void main() {
       '/ending' : (context) => Ending(),
       '/homePage': (context) => HomePage(),
       '/CookingAssistant': (context) => CookingAssistant(),
+      '/CountDown' : (context) => CountDown(),
 
 
 
