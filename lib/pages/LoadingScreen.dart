@@ -1,10 +1,18 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class LoadingScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:recipemine/main.dart';
+
+class LoadingScreen extends StatefulWidget {
+  @override
+  _LoadingScreenState createState() => _LoadingScreenState();
+}
+
+class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF1F1F1),
+      backgroundColor: Colors.pink[100],
       body: SafeArea(
         top: true,
         bottom: true,
@@ -35,4 +43,22 @@ class LoadingScreen extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    transition();
+
+  }
+
+  //method used to transition to the homescreen.
+  //copied from stackover flow, don't know why this code works.
+  //Beet to leave it.
+  void transition()  async{
+    Timer(
+        Duration(seconds: 1),
+            () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => HomePage())));
+    }
+
 }
