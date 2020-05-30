@@ -53,10 +53,8 @@ Widget build(BuildContext context) {
               ),
               Container(
                 color: Colors.pink[75],
-                child: Container(
-                  child: Center(
-                    child: Alarm(),
-                  ),
+                child: Center(
+                  child: Alarm(),
                 ),
               ),
             ])
