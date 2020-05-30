@@ -56,7 +56,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   //Beet to leave it.
   void transition()  async{
     Timer(
-        Duration(seconds: 1),
+        Duration(seconds: 0),
             () => Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => HomePage())));
     }
