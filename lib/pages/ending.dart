@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 class Ending extends StatelessWidget {
+
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.pink[100],
