@@ -18,81 +18,77 @@ class _AlarmState extends State<Alarm> {
   Widget build(BuildContext context) {
       return Container(
           child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  Center(
-                    child: Row(
+            padding: const EdgeInsets.all(54.0),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Column(
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Text('Hrs'),
-                            NumberPicker.integer(
-                                initialValue: 24,
-                                minValue: 0,
-                                maxValue: 24,
-                                infiniteLoop: true,
-                                onChanged: (val){
-                                  hour = val;
-                                }),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text('Mins'),
-                            NumberPicker.integer(
-                                initialValue: 60,
-                                minValue: 0,
-                                maxValue: 60,
-                                infiniteLoop: true,
-                                onChanged: (val){
-                                  minute = val;
-                                }),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text('Sec'),
-                            NumberPicker.integer(
-                                initialValue: 60,
-                                minValue: 0,
-                                maxValue: 60,
-                                infiniteLoop: true,
-                                onChanged: (val){
-                                  second = val;
-                                }),
-                          ],
-                        ),
+                        Text('Hrs'),
+                        NumberPicker.integer(
+                            initialValue: 24,
+                            minValue: 0,
+                            maxValue: 24,
+                            infiniteLoop: true,
+                            onChanged: (val){
+                              hour = val;
+                            }),
                       ],
                     ),
-                  ), // Row of NumberPickers
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Center(
-                    child: Container(
-                      child: Ink(
-                        decoration: const ShapeDecoration(
-                          color: Colors.pink,
-                          shape: CircleBorder(),
-                        ),
-                        child: IconButton(
-                            icon: Icon(Icons.play_arrow),
-                            color: Colors.white,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/CountDown', arguments: {
-                                'hour': this.hour,
-                                'minute':this.minute,
-                                'second':this.second,
-                              });
-                            }
-                        ),
+                    Column(
+                      children: <Widget>[
+                        Text('Mins'),
+                        NumberPicker.integer(
+                            initialValue: 60,
+                            minValue: 0,
+                            maxValue: 60,
+                            infiniteLoop: true,
+                            onChanged: (val){
+                              minute = val;
+                            }),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text('Sec'),
+                        NumberPicker.integer(
+                            initialValue: 60,
+                            minValue: 0,
+                            maxValue: 60,
+                            infiniteLoop: true,
+                            onChanged: (val){
+                              second = val;
+                            }),
+                      ],
+                    ),
+                  ],
+                ), // Row of NumberPickers
+                SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: Container(
+                    child: Ink(
+                      decoration: const ShapeDecoration(
+                        color: Colors.pink,
+                        shape: CircleBorder(),
+                      ),
+                      child: IconButton(
+                          icon: Icon(Icons.play_arrow),
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/CountDown', arguments: {
+                              'hour': this.hour,
+                              'minute':this.minute,
+                              'second':this.second,
+                            });
+                          }
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           )
       );;
