@@ -1,7 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:recipemine/main.dart';
+import 'package:recipemine/pages/HomePage.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -14,17 +13,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return Scaffold(
       backgroundColor: Colors.pink[100],
       body: SafeArea(
-        top: true,
-        bottom: true,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Image( // Logo image
-                image: AssetImage("assets/Logo.png"),
-              ),
+              Image(image: AssetImage("assets/Logo.png")),
               Padding( // Motto underneath logo
                 padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
                 child: Text(
@@ -48,17 +43,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     super.initState();
     transition();
-
   }
 
-  //method used to transition to the homescreen.
-  //copied from stackover flow, don't know why this code works.
-  //Beet to leave it.
-  void transition()  async{
+  // method used to transition to the homescreen.
+  // copied from stackover flow, don't know why this code works.
+  // Better to leave it.
+  void transition() async {
     Timer(
         Duration(seconds: 1),
-            () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => HomePage())));
-    }
-
+        () => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (BuildContext context) => HomePage())));
+  }
 }
