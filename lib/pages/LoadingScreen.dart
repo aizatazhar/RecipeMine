@@ -50,7 +50,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   // Better to leave it.
   void transition() async {
     Timer(
-        Duration(seconds: 1),
+        Duration(seconds: 2),
         () => Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (BuildContext context) => HomePage())));
   }

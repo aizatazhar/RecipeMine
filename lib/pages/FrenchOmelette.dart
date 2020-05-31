@@ -10,7 +10,7 @@ class FrenchOmelette {
 
   List<String> instructions = <String>[
     "○ Beat eggs, water, salt and pepper in small bowl for 20 seconds until blended.",
-    "○ Tilt pan to coat bottom. Pour egg mixture into pan.\n ○ Mixture should set immediately at edges.",
+    "○ Tilt pan to coat bottom. Pour egg mixture into pan.\n○ Mixture should set immediately at edges.",
     "○ Gently push cooked portions from edges toward the center with inverted turner so that uncooked eggs can reach the hot pan surface.\n○ Continue cooking, tilting pan and gently moving cooked portions as needed.\n",
     "○ When top surface of eggs is thickened and no visible liquid egg remains, place filling on one side of the omelet.\n○ Fold omelet in half with turner, with a quick flip of the wrist, turn pan and invert or slide omelet onto plate.\n○ Serve immediately.",
   ];
