@@ -17,7 +17,13 @@ class HomePage extends StatelessWidget {
               child: ListTile(
                 contentPadding: EdgeInsets.fromLTRB(20.0, 0, 0, 0),
                 enabled: true,
-                onTap: onTapMethod(context, ingredient),
+                onTap: () {
+                  // placeholder method used to transition into the cooking
+                  // assistant when clicking a recipe
+                  if (ingredient.name == "French Omelette") {
+                    Navigator.pushReplacementNamed(context, "/CookingAssistant");
+                  }
+                },
                 title: Constants.listItemTitleLight(ingredient.name),
               ),
             );
@@ -53,14 +59,6 @@ class HomePage extends StatelessWidget {
     // Not sure what this is for but it simulates loading i guess?
     await Future.delayed(Duration(seconds: 1));
     return eggs;
-  }
-
-  // placeholder method used to transition into the cooking
-  // assistant when clicking a recipe
-  onTapMethod(BuildContext context, Ingredient ingredient) {
-    if (ingredient.name == "French Omelette") {
-      Navigator.pushReplacementNamed(context, "/CookingAssistant");
-    }
   }
 
 }
