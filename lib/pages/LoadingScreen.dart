@@ -11,10 +11,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.pink[100],
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -50,8 +49,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   // Better to leave it.
   void transition() async {
     Timer(
-        Duration(seconds: 2),
+        Duration(seconds: 0),
         () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => HomePage())));
+            MaterialPageRoute(builder: (BuildContext context) => SearchPage())));
   }
 }

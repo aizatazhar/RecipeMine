@@ -49,7 +49,7 @@ class Ending extends StatelessWidget {
                       icon: Icon(Icons.search),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, "/homePage");
+                        Navigator.pushReplacementNamed(context, "/SearchPage");
                       },
                     ),
                   ),

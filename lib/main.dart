@@ -7,7 +7,7 @@ import "package:recipemine/CustomWidgets/TimerWidget.dart";
 void main() {
   runApp(MaterialApp(routes: {
     "/": (context) => LoadingScreen(),
-    "/homePage": (context) => HomePage(),
+    "/SearchPage": (context) => SearchPage(),
     "/CookingAssistant": (context) => CookingAssistant(),
     "/CountDown" : (context) => CountDown(),
   }));
