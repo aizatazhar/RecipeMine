@@ -4,6 +4,7 @@ import "package:flappy_search_bar/flappy_search_bar.dart";
 import "package:flappy_search_bar/search_bar_style.dart";
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import "package:recipemine/Constants.dart";
+import 'package:recipemine/pages/Home/CookingAssistant.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -211,7 +212,12 @@ class _SearchPageState extends State<SearchPage> {
               child: Column(
                 children: <Widget>[
                   GestureDetector(
-                    onTap: () => Navigator.pushReplacementNamed(context, "/CookingAssistant"),
+                    onTap: (){
+                      Navigator.push(context, new MaterialPageRoute(
+                          builder: (context) =>
+                          new CookingAssistant())
+                      );
+                    },
                     child: CarouselSlider(
                       options: CarouselOptions(
                         aspectRatio: 0.8,
