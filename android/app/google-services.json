@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "681710060561",
+    "firebase_url": "https://recipemine-18d5f.firebaseio.com",
+    "project_id": "recipemine-18d5f",
+    "storage_bucket": "recipemine-18d5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681710060561:android:6307c3d71f26e18eb8ddb0",
+        "android_client_info": {
+          "package_name": "com.orbital.recipemine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681710060561-im5gdc7qm7j02ibppk44qil9id18j447.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhpErplsYucsxHw6zUdKUVNYoZtzbMgI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681710060561-im5gdc7qm7j02ibppk44qil9id18j447.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681710060561:android:f7fca5c945bea4e3b8ddb0",
+        "android_client_info": {
+          "package_name": "com.recipe.recipemine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681710060561-im5gdc7qm7j02ibppk44qil9id18j447.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhpErplsYucsxHw6zUdKUVNYoZtzbMgI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681710060561-im5gdc7qm7j02ibppk44qil9id18j447.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681710060561:android:3b525e732c1f3f14b8ddb0",
+        "android_client_info": {
+          "package_name": "com.recipeMine.recipemine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681710060561-im5gdc7qm7j02ibppk44qil9id18j447.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhpErplsYucsxHw6zUdKUVNYoZtzbMgI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681710060561-im5gdc7qm7j02ibppk44qil9id18j447.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
