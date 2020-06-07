@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import "package:flutter/material.dart";
 import "package:flappy_search_bar/flappy_search_bar.dart";
 import "package:flappy_search_bar/search_bar_style.dart";
+import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import "package:recipemine/Constants.dart";
+import 'package:recipemine/pages/Home/CookingAssistant.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   int navigationIndex = 0;
 
+  final AuthService _auth = AuthService();
   final List<String> images = [
     "assets/Recipe 1.jpg",
     "assets/Recipe 2.jpg",
@@ -184,6 +187,21 @@ class _SearchPageState extends State<SearchPage> {
         title: Text("Search"),
         titleSpacing: 20.0,
         backgroundColor: Color(0xffFF464F),
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.person, color: Colors.white),
+            label: Text(
+              'logout',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20
+              ),
+            ),
+            onPressed: () async {
+              await _auth.signOut();
+            },
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: SearchBar<Ingredient>(
@@ -194,7 +212,12 @@ class _SearchPageState extends State<SearchPage> {
               child: Column(
                 children: <Widget>[
                   GestureDetector(
-                    onTap: () => Navigator.pushReplacementNamed(context, "/CookingAssistant"),
+                    onTap: (){
+                      Navigator.push(context, new MaterialPageRoute(
+                          builder: (context) =>
+                          new CookingAssistant())
+                      );
+                    },
                     child: CarouselSlider(
                       options: CarouselOptions(
                         aspectRatio: 0.8,
@@ -294,3 +317,4 @@ class Ingredient {
 
   Ingredient(this.name);
 }
+

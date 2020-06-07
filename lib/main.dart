@@ -1,8 +1,11 @@
 import "package:flutter/material.dart";
-import "package:recipemine/pages/HomePage.dart";
-import "package:recipemine/pages/CookingAssistant.dart";
-import "package:recipemine/pages/LoadingScreen.dart";
-import "package:recipemine/CustomWidgets/TimerWidget.dart";
+import "package:recipemine/pages/Home/HomePage.dart";
+import 'file:///C:/Users/John/Downloads/Orbital/RecipeMine/lib/pages/Home/CookingAssistant.dart';
+import 'file:///C:/Users/John/Downloads/Orbital/RecipeMine/lib/pages/SplashScreen.dart';
+import "package:recipemine/Custom/CustomWidgets/TimerWidget.dart";
+import 'package:recipemine/pages/Authentication/Wrapper.dart';
+
+
 
 void main() {
   runApp(MaterialApp(routes: {
@@ -10,6 +13,8 @@ void main() {
     "/SearchPage": (context) => SearchPage(),
     "/CookingAssistant": (context) => CookingAssistant(),
     "/CountDown" : (context) => CountDown(),
+    "/AuthenticationWrapper" : (context) => Wrapper(),
+
   }));
 }
 

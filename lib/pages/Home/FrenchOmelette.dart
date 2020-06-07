@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:recipemine/CustomWidgets/TimerWidget.dart";
+import "package:recipemine/Custom/CustomWidgets/TimerWidget.dart";
 import "package:recipemine/Constants.dart";
 
 class FrenchOmelette {
