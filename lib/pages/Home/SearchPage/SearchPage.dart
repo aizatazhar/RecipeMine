@@ -3,8 +3,7 @@ import "package:flutter/material.dart";
 import "package:flappy_search_bar/flappy_search_bar.dart";
 import "package:flappy_search_bar/search_bar_style.dart";
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
-import "package:recipemine/Constants.dart";
-import 'package:recipemine/pages/Home/CookingAssistant.dart';
+import 'file:///C:/Users/John/Downloads/Orbital/MyFork/RecipeMine/lib/pages/Home/CookingAssistant/CookingAssistant.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -12,9 +11,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  int navigationIndex = 0;
 
-  final AuthService _auth = AuthService();
   final List<String> images = [
     "assets/Recipe 1.jpg",
     "assets/Recipe 2.jpg",
@@ -183,26 +180,6 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Search"),
-        titleSpacing: 20.0,
-        backgroundColor: Color(0xffFF464F),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person, color: Colors.white),
-            label: Text(
-              'logout',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20
-              ),
-            ),
-            onPressed: () async {
-              await _auth.signOut();
-            },
-          ),
-        ],
-      ),
       backgroundColor: Colors.white,
       body: SearchBar<Ingredient>(
         onSearch: search,
@@ -230,23 +207,6 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               )
           );
-
-//          return Material(
-//            color: Colors.grey[100],
-//            child: ListTile(
-//              contentPadding: EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-//              enabled: true,
-//              onTap: () {
-//                // placeholder method used to transition into the cooking
-//                // assistant when clicking a recipe
-//                if (ingredient.name == "French Omelette") {
-//                  Navigator.pushReplacementNamed(context, "/CookingAssistant");
-//                }
-//              },
-//              title: Constants.listItemTitleLight(ingredient.name),
-//            ),
-//          );
-
         },
         hintText: "type some ingredients",
         hintStyle: TextStyle(
@@ -264,48 +224,12 @@ class _SearchPageState extends State<SearchPage> {
           color: Color(0xffFF464F),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.grey[100],
-        selectedItemColor: Color(0xffFF464F),
-        currentIndex: navigationIndex,
-        items: <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            title: Text("Search"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.whatshot),
-            title: Text("Assistant"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            title: Text("Favourites"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.kitchen),
-            title: Text("Pantry"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            title: Text("Community"),
-          ),
-        ],
-        onTap: (index) {
-          setState(() {navigationIndex = index;});
-          print("placeholder method for navigating bottom bar");
-        }
-      )
     );
   }
 
   Future<List<Ingredient>> search(String item) async {
     List<Ingredient> eggs = [];
     eggs.add(Ingredient("French Omelette"));
-//    eggs.add(Ingredient("Poached Egg"));
-//    eggs.add(Ingredient("Fried Egg"));
-
-    // Not sure what this is for but it simulates loading i guess?
     await Future.delayed(Duration(seconds: 1));
     return eggs;
   }
@@ -314,7 +238,6 @@ class _SearchPageState extends State<SearchPage> {
 // spaghetti class for ingredients database (for searching)
 class Ingredient {
   final String name;
-
   Ingredient(this.name);
 }
 
