@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
 
 
     //contains the currentuser details
-    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', ProfilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
+    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
     Users.forEach((element) {
       if(element.uid == CurrentUserUID.uid){
         currentUserData = element;
@@ -38,7 +38,7 @@ class _ProfileState extends State<Profile> {
     //currentuser details fields
     String name = currentUserData.name ?? '';
     String email = currentUserData.email ?? '';
-    String profilePic = currentUserData.ProfilePic ?? 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
+    String profilePic = currentUserData.profilePic ?? 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
 
 
 

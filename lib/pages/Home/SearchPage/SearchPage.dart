@@ -3,7 +3,6 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:flappy_search_bar/flappy_search_bar.dart";
 import "package:flappy_search_bar/search_bar_style.dart";
-import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:recipemine/Custom/Models/Ingredient.dart";
 import "package:recipemine/pages/Home/CookingAssistant/CookingAssistant.dart";
@@ -105,7 +104,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
           padding: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 15.0),
           child: Text(
-            "${recipe["name"]}",
+            recipe["name"],
             style: TextStyle(
               color: Colors.white,
               fontSize: 36.0,
@@ -124,10 +123,10 @@ class _SearchPageState extends State<SearchPage> {
           child: Stack(
             children: <Widget>[
               Image.asset(
-                  recipe["imageURL"],
-                  fit: BoxFit.cover,
-                  width: 1000,
-                  height: 1000
+                recipe["imageURL"],
+                fit: BoxFit.cover,
+                width: 1000,
+                height: 1000
               ),
               _buildTopSection(recipe),
               _buildBottomSection(recipe),
@@ -144,54 +143,55 @@ class _SearchPageState extends State<SearchPage> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return SpinKitFadingCircle(color: Colors.blueGrey);
-          } else {
-            int recipesLength = snapshot.data.documents.length;
-
-            // Reading recipes from Firestore
-            List<DocumentSnapshot> recipes = [];
-            for (int i = 0; i < recipesLength; i++) {
-              recipes.add(snapshot.data.documents[i]);
-            }
-
-            return SearchBar<Ingredient>(
-              hintText: "type some ingredients",
-              hintStyle: TextStyle(
-                color: Color(0xff5F5F5F),
-                fontSize: 14.0,
-              ),
-              searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
-              searchBarStyle: SearchBarStyle(
-                backgroundColor: Colors.grey[100],
-                padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-              ),
-
-              onSearch: search,
-              onItemFound: (Ingredient ingredient, int index) {
-                return Container(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => CookingAssistant())
-                      );
-                    },
-                    // Builder optimises memory by only building items when
-                    // they become visible on screen
-                    child: CarouselSlider.builder(
-                      options: CarouselOptions(
-                        aspectRatio: 0.8,
-                        enlargeCenterPage: true,
-                        enableInfiniteScroll: false,
-                      ),
-                      itemCount: recipesLength,
-                      itemBuilder: (BuildContext context, int itemIndex) {
-                        return _buildSlider(recipes[itemIndex]);
-                      }
-                    ),
-                  ),
-                );
-              },
-            );
           }
+
+          int recipesLength = snapshot.data.documents.length;
+
+          // Reading recipes from Firestore
+          List<DocumentSnapshot> recipes = [];
+          for (int i = 0; i < recipesLength; i++) {
+            recipes.add(snapshot.data.documents[i]);
+          }
+
+          return SearchBar<Ingredient>(
+            hintText: "type some ingredients",
+            hintStyle: TextStyle(
+              color: Color(0xff5F5F5F),
+              fontSize: 14.0,
+            ),
+
+            searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
+            searchBarStyle: SearchBarStyle(
+              backgroundColor: Colors.grey[100],
+              padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+            ),
+
+            onSearch: search,
+            onItemFound: (Ingredient ingredient, int index) {
+              return Container(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => CookingAssistant())
+                    );
+                  },
+                  // Builder optimises memory by only building items when
+                  // they become visible on screen
+                  child: CarouselSlider.builder(
+                    options: CarouselOptions(
+                      aspectRatio: 0.8,
+                      enlargeCenterPage: true,
+                      enableInfiniteScroll: false,
+                    ),
+                    itemCount: recipesLength,
+                    itemBuilder: (BuildContext context, int itemIndex) {
+                      return _buildSlider(recipes[itemIndex]);
+                    }
+                  ),
+                ),
+              );
+            },
+          );
         }
     );
   }

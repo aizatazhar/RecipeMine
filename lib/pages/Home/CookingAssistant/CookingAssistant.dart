@@ -31,6 +31,5 @@ class _CookingAssistantState extends State<CookingAssistant> {
     return Scaffold(
       body: PageView(children: CookingAssistant.getPages(FrenchOmelette())),
     );
-
   }
 }

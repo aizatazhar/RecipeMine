@@ -21,28 +21,29 @@ class _FavouritesState extends State<Favourites> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return SpinKitFadingCircle(color: Colors.blueGrey);
-        } else {
-          int recipesLength = snapshot.data.documents.length;
-
-          // Reading <favourite> recipes from Firestore
-          List<DocumentSnapshot> recipes = [];
-          for (int i = 0; i < recipesLength; i++) {
-            recipes.add(snapshot.data.documents[i]);
-          }
-
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 0.7,
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            itemCount: recipesLength,
-            itemBuilder: (BuildContext context, int index) {
-              return _buildCard(recipes[index]);
-            }
-          );
         }
+
+        int recipesLength = snapshot.data.documents.length;
+
+        // Reading <favourite> recipes from Firestore
+        List<DocumentSnapshot> recipes = [];
+        for (int i = 0; i < recipesLength; i++) {
+          recipes.add(snapshot.data.documents[i]);
+        }
+
+        return GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 0.65,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          itemCount: recipesLength,
+          itemBuilder: (BuildContext context, int index) {
+            return _buildCard(recipes[index]);
+          }
+        );
       }
+
     );
   }
 

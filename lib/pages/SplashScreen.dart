@@ -44,11 +44,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
     transition();
   }
 
-//After authentication implementation it transitions to the wrapper for the authentication.
+  // After authentication implementation it transitions to the wrapper for the authentication.
   void transition() async {
     Timer(
-        Duration(seconds: 0),
-        () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => ProviderWrapper())));
+      Duration(seconds: 0),
+      () => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (BuildContext context) => ProviderWrapper())
+      )
+    );
   }
 }

@@ -16,7 +16,6 @@ class _PantryState extends State<Pantry> {
   }
 }
 
-
-//.contains works so just store a list of ingredients.
-//Ingredient, Name, quantity
-//list of ingredients within the user class
+// .contains works so just store a list of ingredients.
+// Ingredient, Name, quantity
+// list of ingredients within the user class

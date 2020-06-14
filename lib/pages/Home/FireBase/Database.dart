@@ -38,7 +38,7 @@ class DatabaseService {
         name: doc.data['name'] ?? 'new user',
         email: doc.data['email'] ?? 'email',
         uid: doc.data['UID'] ?? 'UIDSS',
-        ProfilePic: doc.data['ProfilePic'] ?? ''
+        profilePic: doc.data['ProfilePic'] ?? ''
       );
     }).toList();
   }
@@ -48,7 +48,7 @@ class DatabaseService {
         uid: snapshot.data['UID'] ?? '',
         name: snapshot.data['name'] ?? '',
         email: snapshot.data['email']?? '',
-        ProfilePic: snapshot.data['ProfilePic'] ?? ''
+        profilePic: snapshot.data['ProfilePic'] ?? ''
 
     );
   }
