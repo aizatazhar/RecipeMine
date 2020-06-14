@@ -6,8 +6,6 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'ProfileSettings.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
 
 class Profile extends StatefulWidget {
   @override
@@ -30,16 +28,16 @@ class _ProfileState extends State<Profile> {
 
 
     //contains the currentuser details
-    RecipeMiner ViewedUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', ProfilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
+    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', ProfilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
     Users.forEach((element) {
       if(element.uid == CurrentUserUID.uid){
-        ViewedUserData = element;
+        currentUserData = element;
       }
     });
     //currentuser details fields
-    String name = ViewedUserData.name ?? '';
-    String email = ViewedUserData.email ?? '';
-    String profilePic = ViewedUserData.ProfilePic ?? 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
+    String name = currentUserData.name ?? '';
+    String email = currentUserData.email ?? '';
+    String profilePic = currentUserData.ProfilePic ?? 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
 
 
 

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/John/Downloads/Orbital/MyFork/RecipeMine/lib/pages/Home/SearchPage/SearchPage.dart';
 import 'package:recipemine/pages/Authentication/ProviderWrapper.dart';
 
 class LoadingScreen extends StatefulWidget {

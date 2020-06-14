@@ -1,6 +1,5 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:recipemine/Custom/Models/PantryIngredient.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 
 class DatabaseService {
@@ -24,15 +23,16 @@ class DatabaseService {
   }
   // get ALL user doc stream
   Stream<List<RecipeMiner>> get DBusers{
-    return db.collection('Users').snapshots().map(ConvertAll);
+    return db.collection('Users').snapshots().map(convertAll);
   }
+
   //get CurrentUser
   Stream<RecipeMiner> get userData {
     return db.collection('Users').document(uid).snapshots()
         .map(_userDataFromSnapshot);
   }
 
-  List<RecipeMiner> ConvertAll(QuerySnapshot snaps){
+  List<RecipeMiner> convertAll(QuerySnapshot snaps){
     return snaps.documents.map((doc){
       return RecipeMiner(
         name: doc.data['name'] ?? 'new user',
