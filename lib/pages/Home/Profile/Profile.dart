@@ -1,10 +1,8 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
-import 'package:provider/provider.dart';
-import 'package:recipemine/Custom/Models/RecipeMinerProfile.dart';
-import 'package:recipemine/Custom/Models/User.dart';
-import 'package:recipemine/pages/Home/FireBase/Database.dart';
+import "package:provider/provider.dart";
+import "package:recipemine/Custom/Models/User.dart";
 
 class Profile extends StatefulWidget {
   @override
@@ -21,17 +19,17 @@ class _ProfileState extends State<Profile> {
     //UID
     var firebaseUser = Provider.of<User>(context);
     //change name to john
-    Firestore.instance.collection("Users").document(firebaseUser.uid).updateData({'name':'john'});
+    Firestore.instance.collection("Users").document(firebaseUser.uid).updateData({"name":"john"});
     //checking
     Firestore.instance.collection("Users").document(firebaseUser.uid).get().then((value){
-      print(value.data['name']);
-      print(value.data['email']);
+      print(value.data["name"]);
+      print(value.data["email"]);
     });
 
 
     return Scaffold(
       body: Center(
-          child: Text('Profile')
+          child: Text("Profile")
       ),
     );
   }

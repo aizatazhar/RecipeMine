@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
-import 'file:///C:/Users/John/Downloads/Orbital/MyFork/RecipeMine/lib/pages/Home/CookingAssistant/FrenchOmelette.dart';
-import 'file:///C:/Users/John/Downloads/Orbital/MyFork/RecipeMine/lib/pages/Home/CookingAssistant/IngredientsList.dart';
 import "package:recipemine/pages/Home/CookingAssistant/Ending.dart";
+
+import 'FrenchOmelette.dart';
+import 'IngredientsList.dart';
 
 class CookingAssistant extends StatefulWidget {
 
