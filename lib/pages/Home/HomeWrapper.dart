@@ -1,14 +1,13 @@
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
-import 'file:///C:/Users/John/Downloads/Orbital/MyFork/RecipeMine/lib/pages/Home/Favourites/Favourites.dart';
-import 'file:///C:/Users/John/Downloads/Orbital/MyFork/RecipeMine/lib/pages/Home/SearchPage/SearchPage.dart';
-import 'file:///C:/Users/John/Downloads/Orbital/MyFork/RecipeMine/lib/pages/Home/Pantry/Pantry.dart';
-import 'file:///C:/Users/John/Downloads/Orbital/MyFork/RecipeMine/lib/pages/Home/Profile/Profile.dart';
-import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:recipemine/pages/Home/Community/Community.dart';
 import 'package:recipemine/pages/Home/CookingAssistant/CookingAssistant.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
+import 'Favourites/Favourites.dart';
+import 'Pantry/Pantry.dart';
+import 'Profile/Profile.dart';
+import 'SearchPage/SearchPage.dart';
 
 
 

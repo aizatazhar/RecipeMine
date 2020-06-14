@@ -8,9 +8,9 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:recipemine/pages/Home/Profile/Profile.dart';
-import '../../LoadingScreen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:recipemine/pages/LoadingScreen.dart';
 
 class SettingsForm extends StatefulWidget {
   @override
