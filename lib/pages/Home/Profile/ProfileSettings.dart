@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +6,6 @@ import 'package:recipemine/Constants.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
-import 'package:recipemine/pages/Home/Profile/Profile.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:recipemine/pages/LoadingScreen.dart';
@@ -118,7 +116,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                 snapshot.data.email,
                                 snapshot.data.uid,
                                 _currentProfilePic,
-                                snapshot.data.Pantry
+                                snapshot.data.pantry
                             );
                             Navigator.pop(context);
                           }

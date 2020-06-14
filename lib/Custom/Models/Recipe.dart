@@ -1,7 +1,4 @@
 
-import "Ingredient.dart";
-
-
 enum RecipeType {
   main,
   side,
