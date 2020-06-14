@@ -1,7 +1,7 @@
+import 'package:recipemine/Custom/Models/PantryIngredient.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
-
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -57,7 +57,8 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: emailformatted, password: password);
       FirebaseUser user = result.user;
       // create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('New User', email);
+      List<String> Pantry = new List<String>();
+      DatabaseService(uid: user.uid).updateUserData('New User', email, user.uid, 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',Pantry);
       return _userFromFirebaseUser(user);
     } catch (error) {
       switch (error.code) {
@@ -76,6 +77,10 @@ class AuthService {
       print(error.toString());
       return null;
     }
+  }
+
+  Future getCurrentUser() async {
+    return await _auth.currentUser();
   }
 
 }
