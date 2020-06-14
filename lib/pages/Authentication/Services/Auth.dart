@@ -1,7 +1,6 @@
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
-
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -43,7 +42,7 @@ class AuthService {
         case 'ERROR_INVALID_EMAIL' : return 'Invalid Email';
         case 'ERROR_USER_NOT_FOUND' : return 'User not found';
         case 'ERROR_USER_DISABLED' : return 'User Disabled';
-        case 'ERROR_TOO_MANY_REQUESTSE' : return 'Server is handling many requests, please wait';
+        case 'ERROR_TOO_MANY_REQUESTS' : return 'Server is handling many requests, please wait';
         case 'ERROR_OPERATION_NOT_ALLOWED' : return 'Operation not allowed';
       }
     }
@@ -57,7 +56,8 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: emailformatted, password: password);
       FirebaseUser user = result.user;
       // create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('New User', email);
+    List<String> Pantry = new List<String>();
+      DatabaseService(uid: user.uid).updateUserData('New User', email, user.uid, 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',Pantry);
       return _userFromFirebaseUser(user);
     } catch (error) {
       switch (error.code) {
@@ -76,6 +76,10 @@ class AuthService {
       print(error.toString());
       return null;
     }
+  }
+
+  Future getCurrentUser() async {
+    return await _auth.currentUser();
   }
 
 }

@@ -1,6 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:recipemine/Custom/Models/RecipeMinerProfile.dart';
+import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 
 class DatabaseService {
 
@@ -11,26 +11,48 @@ class DatabaseService {
   final Firestore db = Firestore.instance;
 
 
-  Future<void> updateUserData(String name, String email) async {
-    return await db.document(uid).setData({
+  Future<void> updateUserData(String name, String email, String UID, String ProfilePic, List<String> Pantry) async {
+    return await db.collection('Users').document(uid).setData({
       'name': name,
       'email': email,
+      'UID': UID,
+      'ProfilePic': ProfilePic,
+      'Pantry' : Pantry
     });
 
   }
-
-   Stream<QuerySnapshot> get DB{
-    return db.collection('Users').snapshots();
+  // get ALL user doc stream
+  Stream<List<RecipeMiner>> get DBusers{
+    return db.collection('Users').snapshots().map(convertAll);
   }
 
-  Future<RecipeMinerProfile> getCurrentUserDetails(String userUID) async {
-    RecipeMinerProfile currentUser;
-    await Firestore.instance.collection('Users').document(userUID).get().then( (user){
-      currentUser = new RecipeMinerProfile(
-          name: user.data['name'],
-          EmailAddress: user.data['email']
+  //get CurrentUser
+  Stream<RecipeMiner> get userData {
+    return db.collection('Users').document(uid).snapshots()
+        .map(_userDataFromSnapshot);
+  }
+
+  List<RecipeMiner> convertAll(QuerySnapshot snaps){
+    return snaps.documents.map((doc){
+      return RecipeMiner(
+        name: doc.data['name'] ?? 'new user',
+        email: doc.data['email'] ?? 'email',
+        uid: doc.data['UID'] ?? 'UIDSS',
+        ProfilePic: doc.data['ProfilePic'] ?? ''
       );
-    });
-    return currentUser;
+    }).toList();
   }
+
+  RecipeMiner _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return RecipeMiner(
+        uid: snapshot.data['UID'] ?? '',
+        name: snapshot.data['name'] ?? '',
+        email: snapshot.data['email']?? '',
+        ProfilePic: snapshot.data['ProfilePic'] ?? ''
+
+    );
+  }
+
 }
+
+
