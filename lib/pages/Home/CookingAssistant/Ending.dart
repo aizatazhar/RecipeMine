@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:recipemine/pages/Home/HomeWrapper.dart';
 
 class Ending extends StatelessWidget {
   @override
@@ -49,7 +50,10 @@ class Ending extends StatelessWidget {
                       icon: Icon(Icons.search),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, "/SearchPage");
+                        Navigator.push(context, new MaterialPageRoute(
+                            builder: (context) =>
+                            new HomeWrapper())
+                        );
                       },
                     ),
                   ),
