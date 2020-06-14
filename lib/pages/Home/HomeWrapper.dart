@@ -108,7 +108,4 @@ class _HomeWrapperState extends State<HomeWrapper> {
       ),
     );
   }
-
-
 }
-

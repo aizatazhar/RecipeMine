@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Constants class defines standard widgets for reusability and modification
 class Constants {

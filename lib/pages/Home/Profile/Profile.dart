@@ -6,6 +6,7 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'ProfileSettings.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
 
 class Profile extends StatefulWidget {
   @override
