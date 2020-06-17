@@ -19,45 +19,43 @@ class _FavouritesState extends State<Favourites> {
   }
 
   Widget _buildBody() {
-    List<Recipe> recipeData = Provider.of<List<Recipe>>(context);
-    List<RecipeMiner> userData = Provider.of<List<RecipeMiner>>(context);
-    //get user data
-    //ALTER HERE
-//    return StreamBuilder(
-//      stream: Firestore.instance.collection("Recipes").snapshots(),
-//      builder: (context, snapshot) {
-//        if (!snapshot.hasData) {
-//          return SpinKitFadingCircle(color: Colors.blueGrey);
-//        }
-//
-//        int recipesLength = snapshot.data.documents.length;
-//
-//        // Reading <favourite> recipes from Firestore
-//        List<DocumentSnapshot> recipes = [];
-//        for (int i = 0; i < recipesLength; i++) {
-//          recipes.add(snapshot.data.documents[i]);
-//        }
-//
-//        return GridView.builder(
-//          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//            crossAxisCount: 3,
-//            childAspectRatio: 0.65,
-//          ),
-//          padding: EdgeInsets.symmetric(horizontal: 10.0),
-//          itemCount: recipesLength,
-//          itemBuilder: (BuildContext context, int index) {
-//            return _buildCard(recipes[index]);
-//          }
-//        );
-//      }
-//
-//    );
+
+    return StreamBuilder(
+      stream: Firestore.instance.collection("Recipes").snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return SpinKitFadingCircle(color: Colors.blueGrey);
+        }
+
+        int recipesLength = snapshot.data.documents.length;
+
+        // Reading <favourite> recipes from Firestore
+        List<Recipe> recipes = [];
+        for (int i = 0; i < recipesLength; i++) {
+          // Takes in a DocumentSnapshot and maps it into a Recipe object
+          recipes.add(Recipe.fromDocumentSnapshot(snapshot.data.documents[i]));
+        }
+
+        return GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 0.65,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          itemCount: recipesLength,
+          itemBuilder: (BuildContext context, int index) {
+            return _buildCard(recipes[index]);
+          }
+        );
+      }
+
+    );
   //ALTER HERE
   }
 
 
   //ALTER HERE change to Recipe
-  Widget _buildCard(DocumentSnapshot recipe) {
+  Widget _buildCard(Recipe recipe) {
     return GestureDetector(
       onTap: () {
         print("placeholder method for clicking on favourite recipe");
@@ -69,7 +67,7 @@ class _FavouritesState extends State<Favourites> {
           child: Stack(
             children: <Widget>[
               Image.asset(
-                recipe["imageURL"],
+                recipe.imageURL,
                 fit: BoxFit.cover,
                 width: 1000,
                 height: 1000,
@@ -104,7 +102,7 @@ class _FavouritesState extends State<Favourites> {
                   // the top padding is to smooth out the tint
                   padding: EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 10.0),
                   child: Text(
-                    recipe["name"],
+                    recipe.name,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14.0,
