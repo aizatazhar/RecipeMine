@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
+import 'package:recipemine/Custom/Models/Recipe.dart';
+import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
+import 'package:recipemine/pages/Home/FireBase/Database.dart';
 
 class Favourites extends StatefulWidget {
   @override
@@ -8,45 +12,51 @@ class Favourites extends StatefulWidget {
 }
 
 class _FavouritesState extends State<Favourites> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildBody(),
+        body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    return StreamBuilder(
-      stream: Firestore.instance.collection("Recipes").snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return SpinKitFadingCircle(color: Colors.blueGrey);
-        }
-
-        int recipesLength = snapshot.data.documents.length;
-
-        // Reading <favourite> recipes from Firestore
-        List<DocumentSnapshot> recipes = [];
-        for (int i = 0; i < recipesLength; i++) {
-          recipes.add(snapshot.data.documents[i]);
-        }
-
-        return GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 0.65,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          itemCount: recipesLength,
-          itemBuilder: (BuildContext context, int index) {
-            return _buildCard(recipes[index]);
-          }
-        );
-      }
-
-    );
+    List<Recipe> recipeData = Provider.of<List<Recipe>>(context);
+    List<RecipeMiner> userData = Provider.of<List<RecipeMiner>>(context);
+    //get user data
+    //ALTER HERE
+//    return StreamBuilder(
+//      stream: Firestore.instance.collection("Recipes").snapshots(),
+//      builder: (context, snapshot) {
+//        if (!snapshot.hasData) {
+//          return SpinKitFadingCircle(color: Colors.blueGrey);
+//        }
+//
+//        int recipesLength = snapshot.data.documents.length;
+//
+//        // Reading <favourite> recipes from Firestore
+//        List<DocumentSnapshot> recipes = [];
+//        for (int i = 0; i < recipesLength; i++) {
+//          recipes.add(snapshot.data.documents[i]);
+//        }
+//
+//        return GridView.builder(
+//          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//            crossAxisCount: 3,
+//            childAspectRatio: 0.65,
+//          ),
+//          padding: EdgeInsets.symmetric(horizontal: 10.0),
+//          itemCount: recipesLength,
+//          itemBuilder: (BuildContext context, int index) {
+//            return _buildCard(recipes[index]);
+//          }
+//        );
+//      }
+//
+//    );
+  //ALTER HERE
   }
 
+
+  //ALTER HERE change to Recipe
   Widget _buildCard(DocumentSnapshot recipe) {
     return GestureDetector(
       onTap: () {

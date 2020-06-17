@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/pages/Home/Community/Community.dart';
 import 'package:recipemine/pages/Home/CookingAssistant/CookingAssistant.dart';
@@ -41,8 +42,11 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   Widget build(BuildContext context) {
 
-    return StreamProvider<List<RecipeMiner>>.value(
-      value: DatabaseService().DBusers,
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<RecipeMiner>>.value(value: DatabaseService().DBusers),
+        StreamProvider<List<Recipe>>.value(value: DatabaseService().recipeData),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: appBarNames[navigationIndex],

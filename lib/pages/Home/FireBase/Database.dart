@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 
 class DatabaseService {
@@ -11,36 +12,23 @@ class DatabaseService {
   final Firestore db = Firestore.instance;
 
 
-  Future<void> updateUserData(String name, String email, String UID, String ProfilePic, List<String> Pantry) async {
-    return await db.collection('Users').document(uid).setData({
+  Future<void> updateUserData(String name, String email, String UID, String ProfilePic, List<dynamic> Pantry, List<dynamic> Favourites) async {
+    return await db.collection('Users').document(UID).setData({
       'name': name,
       'email': email,
       'UID': UID,
       'ProfilePic': ProfilePic,
-      'Pantry' : Pantry
+      'Pantry' : Pantry,
+      'Favourites': Favourites,
     });
 
   }
-  // get ALL user doc stream
-  Stream<List<RecipeMiner>> get DBusers{
-    return db.collection('Users').snapshots().map(convertAll);
-  }
 
-  //get CurrentUser
+
+  //get CurrentUser methods
   Stream<RecipeMiner> get userData {
     return db.collection('Users').document(uid).snapshots()
         .map(_userDataFromSnapshot);
-  }
-
-  List<RecipeMiner> convertAll(QuerySnapshot snaps){
-    return snaps.documents.map((doc){
-      return RecipeMiner(
-        name: doc.data['name'] ?? 'new user',
-        email: doc.data['email'] ?? 'email',
-        uid: doc.data['UID'] ?? 'UIDSS',
-        profilePic: doc.data['ProfilePic'] ?? ''
-      );
-    }).toList();
   }
 
   RecipeMiner _userDataFromSnapshot(DocumentSnapshot snapshot) {
@@ -48,9 +36,52 @@ class DatabaseService {
         uid: snapshot.data['UID'] ?? '',
         name: snapshot.data['name'] ?? '',
         email: snapshot.data['email']?? '',
-        profilePic: snapshot.data['ProfilePic'] ?? ''
+        profilePic: snapshot.data['ProfilePic'] ?? '',
+        pantry: snapshot.data['Pantry'],
+        favourites: snapshot.data['Favourites'],
 
     );
   }
+
+  // get all users methods
+  Stream<List<RecipeMiner>> get DBusers{
+    return db.collection('Users').snapshots().map(allUserDataConversion);
+  }
+
+  List<RecipeMiner> allUserDataConversion(QuerySnapshot snaps){
+    return snaps.documents.map((doc){
+      return RecipeMiner(
+          name: doc.data['name'] ?? 'new user',
+          email: doc.data['email'] ?? 'email',
+          uid: doc.data['UID'] ?? 'UIDSS',
+          profilePic: doc.data['ProfilePic'] ?? '',
+          pantry: doc.data['Pantry'],
+        favourites: doc.data['Favourites'],
+      );
+    }).toList();
+  }
+
+  //get all Recipes methods
+  Stream<List<Recipe>> get recipeData{
+    return db.collection('Recipes').snapshots().map(_recipeDataFromSnapShot);
+  }
+
+  List<Recipe> _recipeDataFromSnapShot(QuerySnapshot snapshot){
+    return snapshot.documents.map((doc){
+      return
+      Recipe(
+        id: doc.data['id'],
+        name: doc.data['name'],
+        type: doc.data['type'],
+        rating: doc.data['rating'],
+        duration : doc.data['duration'],
+        servingSize: doc.data['servingSize'],
+        imageURL: doc.data['imageURL'],
+        ingredients: doc.data['ingredients'],
+        instructions: doc.data['instructions'],
+      );
+    }).toList();
+  }
+
 
 }
