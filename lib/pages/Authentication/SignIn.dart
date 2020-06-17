@@ -2,9 +2,10 @@ import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipemine/pages/LoadingScreen.dart';
 import 'package:recipemine/Constants.dart';
-class SignIn extends StatefulWidget {
 
+class SignIn extends StatefulWidget {
   final Function toggleView;
+
   SignIn({ this.toggleView });
 
   @override
@@ -12,16 +13,16 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+
   bool loading = false;
   String error = '';
 
-  // text field state
+  // Text field state
   String email = '';
   String password = '';
-  Constants _TextMaker = new Constants();
+  Constants textMaker = new Constants();
 
   @override
   Widget build(BuildContext context) {
@@ -80,25 +81,25 @@ class _SignInState extends State<SignIn> {
                     ),
                     SizedBox(height: 20.0),
                     RaisedButton(
-                        color: Colors.pink[400],
-                        child: Text(
-                          'Sign In',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () async {
-                          if(_formKey.currentState.validate()){
+                      color: Colors.pink[400],
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()){
+                          setState(() {
+                            loading = true;
+                          });
+                          dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                          if (result is String) {
                             setState(() {
-                              loading = true;
+                              loading = false;
+                              error = result;
                             });
-                            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                            if(result is String) {
-                              setState(() {
-                                loading = false;
-                                error = result;
-                              });
-                            }
                           }
                         }
+                      }
                     ),
                     SizedBox(height: 12.0),
                     Text(
@@ -114,17 +115,18 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
+
+  final textInputDecoration = InputDecoration(
+    fillColor: Colors.white,
+    filled: true,
+    contentPadding: EdgeInsets.all(12.0),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.brown, width: 2.0),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.pink, width: 2.0),
+    ),
+  );
 }
 
-const textInputDecoration = InputDecoration(
-  fillColor: Colors.white,
-  filled: true,
-  contentPadding: EdgeInsets.all(12.0),
-  enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.brown, width: 2.0),
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.pink, width: 2.0),
-  ),
-);
 

@@ -6,7 +6,6 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'ProfileSettings.dart';
-
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
@@ -14,7 +13,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
 
-  String url ;
+
 
 
 
@@ -22,22 +21,22 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
-    final Users = Provider.of<List<RecipeMiner>>(context) ?? [];
-    final CurrentUserUID = Provider.of<User>(context);
+    final users = Provider.of<List<RecipeMiner>>(context) ?? [];
+    final currentUserUID = Provider.of<User>(context);
 
 
 
     //contains the currentuser details
-    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', ProfilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
-    Users.forEach((element) {
-      if(element.uid == CurrentUserUID.uid){
+    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
+    users.forEach((element) {
+      if(element.uid == currentUserUID.uid){
         currentUserData = element;
       }
     });
     //currentuser details fields
     String name = currentUserData.name ?? '';
     String email = currentUserData.email ?? '';
-    String profilePic = currentUserData.ProfilePic ?? 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
+    String profilePic = currentUserData.profilePic ?? 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
 
 
 
@@ -56,7 +55,9 @@ class _ProfileState extends State<Profile> {
                     height: 150.0,
                     child: Image.network(
                       profilePic,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
+                      width: 1000,
+                      height: 1000,
                     ),
                   ),
                 ),

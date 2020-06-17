@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:recipemine/pages/LoadingScreen.dart';
 
 class Register extends StatefulWidget {
-
   final Function toggleView;
+
   Register({ this.toggleView });
 
   @override
@@ -12,13 +12,13 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+
   String error = '';
   bool loading = false;
 
-  // text field state
+  // Text field state
   String email = '';
   String password = '';
 
@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
           child: Column(
             children: <Widget>[
               SizedBox(width: 50, height: 70),
-              Image(image: AssetImage("assets/Logo.png")),
+              Image.asset("assets/Logo.png"),
               SizedBox(width: 50, height:30),
               Form(
                 key: _formKey,
@@ -85,12 +85,12 @@ class _RegisterState extends State<Register> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-                          if(_formKey.currentState.validate()){
+                          if (_formKey.currentState.validate()) {
                             setState(() {
                               loading = true;
                             });
                             dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-                            if(result is String) {
+                            if (result is String) {
                               setState(() {
                                 loading = false;
                                 error = result;
@@ -113,16 +113,17 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
+  final textInputDecoration = InputDecoration(
+    fillColor: Colors.white,
+    filled: true,
+    contentPadding: EdgeInsets.all(12.0),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.brown, width: 2.0),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.pink, width: 2.0),
+    ),
+  );
 }
 
-const textInputDecoration = InputDecoration(
-  fillColor: Colors.white,
-  filled: true,
-  contentPadding: EdgeInsets.all(12.0),
-  enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.brown, width: 2.0),
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.pink, width: 2.0),
-  ),
-);

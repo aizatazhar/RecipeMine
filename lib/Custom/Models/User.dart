@@ -1,8 +1,6 @@
-//Placeholder class used for Authentication Wrapper, do not touch. It works.
+// Placeholder class used for AuthenticationWrapper, do not touch. It works.
 class User {
-
   final String uid;
 
   User({ this.uid });
-
 }
