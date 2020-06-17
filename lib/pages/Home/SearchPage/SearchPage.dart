@@ -5,7 +5,8 @@ import "package:flappy_search_bar/flappy_search_bar.dart";
 import "package:flappy_search_bar/search_bar_style.dart";
 import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:recipemine/Custom/Models/Ingredient.dart";
-import "package:recipemine/pages/Home/CookingAssistant/CookingAssistant.dart";
+import 'package:recipemine/Custom/Models/Recipe.dart';
+import 'DetailView.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -168,26 +169,25 @@ class _SearchPageState extends State<SearchPage> {
 
             onSearch: search,
             onItemFound: (Ingredient ingredient, int index) {
-              return Container(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => CookingAssistant())
-                    );
-                  },
-                  // Builder optimises memory by only building items when
-                  // they become visible on screen
-                  child: CarouselSlider.builder(
-                    options: CarouselOptions(
-                      aspectRatio: 0.8,
-                      enlargeCenterPage: true,
-                      enableInfiniteScroll: false,
-                    ),
-                    itemCount: recipesLength,
-                    itemBuilder: (BuildContext context, int itemIndex) {
-                      return _buildSlider(recipes[itemIndex]);
-                    }
+              return GestureDetector(
+                onTap: () {
+                  print(index);
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => DetailView(Recipe.fromDocumentSnapshot(recipes[index]))
+                  ));
+                },
+                // Builder optimises memory by only building items when
+                // they become visible on screen
+                child: CarouselSlider.builder(
+                  options: CarouselOptions(
+                    aspectRatio: 0.8,
+                    enlargeCenterPage: true,
+                    enableInfiniteScroll: false,
                   ),
+                  itemCount: recipesLength,
+                  itemBuilder: (BuildContext context, int itemIndex) {
+                    return _buildSlider(recipes[itemIndex]);
+                  }
                 ),
               );
             },
