@@ -70,9 +70,9 @@ class DatabaseService {
     return snapshot.documents.map((doc){
       return
       Recipe(
-        id: doc.data['id'],
+        id: doc.documentID,
         name: doc.data['name'],
-        type: doc.data['type'],
+        type: RecipeType.values[doc.data['type']],
         rating: doc.data['rating'],
         duration : doc.data['duration'],
         servingSize: doc.data['servingSize'],

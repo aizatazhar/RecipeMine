@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
+import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 
 class Favourites extends StatefulWidget {
@@ -20,23 +21,29 @@ class _FavouritesState extends State<Favourites> {
 
   Widget _buildBody() {
 
-    return StreamBuilder(
-      stream: Firestore.instance.collection("Recipes").snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return SpinKitFadingCircle(color: Colors.blueGrey);
-        }
+    final users = Provider.of<List<RecipeMiner>>(context) ?? [];
+    final currentUserUID = Provider.of<User>(context);
+    //contains the currentuser details
+    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', favourites: []);
+    users.forEach((element) {
+      if(element.uid == currentUserUID.uid){
+        currentUserData = element;
+      }
+    });
 
-        int recipesLength = snapshot.data.documents.length;
 
-        // Reading <favourite> recipes from Firestore
-        List<Recipe> recipes = [];
-        for (int i = 0; i < recipesLength; i++) {
-          // Takes in a DocumentSnapshot and maps it into a Recipe object
-          recipes.add(Recipe.fromDocumentSnapshot(snapshot.data.documents[i]));
-        }
+    List<Recipe> recipeList = Provider.of<List<Recipe>>(context) ?? [];
+    List<Recipe> filteredList = [];
+    for(Recipe recipe in recipeList){
+      if(currentUserData.favourites.contains(recipe.id)){
+        filteredList.add(recipe);
+      }
+    }
 
-        return GridView.builder(
+
+    int recipesLength = filteredList.length;
+
+      return GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             childAspectRatio: 0.65,
@@ -44,18 +51,16 @@ class _FavouritesState extends State<Favourites> {
           padding: EdgeInsets.symmetric(horizontal: 10.0),
           itemCount: recipesLength,
           itemBuilder: (BuildContext context, int index) {
-            return _buildCard(recipes[index]);
+            return _buildCard(filteredList[index], currentUserData);
           }
-        );
-      }
-
-    );
-  //ALTER HERE
+      );
   }
 
 
-  //ALTER HERE change to Recipe
-  Widget _buildCard(Recipe recipe) {
+
+  Widget _buildCard(Recipe recipe, RecipeMiner currentUser) {
+    RecipeMiner User = currentUser;
+    Color heartColour = User.favourites.contains(recipe.id) ? Colors.red : Colors.white;
     return GestureDetector(
       onTap: () {
         print("placeholder method for clicking on favourite recipe");
@@ -77,10 +82,11 @@ class _FavouritesState extends State<Favourites> {
                 right: -10.0,
                 child: IconButton(
                   onPressed: () {
-                    print("placeholder method for removing from favourites");
+                    User.favourites.remove(recipe.id);
+                    DatabaseService().updateUserData(User.name, User.email, User.uid, User.profilePic, User.pantry,User.favourites);
                   },
-                  icon: Icon(Icons.favorite),
-                  color: Colors.red,
+                  icon: Icon(Icons.favorite_border),
+                  color: heartColour,
                   iconSize: 20.0,
                 ),
               ),

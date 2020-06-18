@@ -9,7 +9,7 @@ enum RecipeType {
 
 // Recipe class models a recipe
 class Recipe {
-  int id;
+  String id;
   String name;
 
   RecipeType type;
@@ -18,8 +18,8 @@ class Recipe {
   int servingSize;
   String imageURL;
 
-  List<String> ingredients;
-  List<String> instructions;
+  List<dynamic> ingredients;
+  List<dynamic> instructions;
 
   Recipe({
     this.id,
@@ -38,7 +38,7 @@ class Recipe {
   // Named constructor that deserialises data received from Firestore
   // and initialises a new Recipe object
   Recipe.fromDocumentSnapshot(DocumentSnapshot recipe) {
-    this.id = recipe["id"];
+    this.id = recipe.documentID;
     this.name = recipe["name"];
     this.type = RecipeType.values[recipe["type"]];
     this.rating = recipe["rating"];
