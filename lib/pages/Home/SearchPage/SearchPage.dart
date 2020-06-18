@@ -1,11 +1,16 @@
 import "package:carousel_slider/carousel_slider.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import "package:flappy_search_bar/flappy_search_bar.dart";
 import "package:flappy_search_bar/search_bar_style.dart";
 import "package:flutter_spinkit/flutter_spinkit.dart";
+import 'package:provider/provider.dart';
 import "package:recipemine/Custom/Models/Ingredient.dart";
 import 'package:recipemine/Custom/Models/Recipe.dart';
+import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
+import 'package:recipemine/Custom/Models/User.dart';
+import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'DetailView.dart';
 
 class SearchPage extends StatefulWidget {
@@ -44,6 +49,19 @@ class _SearchPageState extends State<SearchPage> {
 
     // Builds the top section of a slider
     _buildTopSection(DocumentSnapshot recipe) {
+      final users = Provider.of<List<RecipeMiner>>(context) ?? [];
+      final currentUserUID = Provider.of<User>(context);
+      //contains the currentuser details
+      RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', favourites: []);
+      users.forEach((element) {
+        if(element.uid == currentUserUID.uid){
+          currentUserData = element;
+        }
+      });
+
+      Color heartColour = currentUserData.favourites.contains(recipe.documentID) ? Colors.red : Colors.white;
+
+
       return Positioned( // Top icons
         top: 0.0,
         left: 0.0,
@@ -73,11 +91,17 @@ class _SearchPageState extends State<SearchPage> {
               IconButton(
                 icon: Icon(
                   Icons.favorite_border,
-                  color: Colors.white,
+                  color: heartColour,
                 ),
                 iconSize: _iconSize,
                 onPressed: () {
-                  print("placeholder method for favouriting");
+                  if(currentUserData.favourites.contains(recipe.documentID)){
+                    currentUserData.favourites.remove(recipe.documentID);
+                    DatabaseService().updateUserData(currentUserData.name, currentUserData.email, currentUserData.uid, currentUserData.profilePic, currentUserData.pantry,currentUserData.favourites);
+                  } else {
+                    currentUserData.favourites.add(recipe.documentID);
+                    DatabaseService().updateUserData(currentUserData.name, currentUserData.email, currentUserData.uid, currentUserData.profilePic, currentUserData.pantry,currentUserData.favourites);
+                  }
                 },
               ),
             ],

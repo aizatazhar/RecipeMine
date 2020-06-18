@@ -5,7 +5,7 @@ import "Recipe.dart";
 List<Recipe> getRecipes() {
   return [
     Recipe(
-      id: 0,
+      id: '0',
       name: "Blueberry Pancakes",
       type: RecipeType.main,
       rating: 4.9,
@@ -36,7 +36,7 @@ List<Recipe> getRecipes() {
       ],
     ),
     Recipe(
-      id: 1,
+      id: '1',
       name: "Lemon Pancakes",
       type: RecipeType.main,
       rating: 4.7,
@@ -66,7 +66,7 @@ List<Recipe> getRecipes() {
       ],
     ),
     Recipe(
-      id: 2,
+      id: '2',
       name: "Butternut Squash Pecan Pancakes",
       type: RecipeType.main,
       rating: 4.8,
@@ -101,7 +101,7 @@ List<Recipe> getRecipes() {
       ],
     ),
     Recipe(
-      id: 3,
+      id: '3',
       name: "Cinnamon Roll Pancakes",
       type: RecipeType.main,
       rating: 4.9,
@@ -136,7 +136,7 @@ List<Recipe> getRecipes() {
       ],
     ),
     Recipe(
-      id: 4,
+      id: '4',
       name: "Cinnamon Apple Carrot Pancakes",
       type: RecipeType.main,
       rating: 4.5,
