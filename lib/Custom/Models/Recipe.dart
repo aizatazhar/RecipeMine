@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum RecipeType {
   main,
@@ -8,17 +9,17 @@ enum RecipeType {
 
 // Recipe class models a recipe
 class Recipe {
-  final int id;
-  final String name;
+  String id;
+  String name;
 
-  final RecipeType type;
-  final double rating;
-  final int duration;
-  final int servingSize;
-  final String imageURL;
+  RecipeType type;
+  double rating;
+  int duration;
+  int servingSize;
+  String imageURL;
 
-  final List<String> ingredients;
-  final List<String> instructions;
+  List<dynamic> ingredients;
+  List<dynamic> instructions;
 
   Recipe({
     this.id,
@@ -36,18 +37,16 @@ class Recipe {
 
   // Named constructor that deserialises data received from Firestore
   // and initialises a new Recipe object
-  Recipe.fromMap(Map<String, dynamic> data, int id)
-      : this(
-          id: id,
-          name: data["name"],
+  Recipe.fromDocumentSnapshot(DocumentSnapshot recipe) {
+    this.id = recipe.documentID;
+    this.name = recipe["name"];
+    this.type = RecipeType.values[recipe["type"]];
+    this.rating = recipe["rating"];
+    this.duration = recipe["duration"];
+    this.servingSize = recipe["servingSize"];
+    this.imageURL = recipe["imageURL"];
+    this.ingredients = new List<String>.from(recipe["ingredients"]);
+    this.instructions = new List<String>.from(recipe["instructions"]);
+  }
 
-          type: RecipeType.values[data["type"]],
-          rating: data["recipe"],
-          duration: data["duration"],
-          servingSize: data["servingSize"],
-          imageURL: data["imageURL"],
-
-          ingredients: List<String>.from(data["ingredients"]),
-          instructions: List<String>.from(data["instructions"]),
-  );
 }
