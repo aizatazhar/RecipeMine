@@ -25,26 +25,26 @@ class DetailView extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
+              (BuildContext context, int index) {
                 return Container(
                   color: Colors.grey[200],
                   padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 50.0),
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        _buildIconRow(this.recipe),
-                        SizedBox(height: 20),
-                        Text(
-                          "Ingredients",
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(height: 10),
-                        _buildIngredients(context),
-                        SizedBox(height: 20),
-                        _buildBeginButton(),
-                      ]
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _buildIconRow(this.recipe),
+                      SizedBox(height: 20),
+                      Text(
+                        "Ingredients",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      SizedBox(height: 10),
+                      _buildIngredients(context),
+                      SizedBox(height: 20),
+                      _buildBeginButton(),
+                    ]
                   ),
-                );
+              );
               },
               childCount: 1,
             ),
@@ -93,19 +93,19 @@ class DetailView extends StatelessWidget {
   Widget _buildIngredients(BuildContext context) {
     return Column(
       children: this.recipe.ingredients.map((ingredient) =>
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget> [
-              Text(
-                ingredient,
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              Divider(
-                thickness: 1.5,
-                color: Colors.grey[400],
-              ),
-            ],
-          )).toList(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget> [
+            Text(
+              ingredient,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            Divider(
+              thickness: 1.5,
+              color: Colors.grey[400],
+            ),
+          ],
+        )).toList(),
     );
 
   }
@@ -115,19 +115,21 @@ class DetailView extends StatelessWidget {
       height: 40,
       width: 1000,
       child: RaisedButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10)
+        ),
+        color: Colors.red,
+        child: Text(
+          "Begin Cooking",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20
           ),
-          color: Colors.red,
-          onPressed: () {},
-          child: Text(
-            "Begin Cooking",
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20
-            ),
-          )
+        ),
+        onPressed: () {
+
+        },
       ),
     );
   }
