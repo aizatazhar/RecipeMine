@@ -193,26 +193,25 @@ class _SearchPageState extends State<SearchPage> {
 
             onSearch: search,
             onItemFound: (Ingredient ingredient, int index) {
-              return GestureDetector(
-                onTap: () {
-                  print(index);
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => DetailView(Recipe.fromDocumentSnapshot(recipes[index]))
-                  ));
-                },
-                // Builder optimises memory by only building items when
-                // they become visible on screen
-                child: CarouselSlider.builder(
-                  options: CarouselOptions(
-                    aspectRatio: 0.8,
-                    enlargeCenterPage: true,
-                    enableInfiniteScroll: false,
-                  ),
-                  itemCount: recipesLength,
-                  itemBuilder: (BuildContext context, int itemIndex) {
-                    return _buildSlider(recipes[itemIndex]);
-                  }
+              return CarouselSlider.builder(
+                options: CarouselOptions(
+                  aspectRatio: 0.8,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: false,
                 ),
+                itemCount: recipesLength,
+                itemBuilder: (BuildContext context, int itemIndex) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => DetailView(
+                            Recipe.fromDocumentSnapshot(recipes[itemIndex])
+                          )
+                      ));
+                    },
+                    child: _buildSlider(recipes[itemIndex]),
+                  );
+                }
               );
             },
           );

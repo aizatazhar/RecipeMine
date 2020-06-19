@@ -32,7 +32,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   final appBarNames = [
     Text('Search Page'),
-    Text('CookingAssistant'),
+    Text('Assistant'),
     Text('Favourites'),
     Text('Pantry'),
     Text('Community'),

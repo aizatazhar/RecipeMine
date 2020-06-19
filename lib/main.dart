@@ -11,7 +11,6 @@ void main() {
       "/": (context) => LoadingScreen(),
       "/SearchPage": (context) => SearchPage(),
       "/CookingAssistant": (context) => CookingAssistant(),
-      "/CountDown" : (context) => CountDown(),
       "/AuthenticationWrapper" : (context) => Wrapper(),
     })
   );
