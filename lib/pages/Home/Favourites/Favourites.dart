@@ -56,11 +56,10 @@ class _FavouritesState extends State<Favourites> {
       );
   }
 
-
-
   Widget _buildCard(Recipe recipe, RecipeMiner currentUser) {
     RecipeMiner User = currentUser;
     Color heartColour = User.favourites.contains(recipe.id) ? Colors.red : Colors.white;
+    Icon icon = User.favourites.contains(recipe.id) ? Icon(Icons.favorite) : Icon(Icons.favorite_border);
     return GestureDetector(
       onTap: () {
         print("placeholder method for clicking on favourite recipe");
@@ -85,7 +84,7 @@ class _FavouritesState extends State<Favourites> {
                     User.favourites.remove(recipe.id);
                     DatabaseService().updateUserData(User.name, User.email, User.uid, User.profilePic, User.pantry,User.favourites);
                   },
-                  icon: Icon(Icons.favorite_border),
+                  icon: icon,
                   color: heartColour,
                   iconSize: 20.0,
                 ),

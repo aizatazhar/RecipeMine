@@ -48,5 +48,4 @@ class Recipe {
     this.ingredients = new List<String>.from(recipe["ingredients"]);
     this.instructions = new List<String>.from(recipe["instructions"]);
   }
-
 }

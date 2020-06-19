@@ -51,7 +51,8 @@ class _SearchPageState extends State<SearchPage> {
     _buildTopSection(DocumentSnapshot recipe) {
       final users = Provider.of<List<RecipeMiner>>(context) ?? [];
       final currentUserUID = Provider.of<User>(context);
-      //contains the currentuser details
+
+      // contains the currentuser details
       RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', favourites: []);
       users.forEach((element) {
         if(element.uid == currentUserUID.uid){
@@ -60,7 +61,7 @@ class _SearchPageState extends State<SearchPage> {
       });
 
       Color heartColour = currentUserData.favourites.contains(recipe.documentID) ? Colors.red : Colors.white;
-
+      IconData iconData = currentUserData.favourites.contains(recipe.documentID) ? Icons.favorite : Icons.favorite_border;
 
       return Positioned( // Top icons
         top: 0.0,
@@ -90,7 +91,7 @@ class _SearchPageState extends State<SearchPage> {
               Spacer(),
               IconButton(
                 icon: Icon(
-                  Icons.favorite_border,
+                  iconData,
                   color: heartColour,
                 ),
                 iconSize: _iconSize,
