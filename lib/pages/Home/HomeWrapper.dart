@@ -19,9 +19,11 @@ class HomeWrapper extends StatefulWidget {
 class _HomeWrapperState extends State<HomeWrapper> {
   int bottomNavigationBarIndex = 0;
   int navigationIndex = 0;
+
   String name;
   String email;
-  final tabs = [
+
+  final List<Widget> pages = [
     Center(child:SearchPage()),
     Center(child:CookingAssistant()),
     Center(child:Favourites()),
@@ -30,7 +32,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
     Center(child:Profile())
   ];
 
-  final appBarNames = [
+  final List<Widget> appBarTitles = [
     Text('Search Page'),
     Text('Assistant'),
     Text('Favourites'),
@@ -41,7 +43,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: [
         StreamProvider<List<RecipeMiner>>.value(value: DatabaseService().DBusers),
@@ -49,7 +50,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: appBarNames[navigationIndex],
+          title: appBarTitles[navigationIndex],
           titleSpacing: 20.0,
           backgroundColor: Color(0xffFF464F),
           actions: <Widget>[
@@ -71,7 +72,10 @@ class _HomeWrapperState extends State<HomeWrapper> {
           ],
         ),
         backgroundColor: Colors.white,
-        body: tabs[navigationIndex],
+        body: IndexedStack(
+          index: navigationIndex,
+          children: pages
+        ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.grey[100],

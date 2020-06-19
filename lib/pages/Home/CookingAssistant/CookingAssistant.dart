@@ -10,7 +10,7 @@ class CookingAssistant extends StatefulWidget {
 
 class _CookingAssistantState extends State<CookingAssistant> {
   Recipe recipe = Recipe(
-    id: 0,
+    id: "0",
     name: "Blueberry Pancakes",
     type: RecipeType.main,
     rating: 4.9,
@@ -95,7 +95,7 @@ class _CookingAssistantState extends State<CookingAssistant> {
   }
 
   // Maps a list of ingredients into a formatted String
-  String _buildIngredients(List<String> ingredients) {
+  String _buildIngredients(List<dynamic> ingredients) {
     String result = "";
 
     ingredients.forEach((ingredient) {
@@ -142,7 +142,7 @@ class _CookingAssistantState extends State<CookingAssistant> {
                       icon: Icon(Icons.search),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.push(context, new MaterialPageRoute(
+                        Navigator.pushReplacement(context, new MaterialPageRoute(
                             builder: (context) => new HomeWrapper())
                         );
                       },
@@ -169,14 +169,10 @@ class _CookingAssistantState extends State<CookingAssistant> {
     return stepPages;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(children: getPages()),
     );
   }
-
-
 }
