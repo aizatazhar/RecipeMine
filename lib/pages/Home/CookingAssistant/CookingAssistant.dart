@@ -1,3 +1,4 @@
+import 'package:countdown_flutter/countdown_flutter.dart';
 import "package:flutter/material.dart";
 import 'package:recipemine/Custom/CustomWidgets/TimerWidget.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
@@ -43,11 +44,14 @@ class _CookingAssistantState extends State<CookingAssistant> {
       '0,2,0',
       '0,0,0',
       '0,0,0',
-      '0,1,30'
+      '0,1,0'
     ]
   );
 
+
+
   int navigationIndex = 1;
+  Widget countdownTimer = Text('Activate Smart Timer!');
 
   // Builds a page per step
   Widget buildStep(int index) {
@@ -95,20 +99,30 @@ class _CookingAssistantState extends State<CookingAssistant> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:(index != null && (recipe.smartTimer[index] != '0,0,0') ? <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.timer),
-                          onPressed: (){
-                            int hours = int.parse(recipe.smartTimer[index].toString().split(',')[0]);
-                            int minutes = int.parse(recipe.smartTimer[index].toString().split(',')[1]);
-                            int seconds = int.parse(recipe.smartTimer[index].toString().split(',')[2]);
-                            showModalBottomSheet(context: context, builder: (context) {
-                              return Container(
-                                child: CountDown(hours, minutes, seconds),
-                              );
-                            });
-                          },
+                        countdownTimer,
+                        Row(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.play_arrow),
+                              onPressed: (){
+                                int hours = int.parse(recipe.smartTimer[index].toString().split(',')[0]);
+                                int minutes = int.parse(recipe.smartTimer[index].toString().split(',')[1]);
+                                int seconds = int.parse(recipe.smartTimer[index].toString().split(',')[2]);
+                                setState(() {
+                                  countdownTimer = CountDown(hours,minutes,seconds);
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.stop),
+                              onPressed: (){
+                                setState(() {
+                                  countdownTimer = Text('Activate Smart Timer!');
+                                });
+                              },
+                            )
+                          ],
                         ),
-                        Text('Activate Smart Timer!')
                       ] : <Widget>[])
                     ),
                   ],
@@ -201,7 +215,12 @@ class _CookingAssistantState extends State<CookingAssistant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(children: getPages()),
+      body: PageView(children: getPages(),
+        onPageChanged: (int index){
+          setState(() {
+            countdownTimer = Text('Activate Smart Timer!');
+          });
+        }),
     );
   }
 
