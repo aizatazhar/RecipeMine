@@ -79,6 +79,7 @@ class DatabaseService {
         imageURL: doc.data['imageURL'],
         ingredients: doc.data['ingredients'],
         instructions: doc.data['instructions'],
+        smartTimer: doc.data['smartTimer'],
       );
     }).toList();
   }

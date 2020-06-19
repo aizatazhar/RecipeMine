@@ -72,16 +72,13 @@ class _AlarmState extends State<Alarm> {
                 child: IconButton(
                   icon: Icon(Icons.play_arrow),
                   color: Colors.white,
+
                   onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      "/CountDown",
-                      arguments: {
-                        "hour": this.hour,
-                        "minute": this.minute,
-                        "second": this.second,
-                      }
-                    );
+                    showModalBottomSheet(context: context, builder: (context) {
+                      return Container(
+                        child: CountDown(hour, minute, second),
+                      );
+                    });
                   }
                 ),
               ),
@@ -93,42 +90,38 @@ class _AlarmState extends State<Alarm> {
   }
 }
 
+
 //Class used to show the countdown
 class CountDown extends StatefulWidget {
+  final int hour;
+  final int minute;
+  final int second;
+  const CountDown(this.hour, this.minute, this.second);
   @override
   _CountDownState createState() => _CountDownState();
+
 }
 
 class _CountDownState extends State<CountDown> {
-  Map data = {};
-
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      backgroundColor: Colors.pink[100],
-      appBar: AppBar(
-        backgroundColor: Colors.pink[200],
-        title: Text("Timer"),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Container(
-        child: Center(
+      body: Center(
+        child: Container(
           child: CountdownFormatted(
             duration: Duration(
-            hours: data["hour"],
-            minutes: data["minute"],
-            seconds: data["second"],
+            hours: widget.hour,
+            minutes: widget.minute,
+            seconds: widget.second,
             ),
             builder: (BuildContext ctx, String remaining) {
               return Text(
                 remaining,
-                style: TextStyle(fontSize: 30),
+                style: TextStyle(fontSize: 70),
               ); // 01:00:00
             },
-          ),
-        )
+          )
+        ),
       )
     );
   }

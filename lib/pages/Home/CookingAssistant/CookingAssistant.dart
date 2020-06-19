@@ -10,7 +10,7 @@ class CookingAssistant extends StatefulWidget {
 
 class _CookingAssistantState extends State<CookingAssistant> {
   Recipe recipe = Recipe(
-    id: 0,
+    id: '0',
     name: "Blueberry Pancakes",
     type: RecipeType.main,
     rating: 4.9,
@@ -39,6 +39,12 @@ class _CookingAssistantState extends State<CookingAssistant> {
           "on top and the edges starting to firm up. Flip and cook for another "
           "1-2 minutes until the pancakes are sky-high fluffy and cooked through."
     ],
+    smartTimer: [
+      '0,2,0',
+      '0,0,0',
+      '0,0,0',
+      '0,1,30'
+    ]
   );
 
   int navigationIndex = 1;
@@ -59,43 +65,64 @@ class _CookingAssistantState extends State<CookingAssistant> {
           )
         ),
         body: TabBarView(
-          children: [
-            Container(
-              color: Colors.grey[100],
-              child: ListView(
-                padding: EdgeInsets.all(20),
-                children: <Widget>[
-                  Text(
-                    index != null
-                      ? "Step ${index + 1}"
-                      : "Ingredients List",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(index != null
-                      ? recipe.instructions[index]
-                      : _buildIngredients(recipe.ingredients),
-                      textAlign: TextAlign.justify,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Container(
+                color: Colors.grey[100],
+                child: ListView(
+                  padding: EdgeInsets.all(20),
+                  children: <Widget>[
+                    Text(
+                      index != null
+                        ? "Step ${index + 1}"
+                        : "Ingredients List",
                       style: TextStyle(
-                        fontSize: 16,
-                      )
-                  ),
-                ],
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(index != null
+                        ? recipe.instructions[index]
+                        : _buildIngredients(recipe.ingredients),
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 16,
+                        )
+                    ),
+                    SizedBox(height:20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:(index != null && (recipe.smartTimer[index] != '0,0,0') ? <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.timer),
+                          onPressed: (){
+                            int hours = int.parse(recipe.smartTimer[index].toString().split(',')[0]);
+                            int minutes = int.parse(recipe.smartTimer[index].toString().split(',')[1]);
+                            int seconds = int.parse(recipe.smartTimer[index].toString().split(',')[2]);
+                            showModalBottomSheet(context: context, builder: (context) {
+                              return Container(
+                                child: CountDown(hours, minutes, seconds),
+                              );
+                            });
+                          },
+                        ),
+                        Text('Activate Smart Timer!')
+                      ] : <Widget>[])
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Alarm(),
-          ]
+              Alarm(),
+            ]
         )
       ),
     );
   }
 
   // Maps a list of ingredients into a formatted String
-  String _buildIngredients(List<String> ingredients) {
+  String _buildIngredients(List<dynamic> ingredients) {
     String result = "";
 
     ingredients.forEach((ingredient) {
