@@ -1,3 +1,4 @@
+import 'package:countdown_flutter/countdown_flutter.dart';
 import "package:flutter/material.dart";
 import 'package:recipemine/Custom/CustomWidgets/TimerWidget.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
@@ -39,9 +40,18 @@ class _CookingAssistantState extends State<CookingAssistant> {
           "on top and the edges starting to firm up. Flip and cook for another "
           "1-2 minutes until the pancakes are sky-high fluffy and cooked through."
     ],
+    smartTimer: [
+      '0,2,0',
+      '0,0,0',
+      '0,0,0',
+      '0,1,0'
+    ]
   );
 
+
+
   int navigationIndex = 1;
+  Widget countdownTimer = Text('Activate Smart Timer!');
 
   // Builds a page per step
   Widget buildStep(int index) {
@@ -59,36 +69,67 @@ class _CookingAssistantState extends State<CookingAssistant> {
           )
         ),
         body: TabBarView(
-          children: [
-            Container(
-              color: Colors.grey[100],
-              child: ListView(
-                padding: EdgeInsets.all(20),
-                children: <Widget>[
-                  Text(
-                    index != null
-                      ? "Step ${index + 1}"
-                      : "Ingredients List",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(index != null
-                      ? recipe.instructions[index]
-                      : _buildIngredients(recipe.ingredients),
-                      textAlign: TextAlign.justify,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Container(
+                color: Colors.grey[100],
+                child: ListView(
+                  padding: EdgeInsets.all(20),
+                  children: <Widget>[
+                    Text(
+                      index != null
+                        ? "Step ${index + 1}"
+                        : "Ingredients List",
                       style: TextStyle(
-                        fontSize: 16,
-                      )
-                  ),
-                ],
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(index != null
+                        ? recipe.instructions[index]
+                        : _buildIngredients(recipe.ingredients),
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 16,
+                        )
+                    ),
+                    SizedBox(height:20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:(index != null && (recipe.smartTimer[index] != '0,0,0') ? <Widget>[
+                        countdownTimer,
+                        Row(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.play_arrow),
+                              onPressed: (){
+                                int hours = int.parse(recipe.smartTimer[index].toString().split(',')[0]);
+                                int minutes = int.parse(recipe.smartTimer[index].toString().split(',')[1]);
+                                int seconds = int.parse(recipe.smartTimer[index].toString().split(',')[2]);
+                                setState(() {
+                                  countdownTimer = CountDown(hours,minutes,seconds);
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.stop),
+                              onPressed: (){
+                                setState(() {
+                                  countdownTimer = Text('Activate Smart Timer!');
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                      ] : <Widget>[])
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Alarm(),
-          ]
+              Alarm(),
+            ]
         )
       ),
     );
@@ -172,7 +213,12 @@ class _CookingAssistantState extends State<CookingAssistant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(children: getPages()),
+      body: PageView(children: getPages(),
+        onPageChanged: (int index){
+          setState(() {
+            countdownTimer = Text('Activate Smart Timer!');
+          });
+        }),
     );
   }
 }

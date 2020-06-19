@@ -20,6 +20,7 @@ class Recipe {
 
   List<dynamic> ingredients;
   List<dynamic> instructions;
+  List<dynamic> smartTimer;
 
   Recipe({
     this.id,
@@ -32,7 +33,8 @@ class Recipe {
     this.imageURL,
 
     this.ingredients,
-    this.instructions
+    this.instructions,
+    this.smartTimer,
   });
 
   // Named constructor that deserialises data received from Firestore
@@ -47,5 +49,6 @@ class Recipe {
     this.imageURL = recipe["imageURL"];
     this.ingredients = new List<String>.from(recipe["ingredients"]);
     this.instructions = new List<String>.from(recipe["instructions"]);
+    this.smartTimer = new List<String>.from(recipe['smartTimer']);
   }
 }
