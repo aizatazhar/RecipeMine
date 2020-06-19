@@ -19,45 +19,48 @@ class _AlarmState extends State<Alarm> {
       padding: EdgeInsets.all(16.5 * MediaQuery.of(context).devicePixelRatio),
       child: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(13,0,0,0),
+            child: Row(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text("Hrs"),
+                    NumberPicker.integer(
+                      initialValue: 24,
+                      minValue: 0,
+                      maxValue: 24,
+                      infiniteLoop: true,
+                      onChanged: (val) => hour = val,
+                    ),
+                  ],
+                ),
               Column(
                 children: <Widget>[
-                  Text("Hrs"),
+                  Text("Mins"),
                   NumberPicker.integer(
-                    initialValue: 24,
+                    initialValue: 60,
                     minValue: 0,
-                    maxValue: 24,
+                    maxValue: 60,
                     infiniteLoop: true,
-                    onChanged: (val) => hour = val,
+                    onChanged: (val) => minute = val,
                   ),
                 ],
               ),
-            Column(
-              children: <Widget>[
-                Text("Mins"),
-                NumberPicker.integer(
-                  initialValue: 60,
-                  minValue: 0,
-                  maxValue: 60,
-                  infiniteLoop: true,
-                  onChanged: (val) => minute = val,
-                ),
+              Column(
+                children: <Widget>[
+                  Text("Sec"),
+                  NumberPicker.integer(
+                    initialValue: 60,
+                    minValue: 0,
+                    maxValue: 60,
+                    infiniteLoop: true,
+                    onChanged: (val) => second = val,
+                  ),
+                ],
+              ),
               ],
             ),
-            Column(
-              children: <Widget>[
-                Text("Sec"),
-                NumberPicker.integer(
-                  initialValue: 60,
-                  minValue: 0,
-                  maxValue: 60,
-                  infiniteLoop: true,
-                  onChanged: (val) => second = val,
-                ),
-              ],
-            ),
-            ],
           ), // Row of NumberPickers
           SizedBox(
             height: 30,
@@ -76,7 +79,10 @@ class _AlarmState extends State<Alarm> {
                   onPressed: () {
                     showModalBottomSheet(context: context, builder: (context) {
                       return Container(
-                        child: CountDown(hour, minute, second),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                          child: Center(child: CountDown(hour, minute,second)),
+                        ),
                       );
                     });
                   }
@@ -105,10 +111,7 @@ class CountDown extends StatefulWidget {
 class _CountDownState extends State<CountDown> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-          child: CountdownFormatted(
+    return  CountdownFormatted(
             duration: Duration(
             hours: widget.hour,
             minutes: widget.minute,
@@ -117,12 +120,9 @@ class _CountDownState extends State<CountDown> {
             builder: (BuildContext ctx, String remaining) {
               return Text(
                 remaining,
-                style: TextStyle(fontSize: 70),
+                style: TextStyle(fontSize: 35),
               ); // 01:00:00
             },
-          )
-        ),
-      )
-    );
+          );
   }
 }
