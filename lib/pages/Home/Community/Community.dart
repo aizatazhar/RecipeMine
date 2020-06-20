@@ -15,19 +15,13 @@ class Community extends StatefulWidget {
 
 class _CommunityState extends State<Community> {
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
 
-
-
-    //contains the currentuser details
+    // contains the current user details
     RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
     users.forEach((element) {
       if(element.uid == currentUserUID.uid){
@@ -35,24 +29,28 @@ class _CommunityState extends State<Community> {
       }
     });
 
-    //SearchEngine logic
+    // SearchEngine logic
     bool searchEngine(String input,RecipeMiner element){
-      if(input == 'all'){
+      if (input == 'all'){
         return true;
       }
-      if(element.email == currentUserData.email){
+
+      if (element.email == currentUserData.email){
         return false;
       }
-      if(element.email.toLowerCase().contains(input.toLowerCase())){
+
+      if (element.email.toLowerCase().contains(input.toLowerCase())){
         return true;
       }
-      if(element.name.toLowerCase().contains(input.toLowerCase())){
+
+      if (element.name.toLowerCase().contains(input.toLowerCase())){
         return true;
       }
+
       return false;
     }
 
-    //method for searching
+    // method for searching
     Future<List<RecipeMiner>> search(String input) async{
       List<RecipeMiner> buffer = [];
       users.forEach((element) {
@@ -65,14 +63,14 @@ class _CommunityState extends State<Community> {
     }
 
 
-    //prevent lag when transition
+    // prevent lag when transition
     Future<Widget> buildPageAsync(RecipeMiner user) async {
       return Future.microtask(() {
         return ProfileBrowser(user);
       });
     }
 
-    //method onfound
+    // method onfound
     Widget whenFound(RecipeMiner user, int index){
       return Card(
         margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
@@ -107,26 +105,24 @@ class _CommunityState extends State<Community> {
       );
     }
 
-
-
     return Scaffold(
       body: Center(
-          child: SearchBar<RecipeMiner>(
-              hintText: "Search for other users",
-              hintStyle: TextStyle(
-                color: Color(0xff5F5F5F),
-                fontSize: 14.0,
-              ),
+        child: SearchBar<RecipeMiner>(
+          hintText: "Search for other users",
+          hintStyle: TextStyle(
+            color: Color(0xff5F5F5F),
+            fontSize: 14.0,
+          ),
 
-              searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
-              searchBarStyle: SearchBarStyle(
-                backgroundColor: Colors.grey[100],
-                padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-              ),
+          searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
+          searchBarStyle: SearchBarStyle(
+            backgroundColor: Colors.grey[100],
+            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+          ),
 
-              onSearch: search,
-              onItemFound: whenFound,
-          )
+          onSearch: search,
+          onItemFound: whenFound,
+        )
       ),
     );
   }

@@ -12,34 +12,52 @@ import 'SearchPage/SearchPage.dart';
 
 // HomeWrapper class houses the bottom navigation bar and app bar.
 class HomeWrapper extends StatefulWidget {
+  final Recipe recipe;
+  final int initialBottomNavigationBarIndex;
+
+  // Takes in a recipe to display in the CookingAssistant page
+  HomeWrapper({this.recipe, this.initialBottomNavigationBarIndex});
+
   @override
   _HomeWrapperState createState() => _HomeWrapperState();
 }
 
 class _HomeWrapperState extends State<HomeWrapper> {
-  int bottomNavigationBarIndex = 0;
-  int navigationIndex = 0;
+
+  int bottomNavigationBarIndex;
+  int navigationIndex;
 
   String name;
   String email;
 
-  final List<Widget> pages = [
-    Center(child:SearchPage()),
-    Center(child:CookingAssistant()),
-    Center(child:Favourites()),
-    Center(child:Pantry()),
-    Center(child:Community()),
-    Center(child:Profile())
-  ];
+  @override
+  initState() {
+    super.initState();
+    bottomNavigationBarIndex = this.widget.initialBottomNavigationBarIndex;
+    navigationIndex = this.widget.initialBottomNavigationBarIndex;
+  }
 
-  final List<Widget> appBarTitles = [
-    Text('Search Page'),
-    Text('Assistant'),
-    Text('Favourites'),
-    Text('Pantry'),
-    Text('Community'),
-    Text('Your Details')
-  ];
+  List<Widget> _buildPages() {
+    return [
+      Center(child:SearchPage()),
+      Center(child:CookingAssistant(this.widget.recipe)),
+      Center(child:Favourites()),
+      Center(child:Pantry()),
+      Center(child:Community()),
+      Center(child:Profile())
+    ];
+  }
+
+  List<Widget> _buildAppBarTitles() {
+    return [
+      Text('Search Page'),
+      Text('Assistant'),
+      Text('Favourites'),
+      Text('Pantry'),
+      Text('Community'),
+      Text('Your Details')
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +68,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: appBarTitles[navigationIndex],
+          title: _buildAppBarTitles()[navigationIndex],
           titleSpacing: 20.0,
           backgroundColor: Color(0xffFF464F),
           actions: <Widget>[
@@ -74,7 +92,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
         backgroundColor: Colors.white,
         body: IndexedStack(
           index: navigationIndex,
-          children: pages
+          children: _buildPages()
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -99,3 +117,4 @@ class _HomeWrapperState extends State<HomeWrapper> {
     );
   }
 }
+
