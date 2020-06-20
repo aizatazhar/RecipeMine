@@ -1,13 +1,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
+import '../HomeWrapper.dart';
 import 'SliverCustomHeaderDelegate.dart';
 
-class DetailView extends StatelessWidget {
-  final double _appBarHeight = AppBar().preferredSize.height;
+class DetailView extends StatefulWidget {
   final Recipe recipe;
 
   DetailView(this.recipe);
+
+  @override
+  _DetailViewState createState() => _DetailViewState();
+}
+
+class _DetailViewState extends State<DetailView> {
+  final double _appBarHeight = AppBar().preferredSize.height;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class DetailView extends StatelessWidget {
               collapsedHeight: _appBarHeight,
               expandedHeight: 300,
               paddingTop: MediaQuery.of(context).padding.top,
-              recipe: this.recipe,
+              recipe: this.widget.recipe,
             ),
           ),
           SliverList(
@@ -32,7 +39,7 @@ class DetailView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      _buildIconRow(this.recipe),
+                      _buildIconRow(this.widget.recipe),
                       SizedBox(height: 20),
                       Text(
                         "Ingredients",
@@ -92,7 +99,7 @@ class DetailView extends StatelessWidget {
 
   Widget _buildIngredients(BuildContext context) {
     return Column(
-      children: this.recipe.ingredients.map((ingredient) =>
+      children: this.widget.recipe.ingredients.map((ingredient) =>
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget> [
@@ -128,7 +135,14 @@ class DetailView extends StatelessWidget {
           ),
         ),
         onPressed: () {
-
+          // Returns a new instance of HomeWrapper with the selected recipe as the CookingAssistant page
+          // Probably not the best solution since this would remove all state from the other bottom
+          // navigation tabs
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeWrapper(recipe: this.widget.recipe, initialBottomNavigationBarIndex: 1)),
+            (Route<dynamic> route) => false // Removes all routes below the pushed route by using a [RoutePredicate] that always returns false
+          );
         },
       ),
     );
