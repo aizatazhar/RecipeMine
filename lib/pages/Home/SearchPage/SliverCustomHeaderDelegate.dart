@@ -58,7 +58,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Stack(
       children: <Widget>[
         Image.asset(
-          recipe.imageURL,
+          recipe.imageURL != "" ? recipe.imageURL : "assets/default.jpg",
           fit: BoxFit.cover,
           height: 1000,
           width: 1000,
