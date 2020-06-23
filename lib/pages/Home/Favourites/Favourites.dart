@@ -70,8 +70,8 @@ class _FavouritesState extends State<Favourites> {
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           child: Stack(
             children: <Widget>[
-              Image.asset(
-                recipe.imageURL != "" ? recipe.imageURL : "assets/default.jpg",
+              Image.network(
+                recipe.imageURL,
                 fit: BoxFit.cover,
                 width: 1000,
                 height: 1000,
