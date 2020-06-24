@@ -193,8 +193,7 @@ class _SearchPageState extends State<SearchPage> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(
                   builder: (context) => DetailView(recipe)
-                )
-              );
+              ));
             },
           );
         }

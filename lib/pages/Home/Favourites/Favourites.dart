@@ -6,6 +6,7 @@ import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
+import 'package:recipemine/pages/Home/SearchPage/DetailView.dart';
 
 class Favourites extends StatefulWidget {
   @override
@@ -62,7 +63,9 @@ class _FavouritesState extends State<Favourites> {
     Icon icon = user.favourites.contains(recipe.id) ? Icon(Icons.favorite) : Icon(Icons.favorite_border);
     return GestureDetector(
       onTap: () {
-        print("placeholder method for clicking on favourite recipe");
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => DetailView(recipe)
+        ));
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
