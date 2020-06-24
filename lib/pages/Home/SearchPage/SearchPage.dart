@@ -16,7 +16,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   double _iconSize = 22.0;
 
   // Builds the icons at the top of a slider
@@ -48,9 +47,16 @@ class _SearchPageState extends State<SearchPage> {
     final currentUserUID = Provider.of<User>(context);
 
     // contains the current user details
-    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', favourites: []);
+    RecipeMiner currentUserData = RecipeMiner(
+        name:'Loading',
+        email: 'Loading',
+        uid: 'Loading',
+        profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',
+        favourites: []
+    );
+
     users.forEach((element) {
-      if(element.uid == currentUserUID.uid){
+      if (element.uid == currentUserUID.uid){
         currentUserData = element;
       }
     });
@@ -82,7 +88,7 @@ class _SearchPageState extends State<SearchPage> {
             Spacer(),
             _buildIcon(Icons.people_outline, Color(0xff30C551), recipe.servingSize.toString()),
             Spacer(),
-            _buildIcon(Icons.kitchen, Color(0xff1D92FF), "4/${recipe.ingredients.length}"),
+            _buildIcon(Icons.kitchen, Color(0xff1D92FF), "${recipe.ingredients.length}"),
             Spacer(),
             IconButton(
               icon: Icon(
@@ -160,7 +166,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+
       body: SearchBar<Recipe>(
         hintText: "Type some ingredients",
         hintStyle: TextStyle(
@@ -171,15 +177,17 @@ class _SearchPageState extends State<SearchPage> {
         searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
         searchBarStyle: SearchBarStyle(
           backgroundColor: Colors.grey[100],
-          padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+          padding: EdgeInsets.only(left: 10),
         ),
+
+        mainAxisSpacing: 20,
 
         onSearch: search,
         onItemFound: (Recipe recipe, int index) {
           return GestureDetector(
             child: Container(
               height: 520,
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: _buildSlider(recipe)
             ),
             onTap: () {
@@ -206,13 +214,14 @@ class _SearchPageState extends State<SearchPage> {
 
     Set<Recipe> result = Set();
 
-    // Add recipes that contains an ingredient which was queried to result
+    // Add recipes that contains an ingredient which was queried to result or
+    // if the name of the recipe contains the query
     recipes.forEach((recipeSnapshot) {
       Recipe recipe = Recipe.fromDocumentSnapshot(recipeSnapshot);
       Set<String> flattenedIngredients = _flattenIngredients(recipe.ingredients);
 
       for (String query in queries) {
-        if (flattenedIngredients.contains(query)) {
+        if (flattenedIngredients.contains(query) || recipe.name.toLowerCase().contains(query)) {
           result.add(recipe);
         }
       }
