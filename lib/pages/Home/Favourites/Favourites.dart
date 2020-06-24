@@ -6,6 +6,7 @@ import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
+import 'package:recipemine/pages/Home/SearchPage/DetailView.dart';
 
 class Favourites extends StatefulWidget {
   @override
@@ -20,9 +21,9 @@ class _FavouritesState extends State<Favourites> {
   }
 
   Widget _buildBody() {
-
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
+
     //contains the currentuser details
     RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', favourites: []);
     users.forEach((element) {
@@ -30,7 +31,6 @@ class _FavouritesState extends State<Favourites> {
         currentUserData = element;
       }
     });
-
 
     List<Recipe> recipeList = Provider.of<List<Recipe>>(context) ?? [];
     List<Recipe> filteredList = [];
@@ -40,12 +40,11 @@ class _FavouritesState extends State<Favourites> {
       }
     }
 
-
     int recipesLength = filteredList.length;
 
       return GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: 2,
             childAspectRatio: 0.65,
           ),
           padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -58,11 +57,18 @@ class _FavouritesState extends State<Favourites> {
 
   Widget _buildCard(Recipe recipe, RecipeMiner currentUser) {
     RecipeMiner user = currentUser;
-    Color heartColour = user.favourites.contains(recipe.id) ? Colors.red : Colors.white;
-    Icon icon = user.favourites.contains(recipe.id) ? Icon(Icons.favorite) : Icon(Icons.favorite_border);
+    Color heartColour = user.favourites.contains(recipe.id)
+        ? Colors.red
+        : Colors.white;
+    Icon icon = user.favourites.contains(recipe.id)
+        ? Icon(Icons.favorite)
+        : Icon(Icons.favorite_border);
+
     return GestureDetector(
       onTap: () {
-        print("placeholder method for clicking on favourite recipe");
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => DetailView(recipe)
+        ));
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
@@ -82,7 +88,14 @@ class _FavouritesState extends State<Favourites> {
                 child: IconButton(
                   onPressed: () {
                     user.favourites.remove(recipe.id);
-                    DatabaseService().updateUserData(user.name, user.email, user.uid, user.profilePic, user.pantry,user.favourites);
+                    DatabaseService().updateUserData(
+                        user.name,
+                        user.email,
+                        user.uid,
+                        user.profilePic,
+                        user.pantry,
+                        user.favourites
+                    );
                   },
                   icon: icon,
                   color: heartColour,
@@ -110,7 +123,7 @@ class _FavouritesState extends State<Favourites> {
                     recipe.name,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
