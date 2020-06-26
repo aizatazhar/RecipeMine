@@ -8,7 +8,7 @@ import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:recipemine/pages/LoadingScreen.dart';
+import 'package:recipemine/pages/Loading.dart';
 
 
 class SettingsForm extends StatefulWidget {

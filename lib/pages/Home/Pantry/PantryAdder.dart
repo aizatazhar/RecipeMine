@@ -4,7 +4,7 @@ import 'package:recipemine/Constants.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
-import 'package:recipemine/pages/LoadingScreen.dart';
+import 'package:recipemine/pages/Loading.dart';
 
 class PantryAdder extends StatefulWidget {
 

@@ -1,6 +1,6 @@
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recipemine/pages/LoadingScreen.dart';
+import 'package:recipemine/pages/Loading.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;

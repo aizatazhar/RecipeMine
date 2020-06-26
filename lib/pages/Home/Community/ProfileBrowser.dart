@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/pages/Home/Profile/Profile.dart';
-import '../../LoadingScreen.dart';
+import '../../Loading.dart';
 import '../HomeWrapper.dart';
 
 // ignore: must_be_immutable
