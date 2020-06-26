@@ -62,7 +62,6 @@ class _CookingAssistantState extends State<CookingAssistant> {
                 physics: NeverScrollableScrollPhysics(),
                 children: [
                   Container(
-                    color: Colors.grey[100],
                     child: ListView(
                       padding: EdgeInsets.all(20),
                       children: <Widget>[
@@ -200,7 +199,6 @@ class _CookingAssistantState extends State<CookingAssistant> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[50],
       child: this.widget.recipe != null
           ? _buildRecipeView()
           : _buildDefaultView(),

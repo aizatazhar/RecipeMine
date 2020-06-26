@@ -18,7 +18,6 @@ class _PantryListState extends State<PantryList> {
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
 
-
     //contains the currentuser details
     RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', pantry: []);
     users.forEach((element) {
@@ -29,6 +28,7 @@ class _PantryListState extends State<PantryList> {
     List<dynamic> userPantry = currentUserData.pantry;
 
     return ListView.builder(
+      padding: EdgeInsets.symmetric(vertical: 10),
       itemCount: userPantry.length,
       itemBuilder: (context, index) {
         return PantryTile(ingredient: userPantry[index], currentUser: currentUserData, index: index,);
@@ -43,18 +43,18 @@ class PantryTile extends StatelessWidget {
   final int index;
   PantryTile({ this.ingredient , this.currentUser, this.index});
 
-  Color colorgetter(String Category){
-    if(Category == 'Vegetable'){
+  Color colorGetter(String category){
+    if (category == 'Vegetable'){
       return Colors.green;
-    } else if(Category == 'Fish'){
+    } else if (category == 'Fish'){
       return Colors.lightBlueAccent;
-    } else if(Category == 'Meat'){
+    } else if (category == 'Meat'){
       return Colors.red;
-    } else if(Category == 'Grains'){
+    } else if (category == 'Grains'){
       return Colors.brown[150];
-    } else if(Category == 'Fruits') {
+    } else if (category == 'Fruits') {
       return Colors.deepPurple;
-    } else if(Category == 'Condiment'){
+    } else if (category == 'Condiment'){
       return Colors.orange;
     } else {
       return Colors.black;
@@ -63,32 +63,24 @@ class PantryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String name = ingredient.split(",")[0];
     String quantity = ingredient.split(",")[1];
-    String Category = ingredient.split(',')[2];
-
+    String category = ingredient.split(',')[2];
 
     return Card(
-      margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+      margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
       child: ListTile(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(0,0,0,7),
-          child: Container(
-            width: 90,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0,10,0,0),
-                child: Text(Category,
-                  style: TextStyle(
-                      color: colorgetter(Category)),
-                  ),
+        leading: Container(
+          width: 80,
+          child: Center(
+            child: Text(category,
+              style: TextStyle(
+                  color: colorGetter(category)),
               ),
-            ),
           ),
         ),
         title: Text(name),
-        subtitle: Text("Qty: " +  quantity),
+        subtitle: Text("Quantity: " +  quantity),
         trailing: IconButton(
           icon: Icon(Icons.remove),
           onPressed: (){
