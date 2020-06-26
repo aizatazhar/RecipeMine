@@ -200,7 +200,6 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  // Placeholder method for searching
   Future<List<Recipe>> search(String input) async {
 
     // Get recipes from Firestore

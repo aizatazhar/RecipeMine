@@ -1,12 +1,12 @@
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipemine/pages/Loading.dart';
-import 'package:recipemine/Constants.dart';
+import 'package:recipemine/AppStyle.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
 
-  SignIn({ this.toggleView });
+  SignIn({this.toggleView});
 
   @override
   _SignInState createState() => _SignInState();
@@ -22,7 +22,6 @@ class _SignInState extends State<SignIn> {
   // Text field state
   String email = '';
   String password = '';
-  Constants textMaker = new Constants();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     SizedBox(height: 20.0),
                     TextFormField(
-                      decoration: textInputDecoration.copyWith(hintText: 'email'),
+                      decoration: AppStyle.textInputDecoration.copyWith(hintText: 'email'),
                       validator: (val) => val.isEmpty ? 'Enter an email' : null,
                       onChanged: (val) {
                         setState(() => email = val);
@@ -73,7 +72,7 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 20.0),
                     TextFormField(
                       obscureText: true,
-                      decoration: textInputDecoration.copyWith(hintText: 'password'),
+                      decoration: AppStyle.textInputDecoration.copyWith(hintText: 'password'),
                       validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
                       onChanged: (val) {
                         setState(() => password = val);
@@ -115,18 +114,6 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-
-  final textInputDecoration = InputDecoration(
-    fillColor: Colors.white,
-    filled: true,
-    contentPadding: EdgeInsets.all(12.0),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.brown, width: 2.0),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.pink, width: 2.0),
-    ),
-  );
 }
 
 

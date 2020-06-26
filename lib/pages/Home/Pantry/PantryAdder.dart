@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipemine/Constants.dart';
+import 'package:recipemine/AppStyle.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:recipemine/pages/Loading.dart';
 
 class PantryAdder extends StatefulWidget {
-
-
   @override
   _PantryAdderState createState() => _PantryAdderState();
 }
 
 class _PantryAdderState extends State<PantryAdder> {
-
   final _formKey = GlobalKey<FormState>();
   final List<String> siUnits = ['','grams','kg','ml','litres','pcs'];
   final List<String> categories = ['','Vegetable','Fish','Meat','Grains','Fruits','Condiment','NA'];
@@ -67,7 +64,7 @@ class _PantryAdderState extends State<PantryAdder> {
                   SizedBox(height: 10.0),
                   DropdownButtonFormField(
                     value: category ?? '',
-                    decoration: textInputDecoration.copyWith(hintText: 'Type of ingredient'),
+                    decoration: AppStyle.textInputDecoration.copyWith(hintText: 'Type of ingredient'),
 //                    validator: (val) => val == ''? 'Please set a category' : null,
                     items: categories.map((units) {
                       return DropdownMenuItem(
@@ -84,7 +81,7 @@ class _PantryAdderState extends State<PantryAdder> {
                   SizedBox(height: 10.0),
                   TextFormField(
                     initialValue: '',
-                    decoration: textInputDecoration.copyWith(hintText: 'Ingredient'),
+                    decoration: AppStyle.textInputDecoration.copyWith(hintText: 'Ingredient'),
                     validator: (val) => val.isEmpty ? 'Please enter an ingredient' : null,
                     onChanged: (val) => setState(() => name = val),
                   ),
@@ -96,7 +93,7 @@ class _PantryAdderState extends State<PantryAdder> {
                   TextFormField(
                     initialValue: '',
                     keyboardType: TextInputType.number,
-                    decoration: textInputDecoration.copyWith(hintText: 'Quantity'),
+                    decoration: AppStyle.textInputDecoration.copyWith(hintText: 'Quantity'),
                     validator: (val) => val.isEmpty ? 'Please enter a quantity' : null,
                     onChanged: (val) => setState(() => quantity = val),
                   ),
@@ -107,7 +104,7 @@ class _PantryAdderState extends State<PantryAdder> {
                   SizedBox(height: 10.0),
                   DropdownButtonFormField(
                     value: unit ?? '',
-                    decoration: textInputDecoration.copyWith(hintText: 'Units'),
+                    decoration: AppStyle.textInputDecoration.copyWith(hintText: 'Units'),
                     items: siUnits.map((units) {
                       return DropdownMenuItem(
                         value: units,
