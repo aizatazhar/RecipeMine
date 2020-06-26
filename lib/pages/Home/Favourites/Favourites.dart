@@ -27,32 +27,32 @@ class _FavouritesState extends State<Favourites> {
     //contains the current user details
     RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', favourites: []);
     users.forEach((element) {
-      if(element.uid == currentUserUID.uid){
+      if (element.uid == currentUserUID.uid){
         currentUserData = element;
       }
     });
 
     List<Recipe> recipeList = Provider.of<List<Recipe>>(context) ?? [];
     List<Recipe> filteredList = [];
-    for(Recipe recipe in recipeList){
-      if(currentUserData.favourites.contains(recipe.id)){
+    for (Recipe recipe in recipeList){
+      if (currentUserData.favourites.contains(recipe.id)){
         filteredList.add(recipe);
       }
     }
 
     int recipesLength = filteredList.length;
 
-      return GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.65,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          itemCount: recipesLength,
-          itemBuilder: (BuildContext context, int index) {
-            return _buildCard(filteredList[index], currentUserData);
-          }
-      );
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.65,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        itemCount: recipesLength,
+        itemBuilder: (BuildContext context, int index) {
+          return _buildCard(filteredList[index], currentUserData);
+        }
+    );
   }
 
   Widget _buildCard(Recipe recipe, RecipeMiner currentUser) {

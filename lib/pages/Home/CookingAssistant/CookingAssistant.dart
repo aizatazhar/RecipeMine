@@ -14,18 +14,19 @@ class CookingAssistant extends StatefulWidget {
 }
 
 class _CookingAssistantState extends State<CookingAssistant> {
-
   int navigationIndex = 1;
 
   Widget countdownTimer = Text('Activate Smart Timer!');
 
   Widget _buildDefaultView() {
-    return Center(
-      child: Text(
-        "Search for a recipe!",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 32
+    return Container(
+      child: Center(
+        child: Text(
+          "Search for a recipe!",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 32
+          ),
         ),
       ),
     );
@@ -198,8 +199,8 @@ class _CookingAssistantState extends State<CookingAssistant> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: this.widget.recipe != null
+    return Scaffold(
+      body: this.widget.recipe != null
           ? _buildRecipeView()
           : _buildDefaultView(),
     );
