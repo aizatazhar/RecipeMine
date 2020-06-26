@@ -22,15 +22,19 @@ class _CommunityState extends State<Community> {
     final currentUserUID = Provider.of<User>(context);
 
     // contains the current user details
-    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
+    RecipeMiner currentUserData = RecipeMiner(
+        name:'Loading',
+        email: 'Loading',
+        uid: 'Loading',
+        profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
     users.forEach((element) {
-      if(element.uid == currentUserUID.uid){
+      if (element.uid == currentUserUID.uid){
         currentUserData = element;
       }
     });
 
     // SearchEngine logic
-    bool searchEngine(String input,RecipeMiner element){
+    bool searchEngine(String input, RecipeMiner element){
       if (input == 'all'){
         return true;
       }
@@ -54,7 +58,7 @@ class _CommunityState extends State<Community> {
     Future<List<RecipeMiner>> search(String input) async{
       List<RecipeMiner> buffer = [];
       users.forEach((element) {
-        if(searchEngine(input,element)) {
+        if (searchEngine(input,element)) {
           buffer.add(element);
         }
       });
@@ -62,11 +66,10 @@ class _CommunityState extends State<Community> {
       return buffer;
     }
 
-
     // prevent lag when transition
     Future<Widget> buildPageAsync(RecipeMiner user) async {
       return Future.microtask(() {
-        return ProfileBrowser(user);
+        return ProfileBrowser(viewedUser: user);
       });
     }
 
@@ -116,7 +119,7 @@ class _CommunityState extends State<Community> {
 
           searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
           searchBarStyle: SearchBarStyle(
-            backgroundColor: Colors.grey[100],
+            backgroundColor: Colors.white,
             padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
           ),
 

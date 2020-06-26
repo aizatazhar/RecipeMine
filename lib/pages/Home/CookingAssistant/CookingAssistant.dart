@@ -200,6 +200,7 @@ class _CookingAssistantState extends State<CookingAssistant> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.grey[50],
       child: this.widget.recipe != null
           ? _buildRecipeView()
           : _buildDefaultView(),

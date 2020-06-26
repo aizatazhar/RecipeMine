@@ -67,7 +67,7 @@ class _DetailViewState extends State<DetailView> {
         _buildIcon(Icons.star, Color(0xffFFC440), recipe.rating.toString()),
         _buildIcon(Icons.schedule, Color(0xffFF5C64), recipe.duration.toString() + " min"),
         _buildIcon(Icons.people_outline, Color(0xff30C551), recipe.servingSize.toString()),
-        _buildIcon(Icons.kitchen, Color(0xff1D92FF), "4/${recipe.ingredients.length}"),
+        _buildIcon(Icons.kitchen, Color(0xff1D92FF), "${recipe.ingredients.length}"),
       ],
     );
   }

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
@@ -11,19 +10,17 @@ class DatabaseService {
   // collection reference
   final Firestore db = Firestore.instance;
 
-
-  Future<void> updateUserData(String name, String email, String UID, String ProfilePic, List<dynamic> Pantry, List<dynamic> Favourites) async {
-    return await db.collection('Users').document(UID).setData({
+  Future<void> updateUserData(String name, String email, String uid,
+      String ProfilePic, List<dynamic> Pantry, List<dynamic> Favourites) async {
+    return await db.collection('Users').document(uid).setData({
       'name': name,
       'email': email,
-      'UID': UID,
+      'UID': uid,
       'ProfilePic': ProfilePic,
       'Pantry' : Pantry,
       'Favourites': Favourites,
     });
-
   }
-
 
   //get CurrentUser methods
   Stream<RecipeMiner> get userData {
@@ -61,15 +58,14 @@ class DatabaseService {
     }).toList();
   }
 
-  //get all Recipes methods
+  // get all Recipes methods
   Stream<List<Recipe>> get recipeData{
     return db.collection('Recipes').snapshots().map(_recipeDataFromSnapShot);
   }
 
   List<Recipe> _recipeDataFromSnapShot(QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
-      return
-      Recipe(
+      return Recipe(
         id: doc.documentID,
         name: doc.data['name'],
         type: RecipeType.values[doc.data['type']],
@@ -83,6 +79,4 @@ class DatabaseService {
       );
     }).toList();
   }
-
-
 }

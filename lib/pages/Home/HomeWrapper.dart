@@ -39,12 +39,12 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   List<Widget> _buildPages() {
     return [
-      Center(child:SearchPage()),
-      Center(child:CookingAssistant(this.widget.recipe)),
-      Center(child:Favourites()),
-      Center(child:Pantry()),
-      Center(child:Community()),
-      Center(child:Profile())
+      SearchPage(),
+      CookingAssistant(this.widget.recipe),
+      Favourites(),
+      Pantry(),
+      Community(),
+      Profile()
     ];
   }
 

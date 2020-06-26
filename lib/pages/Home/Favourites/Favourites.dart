@@ -24,7 +24,7 @@ class _FavouritesState extends State<Favourites> {
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
 
-    //contains the currentuser details
+    //contains the current user details
     RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', favourites: []);
     users.forEach((element) {
       if(element.uid == currentUserUID.uid){

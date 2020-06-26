@@ -2,14 +2,13 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipemine/Constants.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:recipemine/pages/LoadingScreen.dart';
-
+import 'package:recipemine/pages/Loading.dart';
+import 'package:recipemine/AppStyle.dart';
 
 class SettingsForm extends StatefulWidget {
   @override
@@ -23,20 +22,17 @@ class _SettingsFormState extends State<SettingsForm> {
   String _currentName;
   String _currentProfilePic;
   String _buttonStatus = 'Update Profile';
-  String _ProfilePicButtonStatus = 'Upload your new Profile Picture';
-  bool _UpdateButtonDisabler = false;
-
+  String _profilePicButtonStatus = 'Upload your new Profile Picture';
+  bool _updateButtonDisabler = false;
 
   @override
   Widget build(BuildContext context) {
-
     User user = Provider.of<User>(context);
-
 
     Future getImage() async {
       setState(() {
-        _UpdateButtonDisabler = true;
-        _ProfilePicButtonStatus = 'Uploading...';
+        _updateButtonDisabler = true;
+        _profilePicButtonStatus = 'Uploading...';
       });
       var image = await ImagePicker().getImage(source: ImageSource.gallery, imageQuality: 50);
       String fileName = basename(image.path);
@@ -48,13 +44,10 @@ class _SettingsFormState extends State<SettingsForm> {
       });
       Future.delayed(Duration(seconds: 4));
       setState(() {
-        _ProfilePicButtonStatus = "Updated!";
-        _UpdateButtonDisabler = false;
+        _profilePicButtonStatus = "Updated!";
+        _updateButtonDisabler = false;
       });
-
     }
-
-
 
     return StreamBuilder<RecipeMiner>(
         stream: DatabaseService(uid: user.uid).userData,
@@ -77,7 +70,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   SizedBox(height: 10.0),
                   TextFormField(
                     initialValue: userData.name,
-                    decoration: textInputDecoration,
+                    decoration: AppStyle.textInputDecoration,
                     validator: (val) => val.isEmpty ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _currentName = val),
                   ),
@@ -85,7 +78,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   RaisedButton(
                       color: Colors.pink[400],
                       child: Text(
-                        _ProfilePicButtonStatus,
+                        _profilePicButtonStatus,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -107,7 +100,7 @@ class _SettingsFormState extends State<SettingsForm> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        if(!_UpdateButtonDisabler) {
+                        if(!_updateButtonDisabler) {
                           setState(() {
                             _buttonStatus = 'Updating....';
                           });

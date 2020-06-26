@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:recipemine/pages/Authentication/ProviderWrapper.dart';
 
-class LoadingScreen extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
