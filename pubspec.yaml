@@ -71,34 +71,6 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: SanFranciscoDisplay
-      fonts:
-        - asset: fonts/SanFranciscoDisplay-Black.ttf
-        - asset: fonts/SanFranciscoDisplay-Bold.ttf
-        - asset: fonts/SanFranciscoDisplay-Heavy.ttf
-        - asset: fonts/SanFranciscoDisplay-Light.ttf
-        - asset: fonts/SanFranciscoDisplay-Medium.ttf
-        - asset: fonts/SanFranciscoDisplay-Regular.ttf
-        - asset: fonts/SanFranciscoDisplay-Semibold.ttf
-        - asset: fonts/SanFranciscoDisplay-Thin.ttf
-        - asset: fonts/SanFranciscoDisplay-UltraLight.ttf
-        - asset: fonts/SanFranciscoDisplay-Black.ttf
-
-    - family: SanFranciscoText
-      fonts:
-        - asset: fonts/SanFranciscoText-Bold.ttf
-        - asset: fonts/SanFranciscoText-BoldItalic.ttf
-        - asset: fonts/SanFranciscoText-Heavy.ttf
-        - asset: fonts/SanFranciscoText-HeavyItalic.ttf
-        - asset: fonts/SanFranciscoText-Light.ttf
-        - asset: fonts/SanFranciscoText-LightItalic.ttf
-        - asset: fonts/SanFranciscoText-Medium.ttf
-        - asset: fonts/SanFranciscoText-MediumItalic.ttf
-        - asset: fonts/SanFranciscoText-Regular.ttf
-        - asset: fonts/SanFranciscoText-RegularItalic.ttf
-        - asset: fonts/SanFranciscoText-Semibold.ttf
-        - asset: fonts/SanFranciscoText-SemiboldItalic.ttf
-
     - family: GTEestiProText
       fonts:
         - asset: fonts/GT Eesti Pro Text Bold.ttf

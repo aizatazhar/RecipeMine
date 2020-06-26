@@ -16,7 +16,7 @@ class _AlarmState extends State<Alarm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.5 * MediaQuery.of(context).devicePixelRatio),
+      padding: EdgeInsets.all(11 * MediaQuery.of(context).devicePixelRatio),
       child: Column(
         children: <Widget>[
           Padding(

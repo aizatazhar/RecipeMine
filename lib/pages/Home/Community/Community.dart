@@ -116,7 +116,7 @@ class _CommunityState extends State<Community> {
 
           searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
           searchBarStyle: SearchBarStyle(
-            backgroundColor: Colors.grey[100],
+            backgroundColor: Colors.white,
             padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
           ),
 
