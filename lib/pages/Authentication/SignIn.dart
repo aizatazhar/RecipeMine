@@ -55,7 +55,7 @@ class _SignInState extends State<SignIn> {
           child: Column(
             children: <Widget>[
               SizedBox(width: 50, height: 70),
-              Image(image: AssetImage("assets/Logo.png")),
+              Image(image: AssetImage("assets/Logo cropped.png")),
               SizedBox(width: 50, height:30),
               Form(
                 key: _formKey,
@@ -63,7 +63,9 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     SizedBox(height: 20.0),
                     TextFormField(
-                      decoration: AppStyle.textInputDecoration.copyWith(hintText: 'email'),
+                      decoration: AppStyle.textInputDecoration.copyWith(
+                        hintText: 'email',
+                      ),
                       validator: (val) => val.isEmpty ? 'Enter an email' : null,
                       onChanged: (val) {
                         setState(() => email = val);

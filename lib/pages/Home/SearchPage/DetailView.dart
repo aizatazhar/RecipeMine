@@ -34,7 +34,6 @@ class _DetailViewState extends State<DetailView> {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Container(
-                  color: Colors.grey[200],
                   padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 50.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
           child: Column(
             children: <Widget>[
               SizedBox(width: 50, height: 70),
-              Image.asset("assets/Logo.png"),
+              Image.asset("assets/Logo cropped.png"),
               SizedBox(width: 50, height:30),
               Form(
                 key: _formKey,
