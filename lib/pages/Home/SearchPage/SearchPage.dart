@@ -18,6 +18,8 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   double _iconSize = 22.0;
 
+  final SearchBarController<Recipe> _searchBarController = SearchBarController();
+
   // Builds the icons at the top of a slider
   Widget _buildIcon(IconData iconData, Color iconColor, String text) {
     return Row(
@@ -178,6 +180,7 @@ class _SearchPageState extends State<SearchPage> {
           backgroundColor: Colors.white,
           padding: EdgeInsets.only(left: 10),
         ),
+        searchBarController: _searchBarController,
 
         mainAxisSpacing: 20,
 
@@ -185,7 +188,7 @@ class _SearchPageState extends State<SearchPage> {
         onItemFound: (Recipe recipe, int index) {
           return GestureDetector(
             child: Container(
-              height: 520,
+              height: 500,
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: _buildSlider(recipe)
             ),
@@ -195,7 +198,90 @@ class _SearchPageState extends State<SearchPage> {
               ));
             },
           );
-        }
+        },
+
+        header: Padding(
+          padding: EdgeInsets.only(bottom: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              PopupMenuButton<String>(
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.sort),
+                    Text("Sort")
+                  ],
+                ),
+                initialValue: "",
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: "alphabetical",
+                    child: Text("Alphabetical order"),
+                  ),
+                  PopupMenuItem(
+                    value: "rating",
+                    child: Text("Rating"),
+                  ),
+                  PopupMenuItem(
+                    value: "cooking time",
+                    child: Text("Cooking time"),
+                  ),
+                  PopupMenuItem(
+                    value: "number of ingredients",
+                    child: Text("Number of ingredients required"),
+                  ),
+                ],
+                onSelected: (value) {
+                  if (value == "alphabetical") {
+                    _searchBarController.sortList((Recipe a, Recipe b) {
+                      return a.name.compareTo(b.name);
+                    });
+                  } else if (value == "rating") {
+                    _searchBarController.sortList((Recipe a, Recipe b) {
+                      return b.rating.compareTo(a.rating); // Sorts descending
+                    });
+                  } else if (value == "cooking time") {
+                    _searchBarController.sortList((Recipe a, Recipe b) {
+                      return a.duration.compareTo(b.duration);
+                    });
+                  } else if (value == "number of ingredients") {
+                    _searchBarController.sortList((Recipe a, Recipe b) {
+                      return a.ingredients.length.compareTo(b.ingredients.length);
+                    });
+                  } else {
+                    print("Unknown value: $value");
+                  }
+                },
+              ),
+              PopupMenuButton<String>(
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.filter_list),
+                    Text("Filter")
+                  ],
+                ),
+                initialValue: "",
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: "recipe type",
+                    child: Text("Recipe type"),
+                  ),
+                  PopupMenuItem(
+                    value: "have all ingredients",
+                    child: Text("Have all ingredients"),
+                  ),
+                ],
+                onSelected: (value) {
+                  if (value == "recipe type") {
+
+                  } else {
+                    print("Unknown value: $value");
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
       )
     );
   }
