@@ -55,7 +55,7 @@ class _SignInState extends State<SignIn> {
           child: Column(
             children: <Widget>[
               SizedBox(width: 50, height: 70),
-              Image(image: AssetImage("assets/Logo.png")),
+              Image(image: AssetImage("assets/Logo cropped.png")),
               SizedBox(width: 50, height:30),
               Form(
                 key: _formKey,
