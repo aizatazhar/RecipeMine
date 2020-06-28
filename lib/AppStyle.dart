@@ -1,3 +1,4 @@
+import 'package:flappy_search_bar/search_bar_style.dart';
 import "package:flutter/material.dart";
 
 class AppStyle {
@@ -12,6 +13,17 @@ class AppStyle {
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.pink, width: 2.0),
     ),
+  );
+
+  static final searchBarStyle = SearchBarStyle(
+    borderRadius: BorderRadius.circular(10),
+    backgroundColor: Colors.white,
+    padding: EdgeInsets.only(left: 10)
+  );
+
+  static final searchBarHintStyle = TextStyle(
+    color: Color(0xff5F5F5F),
+    fontSize: 14.0,
   );
 }
 

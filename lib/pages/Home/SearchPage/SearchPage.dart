@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import "package:flappy_search_bar/flappy_search_bar.dart";
 import "package:flappy_search_bar/search_bar_style.dart";
 import 'package:provider/provider.dart';
+import 'package:recipemine/AppStyle.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
@@ -20,273 +21,195 @@ class _SearchPageState extends State<SearchPage> {
 
   final SearchBarController<Recipe> _searchBarController = SearchBarController();
 
-  // Builds the icons at the top of a slider
-  Widget _buildIcon(IconData iconData, Color iconColor, String text) {
-    return Row(
-      children: <Widget> [
-        Padding(
-          padding: EdgeInsets.only(right: 2),
-          child: Icon(
-            iconData,
-            color: iconColor,
-            size: _iconSize,
-          ),
-        ),
-        Text(
-          text,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Builds the top section of a slider
-  _buildTopSection(Recipe recipe) {
-    final users = Provider.of<List<RecipeMiner>>(context) ?? [];
-    final currentUserUID = Provider.of<User>(context);
-
-    // contains the current user details
-    RecipeMiner currentUserData = RecipeMiner(
-        name:'Loading',
-        email: 'Loading',
-        uid: 'Loading',
-        profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',
-        favourites: []
-    );
-
-    users.forEach((element) {
-      if (element.uid == currentUserUID.uid){
-        currentUserData = element;
-      }
-    });
-
-    Color heartColour = currentUserData.favourites.contains(recipe.id) ? Colors.red : Colors.white;
-    IconData iconData = currentUserData.favourites.contains(recipe.id) ? Icons.favorite : Icons.favorite_border;
-
-    return Positioned( // Top icons
-      top: 0.0,
-      left: 0.0,
-      right: 0.0,
-      child: Container(
-        decoration: BoxDecoration( // tint to contrast with icons
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(220, 0, 0, 0),
-              Color.fromARGB(0, 0, 0, 0)
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        padding: EdgeInsets.fromLTRB(15, 0, 5, 20),
-        child: Row(
-          children: <Widget>[
-            _buildIcon(Icons.star, Color(0xffFFC440), recipe.rating.toString()),
-            Spacer(),
-            _buildIcon(Icons.schedule, Color(0xffFF5C64), recipe.duration.toString() + " min"),
-            Spacer(),
-            _buildIcon(Icons.people_outline, Color(0xff30C551), recipe.servingSize.toString()),
-            Spacer(),
-            _buildIcon(Icons.kitchen, Color(0xff1D92FF), "${recipe.ingredients.length}"),
-            Spacer(),
-            IconButton(
-              icon: Icon(
-                iconData,
-                color: heartColour,
-              ),
-              iconSize: _iconSize,
-              onPressed: () {
-                if (currentUserData.favourites.contains(recipe.id)){
-                  currentUserData.favourites.remove(recipe.id);
-                  DatabaseService().updateUserData(currentUserData.name, currentUserData.email, currentUserData.uid, currentUserData.profilePic, currentUserData.pantry,currentUserData.favourites);
-                } else {
-                  currentUserData.favourites.add(recipe.id);
-                  DatabaseService().updateUserData(currentUserData.name, currentUserData.email, currentUserData.uid, currentUserData.profilePic, currentUserData.pantry,currentUserData.favourites);
-                }
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Builds the bottom section of a slider
-  _buildBottomSection(Recipe recipe) {
-    return Positioned( // Bottom text
-      bottom: 0.0,
-      left: 0.0,
-      right: 0.0,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(220, 0, 0, 0),
-              Color.fromARGB(0, 0, 0, 0)
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
-        padding: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 15.0),
-        child: Text(
-          recipe.name,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 36.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Takes in a single recipe and builds its corresponding slider
-  Widget _buildSlider(Recipe recipe) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20.0),
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            Image.network(
-              recipe.imageURL ,
-              fit: BoxFit.cover,
-              width: 1000,
-              height: 1000
-            ),
-            _buildTopSection(recipe),
-            _buildBottomSection(recipe),
-          ],
-        ),
-      ),
-    );
-  }
+  bool _isSearching = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SearchBar<Recipe>(
         hintText: "Type some ingredients",
-        hintStyle: TextStyle(
-          color: Color(0xff5F5F5F),
-          fontSize: 14.0,
-        ),
+        hintStyle: AppStyle.searchBarHintStyle,
 
         searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
-        searchBarStyle: SearchBarStyle(
-          backgroundColor: Colors.white,
-          padding: EdgeInsets.only(left: 10),
-        ),
+        searchBarStyle: AppStyle.searchBarStyle,
         searchBarController: _searchBarController,
 
         mainAxisSpacing: 20,
 
-        onSearch: search,
-        onItemFound: (Recipe recipe, int index) {
-          return GestureDetector(
-            child: Container(
-              height: 500,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _buildSlider(recipe)
+        onSearch: _search,
+        onItemFound: (Recipe recipe, int index) => _buildSlider(recipe),
+        onCancelled: () => setState(() => _isSearching = false),
+
+        emptyWidget: _buildEmptyView(),
+        header: _buildHeader(),
+      )
+    );
+  }
+
+  // Takes in a single recipe and builds its corresponding slider
+  Widget _buildSlider(Recipe recipe) {
+
+    // Builds the icons at the top of a slider
+    Widget _buildIcon(IconData iconData, Color iconColor, String text) {
+      return Row(
+        children: <Widget> [
+          Padding(
+            padding: EdgeInsets.only(right: 2),
+            child: Icon(
+              iconData,
+              color: iconColor,
+              size: _iconSize,
             ),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => DetailView(recipe)
-              ));
-            },
-          );
-        },
+          ),
+          Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            ),
+          ),
+        ],
+      );
+    }
 
-        header: Padding(
-          padding: EdgeInsets.only(bottom: 10.0),
+    // Builds the top section of a slider
+    _buildTopSection(Recipe recipe) {
+      final users = Provider.of<List<RecipeMiner>>(context) ?? [];
+      final currentUserUID = Provider.of<User>(context);
+
+      // contains the current user details
+      RecipeMiner currentUserData = RecipeMiner(
+          name:'Loading',
+          email: 'Loading',
+          uid: 'Loading',
+          profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',
+          favourites: []
+      );
+
+      users.forEach((element) {
+        if (element.uid == currentUserUID.uid){
+          currentUserData = element;
+        }
+      });
+
+      Color heartColour = currentUserData.favourites.contains(recipe.id)
+          ? Colors.red
+          : Colors.white;
+      IconData iconData = currentUserData.favourites.contains(recipe.id)
+          ? Icons.favorite
+          : Icons.favorite_border;
+
+      return Positioned( // Top icons
+        top: 0.0,
+        left: 0.0,
+        right: 0.0,
+        child: Container(
+          decoration: BoxDecoration( // tint to contrast with icons
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(220, 0, 0, 0),
+                Color.fromARGB(0, 0, 0, 0)
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          padding: EdgeInsets.fromLTRB(15, 0, 5, 20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              PopupMenuButton<String>(
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.sort),
-                    Text("Sort")
-                  ],
+              _buildIcon(Icons.star, Color(0xffFFC440), recipe.rating.toString()),
+              Spacer(),
+              _buildIcon(Icons.schedule, Color(0xffFF5C64), recipe.duration.toString() + " min"),
+              Spacer(),
+              _buildIcon(Icons.people_outline, Color(0xff30C551), recipe.servingSize.toString()),
+              Spacer(),
+              _buildIcon(Icons.kitchen, Color(0xff1D92FF), "${recipe.ingredients.length}"),
+              Spacer(),
+              IconButton(
+                icon: Icon(
+                  iconData,
+                  color: heartColour,
                 ),
-                initialValue: "",
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: "alphabetical",
-                    child: Text("Alphabetical order"),
-                  ),
-                  PopupMenuItem(
-                    value: "rating",
-                    child: Text("Rating"),
-                  ),
-                  PopupMenuItem(
-                    value: "cooking time",
-                    child: Text("Cooking time"),
-                  ),
-                  PopupMenuItem(
-                    value: "number of ingredients",
-                    child: Text("Number of ingredients required"),
-                  ),
-                ],
-                onSelected: (value) {
-                  if (value == "alphabetical") {
-                    _searchBarController.sortList((Recipe a, Recipe b) {
-                      return a.name.compareTo(b.name);
-                    });
-                  } else if (value == "rating") {
-                    _searchBarController.sortList((Recipe a, Recipe b) {
-                      return b.rating.compareTo(a.rating); // Sorts descending
-                    });
-                  } else if (value == "cooking time") {
-                    _searchBarController.sortList((Recipe a, Recipe b) {
-                      return a.duration.compareTo(b.duration);
-                    });
-                  } else if (value == "number of ingredients") {
-                    _searchBarController.sortList((Recipe a, Recipe b) {
-                      return a.ingredients.length.compareTo(b.ingredients.length);
-                    });
+                iconSize: _iconSize,
+                onPressed: () {
+                  if (currentUserData.favourites.contains(recipe.id)){
+                    currentUserData.favourites.remove(recipe.id);
+                    DatabaseService().updateUserData(currentUserData.name, currentUserData.email, currentUserData.uid, currentUserData.profilePic, currentUserData.pantry,currentUserData.favourites);
                   } else {
-                    print("Unknown value: $value");
-                  }
-                },
-              ),
-              PopupMenuButton<String>(
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.filter_list),
-                    Text("Filter")
-                  ],
-                ),
-                initialValue: "",
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: "recipe type",
-                    child: Text("Recipe type"),
-                  ),
-                  PopupMenuItem(
-                    value: "have all ingredients",
-                    child: Text("Have all ingredients"),
-                  ),
-                ],
-                onSelected: (value) {
-                  if (value == "recipe type") {
-
-                  } else {
-                    print("Unknown value: $value");
+                    currentUserData.favourites.add(recipe.id);
+                    DatabaseService().updateUserData(currentUserData.name, currentUserData.email, currentUserData.uid, currentUserData.profilePic, currentUserData.pantry,currentUserData.favourites);
                   }
                 },
               ),
             ],
           ),
         ),
-      )
+      );
+    }
+
+    // Builds the bottom section of a slider
+    _buildBottomSection(Recipe recipe) {
+      return Positioned( // Bottom text
+        bottom: 0.0,
+        left: 0.0,
+        right: 0.0,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(220, 0, 0, 0),
+                Color.fromARGB(0, 0, 0, 0)
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ),
+          ),
+          padding: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 15.0),
+          child: Text(
+            recipe.name,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 36.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return GestureDetector(
+      child: Container(
+        height: 500,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Container(
+            child: Stack(
+              children: <Widget>[
+                Image.network(
+                    recipe.imageURL ,
+                    fit: BoxFit.cover,
+                    width: 1000,
+                    height: 1000
+                ),
+                _buildTopSection(recipe),
+                _buildBottomSection(recipe),
+              ],
+            ),
+          ),
+        ),
+      ),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => DetailView(recipe)
+        ));
+      },
     );
   }
 
-  Future<List<Recipe>> search(String input) async {
+  Future<List<Recipe>> _search(String input) async {
+    // Triggers rebuild to remove the default view
+    setState(() => _isSearching = true);
 
     // Get recipes from Firestore
     QuerySnapshot querySnapshot = await Firestore.instance.collection("Recipes").getDocuments();
@@ -339,5 +262,139 @@ class _SearchPageState extends State<SearchPage> {
     }
 
     return result;
+  }
+
+  Text _buildEmptyView() {
+    return Text("No recipes found");
+  }
+
+  // Used to build initial suggestions list when user has not searched anything
+  List<Recipe> _getRandomRecipes(int numberOfRecipes) {
+    // Hardcoded number of the total number of recipes to save reads on Firestore
+    int endIndex = 52;
+
+    // Create a list of numbers from 0 to 52, then shuffle
+    List<int> randomList = List.generate(endIndex + 1, (i) => i);
+    randomList.shuffle();
+
+    // Get the required number of indices
+    List<int> recipeIndices = [];
+    for (int i = 0; i< numberOfRecipes; i++) {
+      recipeIndices.add(randomList[i]);
+    }
+
+    List<Recipe> result = [];
+
+    // Get recipes from Firestore corresponding to the random indices
+    for (int i = 0; i < recipeIndices.length; i++) {
+      Firestore.instance
+          .collection("Recipes")
+          .document(recipeIndices[i].toString())
+          .get()
+          .then((snapshot) {
+        if (snapshot.exists) {
+          result.add(Recipe.fromDocumentSnapshot(snapshot));
+        } else {
+          print("value does not exist");
+        }
+      });
+    }
+
+    return result;
+  }
+
+  Widget _buildHeader() {
+    List<Widget> body = [];
+
+    // Widgets that are always present
+    body.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        PopupMenuButton<String>(
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.sort),
+              Text("Sort")
+            ],
+          ),
+          initialValue: "",
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: "alphabetical",
+              child: Text("Alphabetical order"),
+            ),
+            PopupMenuItem(
+              value: "rating",
+              child: Text("Rating"),
+            ),
+            PopupMenuItem(
+              value: "cooking time",
+              child: Text("Cooking time"),
+            ),
+            PopupMenuItem(
+              value: "number of ingredients",
+              child: Text("Number of ingredients required"),
+            ),
+          ],
+          onSelected: (value) {
+            if (value == "alphabetical") {
+              _searchBarController.sortList((Recipe a, Recipe b) {
+                return a.name.compareTo(b.name);
+              });
+            } else if (value == "rating") {
+              _searchBarController.sortList((Recipe a, Recipe b) {
+                return b.rating.compareTo(a.rating); // Sorts descending
+              });
+            } else if (value == "cooking time") {
+              _searchBarController.sortList((Recipe a, Recipe b) {
+                return a.duration.compareTo(b.duration);
+              });
+            } else if (value == "number of ingredients") {
+              _searchBarController.sortList((Recipe a, Recipe b) {
+                return a.ingredients.length.compareTo(b.ingredients.length);
+              });
+            } else {
+              print("Unknown value: $value");
+            }
+          },
+        ),
+        PopupMenuButton<String>(
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.filter_list),
+              Text("Filter")
+            ],
+          ),
+          initialValue: "",
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: "recipe type",
+              child: Text("Recipe type"),
+            ),
+            PopupMenuItem(
+              value: "have all ingredients",
+              child: Text("Have all ingredients"),
+            ),
+          ],
+          onSelected: (value) {
+            if (value == "recipe type") {
+              print("$value");
+            } else {
+              print("Unknown value: $value");
+            }
+          },
+        ),
+      ],
+    ));
+    body.add(SizedBox(height: 10));
+
+    // Widgets that are only present when user is not searching
+    if (!_isSearching) {
+      body.add(Text("HELLO"));
+    }
+
+    return Column(
+      children: body,
+    );
   }
 }
