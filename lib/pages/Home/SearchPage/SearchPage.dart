@@ -2,7 +2,6 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import "package:flappy_search_bar/flappy_search_bar.dart";
-import "package:flappy_search_bar/search_bar_style.dart";
 import 'package:provider/provider.dart';
 import 'package:recipemine/AppStyle.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
@@ -48,7 +47,6 @@ class _SearchPageState extends State<SearchPage> {
 
   // Takes in a single recipe and builds its corresponding slider
   Widget _buildSlider(Recipe recipe) {
-
     // Builds the icons at the top of a slider
     Widget _buildIcon(IconData iconData, Color iconColor, String text) {
       return Row(
@@ -264,46 +262,68 @@ class _SearchPageState extends State<SearchPage> {
     return result;
   }
 
-  Text _buildEmptyView() {
-    return Text("No recipes found");
+  Widget _buildEmptyView() {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AppStyle.buildEmptyViewIcon(Icons.search),
+            SizedBox(height: 20),
+            Text(
+              "No recipes found",
+              style: AppStyle.emptyViewHeader,
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Try searching with different ingredients!",
+              style: AppStyle.emptyViewCaption,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Used to build initial suggestions list when user has not searched anything
-  List<Recipe> _getRandomRecipes(int numberOfRecipes) {
-    // Hardcoded number of the total number of recipes to save reads on Firestore
-    int endIndex = 52;
+//  Future<List<Recipe>> _getRandomRecipes(int numberOfRecipes) async {
+//    // Hardcoded number of the total number of recipes to save reads on Firestore
+//    int endIndex = 52;
+//
+//    // Create a list of numbers from 0 to 52, then shuffle
+//    List<int> randomList = List.generate(endIndex + 1, (i) => i);
+//    randomList.shuffle();
+//
+//    // Get the required number of indices
+//    List<int> recipeIndices = [];
+//    for (int i = 0; i< numberOfRecipes; i++) {
+//      recipeIndices.add(randomList[i]);
+//    }
+//
+//    List<Recipe> result = [];
+//
+//    // Get recipes from Firestore corresponding to the random indices
+//    for (int i = 0; i < recipeIndices.length; i++) {
+//      await Firestore.instance
+//          .collection("Recipes")
+//          .document(recipeIndices[i].toString())
+//          .get()
+//          .then((snapshot) {
+//        if (snapshot.exists) {
+//          Recipe recipe = Recipe.fromDocumentSnapshot(snapshot);
+//          result.add(recipe);
+//        } else {
+//          print("value does not exist");
+//        }
+//      });
+//    }
+//
+//    return result.toList();
+//  }
 
-    // Create a list of numbers from 0 to 52, then shuffle
-    List<int> randomList = List.generate(endIndex + 1, (i) => i);
-    randomList.shuffle();
-
-    // Get the required number of indices
-    List<int> recipeIndices = [];
-    for (int i = 0; i< numberOfRecipes; i++) {
-      recipeIndices.add(randomList[i]);
-    }
-
-    List<Recipe> result = [];
-
-    // Get recipes from Firestore corresponding to the random indices
-    for (int i = 0; i < recipeIndices.length; i++) {
-      Firestore.instance
-          .collection("Recipes")
-          .document(recipeIndices[i].toString())
-          .get()
-          .then((snapshot) {
-        if (snapshot.exists) {
-          result.add(Recipe.fromDocumentSnapshot(snapshot));
-        } else {
-          print("value does not exist");
-        }
-      });
-    }
-
-    return result;
-  }
-
-  Widget _buildHeader() {
+  Widget _buildHeader()  {
     List<Widget> body = [];
 
     // Widgets that are always present

@@ -2,6 +2,7 @@ import 'package:countdown_flutter/countdown_flutter.dart';
 import "package:flutter/material.dart";
 import 'package:recipemine/Custom/CustomWidgets/TimerWidget.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
+import '../../../AppStyle.dart';
 import '../HomeWrapper.dart';
 
 class CookingAssistant extends StatefulWidget {
@@ -19,14 +20,25 @@ class _CookingAssistantState extends State<CookingAssistant> {
   Widget countdownTimer = Text('Activate Smart Timer!');
 
   Widget _buildDefaultView() {
-    return Container(
-      child: Center(
-        child: Text(
-          "Search for a recipe!",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 32
-          ),
+    return Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AppStyle.buildEmptyViewIcon(Icons.whatshot),
+            SizedBox(height: 20),
+            Text(
+              "Search for a recipe!",
+              style: AppStyle.emptyViewHeader,
+            ),
+            SizedBox(height: 10),
+            Text(
+              "The recipe that you selected will be shown here.",
+              style: AppStyle.emptyViewCaption,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
