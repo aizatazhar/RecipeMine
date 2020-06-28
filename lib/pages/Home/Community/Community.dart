@@ -2,6 +2,7 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flappy_search_bar/search_bar_style.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import 'package:recipemine/AppStyle.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
@@ -14,7 +15,6 @@ class Community extends StatefulWidget {
 }
 
 class _CommunityState extends State<Community> {
-
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
@@ -26,7 +26,9 @@ class _CommunityState extends State<Community> {
         name:'Loading',
         email: 'Loading',
         uid: 'Loading',
-        profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
+        profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg'
+    );
+
     users.forEach((element) {
       if (element.uid == currentUserUID.uid){
         currentUserData = element;
@@ -112,16 +114,10 @@ class _CommunityState extends State<Community> {
       body: Center(
         child: SearchBar<RecipeMiner>(
           hintText: "Search for other users",
-          hintStyle: TextStyle(
-            color: Color(0xff5F5F5F),
-            fontSize: 14.0,
-          ),
+          hintStyle: AppStyle.searchBarHintStyle,
 
           searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
-          searchBarStyle: SearchBarStyle(
-            backgroundColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-          ),
+          searchBarStyle: AppStyle.searchBarStyle,
 
           onSearch: search,
           onItemFound: whenFound,

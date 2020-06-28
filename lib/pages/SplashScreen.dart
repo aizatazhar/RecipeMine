@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
   // After authentication implementation it transitions to the wrapper for the authentication.
   void transition() async {
     Timer(
-      Duration(seconds: 2),
+      Duration(seconds: 1),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (BuildContext context) => ProviderWrapper())
       )

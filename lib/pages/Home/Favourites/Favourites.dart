@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,8 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:recipemine/pages/Home/SearchPage/DetailView.dart';
+
+import '../../../AppStyle.dart';
 
 class Favourites extends StatefulWidget {
   @override
@@ -24,10 +27,17 @@ class _FavouritesState extends State<Favourites> {
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
 
-    //contains the current user details
-    RecipeMiner currentUserData = RecipeMiner(name:'Loading',email: 'Loading',uid: 'Loading', profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', favourites: []);
+    // contains the current user details
+    RecipeMiner currentUserData = RecipeMiner(
+        name:'Loading',
+        email: 'Loading',
+        uid: 'Loading',
+        profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',
+        favourites: []
+    );
+
     users.forEach((element) {
-      if (element.uid == currentUserUID.uid){
+      if (element.uid == currentUserUID.uid) {
         currentUserData = element;
       }
     });
@@ -35,11 +45,19 @@ class _FavouritesState extends State<Favourites> {
     List<Recipe> recipeList = Provider.of<List<Recipe>>(context) ?? [];
     List<Recipe> filteredList = [];
     for (Recipe recipe in recipeList){
-      if (currentUserData.favourites.contains(recipe.id)){
+      if (currentUserData.favourites.contains(recipe.id)) {
         filteredList.add(recipe);
       }
     }
 
+    int recipesLength = filteredList.length;
+
+    return recipesLength > 0
+        ? _buildFavouritesView(filteredList, currentUserData)
+        : _buildEmptyView();
+  }
+
+  Widget _buildFavouritesView(List<Recipe> filteredList, RecipeMiner currentUserData) {
     int recipesLength = filteredList.length;
 
     return GridView.builder(
@@ -131,6 +149,32 @@ class _FavouritesState extends State<Favourites> {
               ),
             ],
           )
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyView() {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            AppStyle.buildEmptyViewIcon(Icons.favorite_border),
+            SizedBox(height: 20),
+            Text(
+              "Nothing favourited yet",
+              style: AppStyle.emptyViewHeader,
+            ),
+            SizedBox(height: 10),
+            Text(
+              "All the recipes that you've favourited will be shown here.",
+              style: AppStyle.emptyViewCaption,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
