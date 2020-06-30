@@ -1,6 +1,5 @@
-import 'package:countdown_flutter/countdown_flutter.dart';
 import "package:flutter/material.dart";
-import 'package:recipemine/Custom/CustomWidgets/TimerWidget.dart';
+import 'package:recipemine/Custom/CustomWidgets/Alarm.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import '../../../AppStyle.dart';
 import '../HomeWrapper.dart';
