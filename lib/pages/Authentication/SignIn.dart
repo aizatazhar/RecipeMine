@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipemine/pages/Loading.dart';
@@ -25,38 +26,38 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return loading ? Loading() : Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.pinkAccent,
-        elevation: 0.0,
-        title:Text(
-          'Sign in to RecipeMine',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 20
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person, color: Colors.white,),
-            label: Text(
-              'Register',
-              style: TextStyle(
-                  color: Colors.white,
-              )),
-            onPressed: () => widget.toggleView(),
-          ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: SingleChildScrollView(
+    return loading
+      ? Loading()
+      : _buildSignIn();
+  }
+
+  Widget _buildSignIn() {
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 40.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(width: 50, height: 70),
-              Image(image: AssetImage("assets/Logo cropped.png")),
-              SizedBox(width: 50, height:30),
+              SizedBox(height: 30),
+              Text(
+                "Welcome!",
+                style: TextStyle(
+//                  fontFamily: "Oswald",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 42,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "Sign in to continue",
+                style: TextStyle(
+                  color: Colors.grey[700],
+                  fontSize: 24,
+                ),
+              ),
+              SizedBox(height: 10),
               Form(
                 key: _formKey,
                 child: Column(
@@ -64,7 +65,8 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 20.0),
                     TextFormField(
                       decoration: AppStyle.textInputDecoration.copyWith(
-                        hintText: 'email',
+                        labelText: "email",
+                        icon: Image.asset("assets/Sign In/user_icon.png"),
                       ),
                       validator: (val) => val.isEmpty ? 'Enter an email' : null,
                       onChanged: (val) {
@@ -74,38 +76,56 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 20.0),
                     TextFormField(
                       obscureText: true,
-                      decoration: AppStyle.textInputDecoration.copyWith(hintText: 'password'),
-                      validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
+                      decoration: AppStyle.textInputDecoration.copyWith(
+                        hintText: 'password',
+                        icon: Image.asset("assets/Sign In/password_icon.png"),
+                      ),
+                      validator: (val) => val.length < 6 ? 'Your password must be at least 6 characters long' : null,
                       onChanged: (val) {
                         setState(() => password = val);
                       },
                     ),
                     SizedBox(height: 20.0),
                     RaisedButton(
-                      color: Colors.pink[400],
-                      child: Text(
-                        'Sign In',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()){
-                          setState(() {
-                            loading = true;
-                          });
-                          dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                          if (result is String) {
+                        color: Colors.red,
+                        child: Text(
+                          'Sign In',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()){
                             setState(() {
-                              loading = false;
-                              error = result;
+                              loading = true;
                             });
+                            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                            if (result is String) {
+                              setState(() {
+                                loading = false;
+                                error = result;
+                              });
+                            }
                           }
                         }
-                      }
                     ),
                     SizedBox(height: 12.0),
                     Text(
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan> [
+                          TextSpan(
+                            text: "Not signed up yet? ",
+                            style: AppStyle.emptyViewCaption,
+                          ),
+                          TextSpan(
+                            text: "Sign up",
+                            style: AppStyle.clickableCaption,
+                            recognizer: TapGestureRecognizer()..onTap = () => widget.toggleView(),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),

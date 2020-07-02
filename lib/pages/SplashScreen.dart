@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Image(image: AssetImage("assets/Logo cropped.png")),
+            Image(image: AssetImage("assets/Logo/Logo cropped.png")),
             Text(
               "Find the perfect recipe",
               style: TextStyle(

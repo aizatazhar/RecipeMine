@@ -1,6 +1,8 @@
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipemine/pages/Loading.dart';
+import 'package:flutter/gestures.dart';
+import '../../AppStyle.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -26,35 +28,13 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.pinkAccent,
-        elevation: 0.0,
-        title:Text(
-          'Create RecipeMine Account',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 20
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person, color: Colors.white,),
-            label: Text(
-                'Sign In',
-                style: TextStyle(
-                  color: Colors.white,
-                )),
-            onPressed: () => widget.toggleView(),
-          ),
-        ],
-      ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               SizedBox(width: 50, height: 70),
-              Image.asset("assets/Logo cropped.png"),
+              Image.asset("assets/Logo/Logo cropped.png"),
               SizedBox(width: 50, height:30),
               Form(
                 key: _formKey,
@@ -71,7 +51,7 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 20.0),
                     TextFormField(
                       obscureText: true,
-                      decoration: textInputDecoration.copyWith(hintText: 'password'),
+                      decoration: textInputDecoration.copyWith(labelText: 'password'),
                       validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
                       onChanged: (val) {
                         setState(() => password = val);
@@ -79,7 +59,7 @@ class _RegisterState extends State<Register> {
                     ),
                     SizedBox(height: 20.0),
                     RaisedButton(
-                        color: Colors.pink[400],
+                        color: Colors.red,
                         child: Text(
                           'Sign In',
                           style: TextStyle(color: Colors.white),
@@ -103,6 +83,21 @@ class _RegisterState extends State<Register> {
                     Text(
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan> [
+                          TextSpan(
+                            text: "Already have an account? ",
+                            style: AppStyle.emptyViewCaption,
+                          ),
+                          TextSpan(
+                            text: "Sign in",
+                            style: AppStyle.clickableCaption,
+                            recognizer: TapGestureRecognizer()..onTap = () => widget.toggleView(),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
