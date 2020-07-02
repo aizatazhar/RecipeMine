@@ -3,16 +3,21 @@ import "package:flutter/material.dart";
 
 class AppStyle {
   // Used for register and sign in
+  static final signInAndRegisterDecoration = InputDecoration(
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.redAccent, width: 2),
+    )
+  );
+
   static final textInputDecoration = InputDecoration(
-    fillColor: Colors.white,
     filled: true,
-    contentPadding: EdgeInsets.all(10.0),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.grey, width: 2.0),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.pink, width: 2.0),
+      borderSide: BorderSide(color: Colors.red, width: 2.0),
     ),
+
   );
 
   static final searchBarStyle = SearchBarStyle(
