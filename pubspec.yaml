@@ -26,7 +26,6 @@ dependencies:
   flappy_search_bar: ^1.7.2
   countdown_flutter: ^0.1.2
   numberpicker: ^1.2.0
-  carousel_slider: ^2.1.0
   firebase_auth: ^0.16.1
   cloud_firestore: ^0.13.6
   provider: ^4.1.3
@@ -64,7 +63,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/
+    - assets/Logo/
+    - assets/Sign In/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -80,27 +80,36 @@ flutter:
   fonts:
     - family: GTEestiProText
       fonts:
-        - asset: fonts/GT Eesti Pro Text/GT Eesti Pro Text Bold.ttf
+        - asset: assets/Fonts/GT Eesti Pro Text/GT Eesti Pro Text Bold.ttf
     - family: Montserrat
       fonts:
-        - asset: fonts/Montserrat/Montserrat-Black.ttf
-        - asset: fonts/Montserrat/Montserrat-BlackItalic.ttf
-        - asset: fonts/Montserrat/Montserrat-Bold.ttf
-        - asset: fonts/Montserrat/Montserrat-BlackItalic.ttf
-        - asset: fonts/Montserrat/Montserrat-ExtraBold.ttf
-        - asset: fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf
-        - asset: fonts/Montserrat/Montserrat-ExtraLight.ttf
-        - asset: fonts/Montserrat/Montserrat-ExtraLightItalic.ttf
-        - asset: fonts/Montserrat/Montserrat-Italic.ttf
-        - asset: fonts/Montserrat/Montserrat-Light.ttf
-        - asset: fonts/Montserrat/Montserrat-LightItalic.ttf
-        - asset: fonts/Montserrat/Montserrat-Medium.ttf
-        - asset: fonts/Montserrat/Montserrat-MediumItalic.ttf
-        - asset: fonts/Montserrat/Montserrat-Regular.ttf
-        - asset: fonts/Montserrat/Montserrat-SemiBold.ttf
-        - asset: fonts/Montserrat/Montserrat-SemiBoldItalic.ttf
-        - asset: fonts/Montserrat/Montserrat-Thin.ttf
-        - asset: fonts/Montserrat/Montserrat-ThinItalic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-Black.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-BlackItalic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-Bold.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-BlackItalic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-ExtraBold.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-ExtraLight.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-ExtraLightItalic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-Italic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-Light.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-LightItalic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-Medium.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-MediumItalic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-Regular.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-SemiBold.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-SemiBoldItalic.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-Thin.ttf
+        - asset: assets/Fonts/Montserrat/Montserrat-ThinItalic.ttf
+    - family: Oswald
+      fonts:
+        - asset: assets/Fonts/Oswald/Oswald-Bold.ttf
+        - asset: assets/Fonts/Oswald/Oswald-ExtraLight.ttf
+        - asset: assets/Fonts/Oswald/Oswald-Light.ttf
+        - asset: assets/Fonts/Oswald/Oswald-Medium.ttf
+        - asset: assets/Fonts/Oswald/Oswald-Regular.ttf
+        - asset: assets/Fonts/Oswald/Oswald-SemiBold.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -16,6 +16,16 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
+  // Used to change color of label text and show clear icon when in focus
+  FocusNode _emailFocusNode = FocusNode();
+  FocusNode _passwordFocusNode = FocusNode();
+
+  // Used to clear input and to validate password during registration
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final _clearIconSize = 20.0;
+
   bool loading = false;
   String error = '';
 
@@ -24,96 +34,195 @@ class _SignInState extends State<SignIn> {
   String password = '';
 
   @override
+  void dispose() {
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return loading ? Loading() : Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.pinkAccent,
-        elevation: 0.0,
-        title:Text(
-          'Sign in to RecipeMine',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 20
+    return loading
+      ? Loading()
+      : _buildSignIn();
+  }
+
+  Widget _buildSignIn() {
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 40.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildHeader(),
+                SizedBox(height: 30),
+                _buildForms(),
+                SizedBox(height: 30),
+                _buildSignInButton(),
+                SizedBox(height: 15),
+                _buildSignUpButton(),
+                SizedBox(height: 20),
+                _buildErrorMessage(),
+              ],
+            ),
           ),
         ),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person, color: Colors.white,),
-            label: Text(
-              'Register',
-              style: TextStyle(
-                  color: Colors.white,
-              )),
-            onPressed: () => widget.toggleView(),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "Welcome!",
+          style: AppStyle.largeHeader,
+        ),
+        SizedBox(height: 10),
+        Text(
+            "Sign in to continue",
+            style: AppStyle.emptyViewCaption
+        ),
+      ],
+    );
+  }
+
+  Widget _buildForms() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            controller: _emailController,
+            focusNode: _emailFocusNode,
+            onTap: () {
+              setState(() {FocusScope.of(context).requestFocus(_emailFocusNode);});
+            },
+            decoration: AppStyle.signInDecoration.copyWith(
+              hintText: "name@example.com",
+              icon: Image.asset("assets/Sign In/user_icon.png"),
+              suffixIcon: _emailFocusNode.hasFocus && _emailController.text.length > 0
+                  ? _buildClearButton(_emailController)
+                  : null,
+            ),
+            validator: (val) => val.isEmpty ? 'Enter an email' : null,
+            onChanged: (val) => setState(() => email = val),
+          ),
+          SizedBox(height: 20.0),
+          TextFormField(
+            controller: _passwordController,
+            focusNode: _passwordFocusNode,
+            onTap: () {
+              setState(() {FocusScope.of(context).requestFocus(_passwordFocusNode);});
+            },
+            obscureText: true,
+            decoration: AppStyle.signInDecoration.copyWith(
+              hintText: 'Enter your password',
+              icon: Image.asset("assets/Sign In/password_icon.png"),
+              suffixIcon: _passwordFocusNode.hasFocus && _passwordController.text.length > 0
+                  ? _buildClearButton(_passwordController)
+                  : null,
+            ),
+            validator: (val) => val.isEmpty ? 'Enter a password' : null,
+            onChanged: (val) => setState(() => password = val),
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(width: 50, height: 70),
-              Image(image: AssetImage("assets/Logo cropped.png")),
-              SizedBox(width: 50, height:30),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: AppStyle.textInputDecoration.copyWith(
-                        hintText: 'email',
-                      ),
-                      validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                      onChanged: (val) {
-                        setState(() => email = val);
-                      },
-                    ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: AppStyle.textInputDecoration.copyWith(hintText: 'password'),
-                      validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
-                      onChanged: (val) {
-                        setState(() => password = val);
-                      },
-                    ),
-                    SizedBox(height: 20.0),
-                    RaisedButton(
-                      color: Colors.pink[400],
-                      child: Text(
-                        'Sign In',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()){
-                          setState(() {
-                            loading = true;
-                          });
-                          dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                          if (result is String) {
-                            setState(() {
-                              loading = false;
-                              error = result;
-                            });
-                          }
-                        }
-                      }
-                    ),
-                    SizedBox(height: 12.0),
-                    Text(
-                      error,
-                      style: TextStyle(color: Colors.red, fontSize: 14.0),
-                    ),
-                  ],
-                ),
+    );
+  }
+
+  Widget _buildClearButton(TextEditingController controller) {
+    return IconButton(
+      onPressed: () => controller.clear(),
+      icon: Icon(
+        Icons.clear,
+        size: _clearIconSize,
+        color: Colors.redAccent,
+      ),
+    );
+  }
+
+  Widget _buildSignInButton() {
+    return Container(
+      height: 50,
+      width: double.maxFinite,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15)
+        ),
+        color: Colors.redAccent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget> [
+            Text(
+              "Sign in",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
+            ),
+            SizedBox(width: 5),
+            Icon(Icons.arrow_forward, color: Colors.white, size: 16,)
+          ],
+        ),
+        onPressed: () async {
+          if (_formKey.currentState.validate()){
+            setState(() {loading = true;});
+
+            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+            if (result is String) {
+              setState(() {
+                loading = false;
+                error = result;
+              });
+            }
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildSignUpButton() {
+    return Container(
+      height: 50,
+      width: double.maxFinite,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+          side: BorderSide(color: Colors.grey, width: 0.5),
+        ),
+        color: Colors.white,
+        child: RichText(
+          text: TextSpan(
+            children: <TextSpan> [
+              TextSpan(
+                text: "Not signed up yet? ",
+                style: AppStyle.emptyViewCaption,
+              ),
+              TextSpan(
+                text: "Sign up",
+                style: AppStyle.clickableCaption,
+              )
             ],
           ),
         ),
+        onPressed: () async {
+          widget.toggleView();
+        },
       ),
+    );
+  }
+
+  Widget _buildErrorMessage() {
+    return Center(
+      child: Text(
+      error,
+      style: TextStyle(color: Colors.red, fontSize: 16.0),
+      )
     );
   }
 }

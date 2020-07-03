@@ -2,17 +2,38 @@ import 'package:flappy_search_bar/search_bar_style.dart';
 import "package:flutter/material.dart";
 
 class AppStyle {
-  // Used for register and sign in
+  static final signInDecoration = InputDecoration(
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.redAccent, width: 2),
+    ),
+    hintStyle: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: Colors.grey,
+    ),
+  );
+
+  static final registerDecoration = InputDecoration(
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.redAccent, width: 2),
+    ),
+    hintStyle: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: Colors.grey,
+    ),
+    floatingLabelBehavior: FloatingLabelBehavior.always,
+  );
+
   static final textInputDecoration = InputDecoration(
-    fillColor: Colors.white,
     filled: true,
-    contentPadding: EdgeInsets.all(12.0),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.grey, width: 2.0),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.pink, width: 2.0),
+      borderSide: BorderSide(color: Colors.red, width: 2.0),
     ),
+
   );
 
   static final searchBarStyle = SearchBarStyle(
@@ -49,8 +70,18 @@ class AppStyle {
         size: 50,
       ),
     );
-
   }
+
+  static final clickableCaption = TextStyle(
+    color: Colors.redAccent,
+    fontSize: 16,
+    fontWeight: FontWeight.w500
+  );
+
+  static final largeHeader = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 42,
+  );
 }
 
 

@@ -14,9 +14,7 @@ class _ProviderWrapperState extends State<ProviderWrapper> {
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
       value: AuthService().user,
-      child: MaterialApp(
-        home: Wrapper(),
-      )
+      child: Wrapper(),
     );
   }
 }
