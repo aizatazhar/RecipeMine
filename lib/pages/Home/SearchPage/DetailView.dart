@@ -119,7 +119,7 @@ class _DetailViewState extends State<DetailView> {
   Widget _buildBeginButton() {
     return Container(
       height: 40,
-      width: 1000,
+      width: double.maxFinite,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)

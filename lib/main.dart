@@ -6,6 +6,7 @@ import "package:recipemine/pages/Authentication/Wrapper.dart";
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     routes: {
       "/": (context) => SplashScreen(),
       "/SearchPage": (context) => SearchPage(),
