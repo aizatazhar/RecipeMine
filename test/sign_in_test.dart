@@ -3,8 +3,8 @@ import "package:flutter_test/flutter_test.dart";
 import "package:recipemine/pages/Authentication/SignIn.dart";
 
 void main() {
-    runUnitTests();
-    runWidgetTests();
+  runUnitTests();
+  runWidgetTests();
 }
 
 void runUnitTests() {

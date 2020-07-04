@@ -97,13 +97,14 @@ class _RegisterState extends State<Register> {
       child: Column(
         children: <Widget>[
           TextFormField(
+            key: Key("email"),
             focusNode: _emailFocusNode,
             controller: _emailController,
             onTap: () {
               setState(() {FocusScope.of(context).requestFocus(_emailFocusNode);});
             },
 
-            validator: (val) => val.isEmpty ? 'Enter an email' : null,
+            validator: emailValidator,
             onChanged: (val) => setState(() => email = val),
 
             decoration: AppStyle.registerDecoration.copyWith(
@@ -121,6 +122,7 @@ class _RegisterState extends State<Register> {
           ),
           SizedBox(height: 20.0),
           TextFormField(
+            key: Key("password"),
             focusNode: _passwordFocusNode,
             controller: _passwordController,
             onTap: () {
@@ -128,7 +130,7 @@ class _RegisterState extends State<Register> {
             },
 
             obscureText: true,
-            validator: (val) => val.length < 6 ? 'Password must be at least 6 characters' : null,
+            validator: passwordValidator,
             onChanged: (val) => setState(() => password = val),
 
             decoration: AppStyle.registerDecoration.copyWith(
@@ -142,6 +144,7 @@ class _RegisterState extends State<Register> {
           ),
           SizedBox(height: 20.0),
           TextFormField(
+            key: Key("confirmPassword"),
             focusNode: _confirmPasswordFocusNode,
             controller: _confirmPasswordController,
             onTap: () {
@@ -149,7 +152,7 @@ class _RegisterState extends State<Register> {
             },
 
             obscureText: true,
-            validator: (val) => val != _passwordController.text ? "Passwords do not match" : null,
+            validator: (val) => confirmPasswordValidator(val, _passwordController.text),
             onChanged: (val) => {setState(() {})},
 
             decoration: AppStyle.registerDecoration.copyWith(
@@ -182,6 +185,7 @@ class _RegisterState extends State<Register> {
       height: 50,
       width: double.maxFinite,
       child: RaisedButton(
+        key: Key("signUp"),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15)
         ),
@@ -220,3 +224,15 @@ class _RegisterState extends State<Register> {
   }
 }
 
+// Extracted methods to enable unit testing
+String emailValidator(String email) {
+  return email.isEmpty ? 'Enter an email' : null;
+}
+
+String passwordValidator(String password) {
+  return password.length < 6 ? 'Password must be at least 6 characters' : null;
+}
+
+String confirmPasswordValidator(String firstPassword, String secondPassword) {
+  return firstPassword != secondPassword ? "Passwords do not match" : null;
+}
