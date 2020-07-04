@@ -1,6 +1,5 @@
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:recipemine/pages/Home/Favourites/Favourites.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 
 class AuthService {
@@ -39,11 +38,11 @@ class AuthService {
       return user;
     } catch (error) {
       switch (error.code) {
-        case 'ERROR_WRONG_PASSWORD' : return 'Invalid Password';
-        case 'ERROR_INVALID_EMAIL' : return 'Invalid Email';
+        case 'ERROR_WRONG_PASSWORD' : return 'Invalid password';
+        case 'ERROR_INVALID_EMAIL' : return 'Invalid email';
         case 'ERROR_USER_NOT_FOUND' : return 'User not found';
-        case 'ERROR_USER_DISABLED' : return 'User Disabled';
-        case 'ERROR_TOO_MANY_REQUESTS' : return 'Server is handling many requests, please wait';
+        case 'ERROR_USER_DISABLED' : return 'User disabled';
+        case 'ERROR_TOO_MANY_REQUESTS' : return 'Server is handling too many requests, please wait';
         case 'ERROR_OPERATION_NOT_ALLOWED' : return 'Operation not allowed';
       }
     }
@@ -57,19 +56,26 @@ class AuthService {
       FirebaseUser user = result.user;
 
       // create a new document for the user with the uid
-      List<dynamic> Pantry = new List<dynamic>();
-      Pantry.add('egg,5 pcs,Meat');
-      Pantry.add('ham,50 grams,Meat');
-      Pantry.add('bread,3 pcs,Grains');
-      List<dynamic> Favourites = [];
-      DatabaseService(uid: user.uid).updateUserData('New User', email, user.uid, 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',Pantry, Favourites);
+      List<dynamic> pantry = new List<dynamic>();
+      pantry.add('egg,5 pcs,Meat');
+      pantry.add('ham,50 grams,Meat');
+      pantry.add('bread,3 pcs,Grains');
+      List<dynamic> favourites = [];
+      DatabaseService(uid: user.uid).updateUserData(
+          'New User',
+          email,
+          user.uid,
+          'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',
+          pantry,
+          favourites);
 
       return _userFromFirebaseUser(user);
+
     } catch (error) {
       switch (error.code) {
-        case "ERROR_WEAK_PASSWORD" : return "Weak Password";
-        case "ERROR_INVALID_EMAIL" : return "Invalid Email";
-        case "ERROR_EMAIL_ALREADY_IN_USE" : return "Email Used";
+        case "ERROR_WEAK_PASSWORD" : return "Password too weak";
+        case "ERROR_INVALID_EMAIL" : return "Invalid email";
+        case "ERROR_EMAIL_ALREADY_IN_USE" : return "Email already in use";
       }
     }
   }
