@@ -96,6 +96,7 @@ class _SignInState extends State<SignIn> {
       child: Column(
         children: <Widget>[
           TextFormField(
+            key: Key("email"),
             controller: _emailController,
             focusNode: _emailFocusNode,
             onTap: () {
@@ -108,11 +109,12 @@ class _SignInState extends State<SignIn> {
                   ? _buildClearButton(_emailController)
                   : null,
             ),
-            validator: (val) => val.isEmpty ? 'Enter an email' : null,
+            validator: emailValidator,
             onChanged: (val) => setState(() => email = val),
           ),
           SizedBox(height: 20.0),
           TextFormField(
+            key: Key("password"),
             controller: _passwordController,
             focusNode: _passwordFocusNode,
             onTap: () {
@@ -126,7 +128,7 @@ class _SignInState extends State<SignIn> {
                   ? _buildClearButton(_passwordController)
                   : null,
             ),
-            validator: (val) => val.isEmpty ? 'Enter a password' : null,
+            validator: passwordValidator,
             onChanged: (val) => setState(() => password = val),
           ),
         ],
@@ -150,6 +152,7 @@ class _SignInState extends State<SignIn> {
       height: 50,
       width: double.maxFinite,
       child: RaisedButton(
+        key: Key("signIn"),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15)
         ),
@@ -225,6 +228,15 @@ class _SignInState extends State<SignIn> {
       )
     );
   }
+}
+
+// Extracted methods to enable unit testing
+String emailValidator(String string) {
+  return string.isEmpty ? "Enter an email" : null;
+}
+
+String passwordValidator(String string) {
+  return string.isEmpty ? "Enter a password" : null;
 }
 
 
