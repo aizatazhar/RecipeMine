@@ -57,10 +57,8 @@ class AuthService {
 
       // create a new document for the user with the uid
       List<dynamic> pantry = new List<dynamic>();
-      pantry.add('egg,5 pcs,Meat');
-      pantry.add('ham,50 grams,Meat');
-      pantry.add('bread,3 pcs,Grains');
       List<dynamic> favourites = [];
+
       DatabaseService(uid: user.uid).updateUserData(
           'New User',
           email,
