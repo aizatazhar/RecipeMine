@@ -167,6 +167,7 @@ class _FavouritesState extends State<Favourites> {
             Text(
               "Nothing favourited yet",
               style: AppStyle.emptyViewHeader,
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 10),
             Text(

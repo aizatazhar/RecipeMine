@@ -18,28 +18,12 @@ class _CookingAssistantState extends State<CookingAssistant> {
 
   Widget countdownTimer = Text('Activate Smart Timer!');
 
-  Widget _buildDefaultView() {
-    return Center(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            AppStyle.buildEmptyViewIcon(Icons.whatshot),
-            SizedBox(height: 20),
-            Text(
-              "Search for a recipe!",
-              style: AppStyle.emptyViewHeader,
-            ),
-            SizedBox(height: 10),
-            Text(
-              "The recipe that you selected will be shown here.",
-              style: AppStyle.emptyViewCaption,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: this.widget.recipe != null
+          ? _buildRecipeView()
+          : _buildEmptyView(),
     );
   }
 
@@ -201,19 +185,37 @@ class _CookingAssistantState extends State<CookingAssistant> {
     }
 
     return PageView(
-      children: getPages(),
-      onPageChanged: (int index) {
-        setState(() {countdownTimer = Text('Activate Smart Timer!');});
-      }
+        children: getPages(),
+        onPageChanged: (int index) {
+          setState(() {countdownTimer = Text('Activate Smart Timer!');});
+        }
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: this.widget.recipe != null
-          ? _buildRecipeView()
-          : _buildDefaultView(),
+  Widget _buildEmptyView() {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            AppStyle.buildEmptyViewIcon(Icons.favorite_border),
+            SizedBox(height: 20),
+            Text(
+              "Search for a recipe",
+              style: AppStyle.emptyViewHeader,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            Text(
+              "The recipe that you selected will be displayed here.",
+              style: AppStyle.emptyViewCaption,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

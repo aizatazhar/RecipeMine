@@ -25,15 +25,16 @@ class AppStyle {
     floatingLabelBehavior: FloatingLabelBehavior.always,
   );
 
-  static final textInputDecoration = InputDecoration(
-    filled: true,
+  static final pantryInputDecoration = InputDecoration(
     enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.grey, width: 2.0),
+      borderSide: BorderSide(color: Colors.grey),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.red, width: 2.0),
+      borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
     ),
-
+    fillColor: Colors.white,
+    filled: true,
+    floatingLabelBehavior: FloatingLabelBehavior.always
   );
 
   static final searchBarStyle = SearchBarStyle(

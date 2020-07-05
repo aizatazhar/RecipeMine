@@ -70,7 +70,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   SizedBox(height: 10.0),
                   TextFormField(
                     initialValue: userData.name,
-                    decoration: AppStyle.textInputDecoration,
+                    decoration: AppStyle.pantryInputDecoration,
                     validator: (val) => val.isEmpty ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _currentName = val),
                   ),
