@@ -119,15 +119,11 @@ class _ProfileState extends State<Profile> {
             ),
             onPressed: () {
               showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return Container(
-                      padding:
-                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-                      child: SettingsForm(),
-                    );
-                  }
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return SettingsForm();
+                }
               );
             },
           ),

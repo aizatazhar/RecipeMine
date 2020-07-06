@@ -16,115 +16,179 @@ class SettingsForm extends StatefulWidget {
 }
 
 class _SettingsFormState extends State<SettingsForm> {
-
   final _formKey = GlobalKey<FormState>();
 
   String _currentName;
   String _currentProfilePic;
-  String _buttonStatus = 'Update Profile';
-  String _profilePicButtonStatus = 'Upload your new Profile Picture';
-  bool _updateButtonDisabler = false;
+
+  FocusNode _usernameFocusNode = FocusNode(); // change color of label text when in focus
+
+  bool _uploaded = false; // to update upload button ui
+
+  bool _saving = false; // to update save profile button ui
+  bool _saveButtonPressed = false; // ensures user can only press save once
+  bool _saveDisabled = false; // prevent user from saving when profile picture is uploading
 
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
 
-    Future getImage() async {
-      setState(() {
-        _updateButtonDisabler = true;
-        _profilePicButtonStatus = 'Uploading...';
-      });
-      var image = await ImagePicker().getImage(source: ImageSource.gallery, imageQuality: 50);
-      String fileName = basename(image.path);
-      StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
-      StorageUploadTask uploadTask =  firebaseStorageRef.putFile(File(image.path));
-      StorageTaskSnapshot taskSnapshot= await uploadTask.onComplete;
-      await FirebaseStorage.instance.ref().child(fileName).getDownloadURL().then((value){
-        _currentProfilePic = value;
-      });
-      Future.delayed(Duration(seconds: 4));
-      setState(() {
-        _profilePicButtonStatus = "Updated!";
-        _updateButtonDisabler = false;
-      });
-    }
+    return Container(
+      padding: EdgeInsets.only(top: 24), // not sure how to fix the status bar padding issue
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
 
-    return StreamBuilder<RecipeMiner>(
-        stream: DatabaseService(uid: user.uid).userData,
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
+        body: StreamBuilder<RecipeMiner>(
+          stream: DatabaseService(uid: user.uid).userData,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Loading();
+            }
+
             RecipeMiner userData = snapshot.data;
-            return Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 20.0),
-                  Text(
-                    'Update your Profile settings',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  SizedBox(height: 20.0),
-                  Text('Update your Username',
-                    style: TextStyle(fontSize: 14.0),
-                  ),
-                  SizedBox(height: 10.0),
-                  TextFormField(
-                    initialValue: userData.name,
-                    decoration: AppStyle.pantryInputDecoration,
-                    validator: (val) => val.isEmpty ? 'Please enter a name' : null,
-                    onChanged: (val) => setState(() => _currentName = val),
-                  ),
-                  SizedBox(height: 10.0),
-                  RaisedButton(
-                      color: Colors.pink[400],
-                      child: Text(
-                        _profilePicButtonStatus,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
+            return SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _buildHeader(),
+                      SizedBox(height: 30),
+                      _buildUploadProfilePictureButton(),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        focusNode: _usernameFocusNode,
+                        initialValue: userData.name,
+                        decoration: AppStyle.pantryInputDecoration.copyWith(
+                          labelText: "New username",
+                          labelStyle: TextStyle(
+                            color: _usernameFocusNode.hasFocus
+                                ? Colors.redAccent
+                                : Colors.grey[700]
+                          ),
+                        ),
+                        validator: (val) => val.isEmpty ? 'Please enter a name' : null,
+                        onChanged: (val) => setState(() => _currentName = val),
                       ),
-                      onPressed: () async {
-                        await getImage();
-                      }
+                      SizedBox(height: 30.0),
+                      _buildSaveButton(context, user, snapshot),
+                    ],
                   ),
-                  SizedBox(height:5),
-                  Text(
-                    'Please note that larger image files take a longer time to update, do wait until the button says that the picture has been uploaded before continuing',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  SizedBox(height: 10.0),
-                  RaisedButton(
-                      color: Colors.pink[400],
-                      child: Text(
-                        _buttonStatus,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        if(!_updateButtonDisabler) {
-                          setState(() {
-                            _buttonStatus = 'Updating....';
-                          });
-                          if (_formKey.currentState.validate()) {
-                            await DatabaseService(uid: user.uid).updateUserData(
-                                _currentName ?? snapshot.data.name,
-                                snapshot.data.email,
-                                snapshot.data.uid,
-                                _currentProfilePic,
-                                snapshot.data.pantry,
-                                snapshot.data.favourites,
-                            );
-                            Navigator.pop(context);
-                          }
-                        }
-                      }
-                  ),
-                ],
+                ),
               ),
             );
-          } else {
-            return Loading();
+          }
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Text(
+      'Update your profile',
+      style: AppStyle.mediumHeader,
+    );
+  }
+
+  Widget _buildUploadProfilePictureButton() {
+    return RaisedButton(
+      child: Text(
+        _uploaded ? "Profile picture uploaded!" : "Upload profile picture",
+        style: TextStyle(
+          color: Colors.grey[800],
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey, width: 0.5),
+      ),
+      onPressed: () async {
+        await _getImage();
+        setState(() {
+          _uploaded = true;
+        });
+      },
+    );
+  }
+
+  Future _getImage() async {
+    _saveDisabled = true;
+
+    var image = await ImagePicker().getImage(
+        source: ImageSource.gallery,
+        imageQuality: 50
+    );
+
+    String fileName = basename(image.path);
+    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(File(image.path));
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+
+    await FirebaseStorage.instance
+        .ref()
+        .child(fileName)
+        .getDownloadURL()
+        .then((value) {
+      _currentProfilePic = value;
+    });
+
+    _saveDisabled = false;
+  }
+
+  Widget _buildSaveButton(BuildContext context, User user, AsyncSnapshot<RecipeMiner> snapshot) {
+    return Container(
+      height: 50,
+      width: double.maxFinite,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        color: Colors.redAccent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              _saving ? "Saving..." : "Save profile",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+        onPressed: () async {
+          if (!_saveButtonPressed && !_saveDisabled) {
+            if (_formKey.currentState.validate()) {
+              _saving = true;
+              _saveButtonPressed = true;
+
+              await DatabaseService(uid: user.uid).updateUserData(
+                _currentName ?? snapshot.data.name,
+                snapshot.data.email,
+                snapshot.data.uid,
+                _currentProfilePic,
+                snapshot.data.pantry,
+                snapshot.data.favourites,
+              );
+
+              Navigator.pop(context);
+            }
           }
         }
+      ),
     );
   }
 }
