@@ -63,78 +63,84 @@ class _PantryAdderState extends State<PantryAdder> {
 
             return Form(
               key: _formKey,
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Add an ingredient to your pantry",
-                          style: AppStyle.emptyViewHeader,
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Add an ingredient to your pantry",
+                        style: AppStyle.mediumHeader,
+                      ),
+                      SizedBox(height: 30),
+                      DropdownButtonFormField(
+                        value: category ?? '',
+                        decoration: AppStyle.pantryInputDecoration.copyWith(
+                          labelText: "Category",
+                          labelStyle: TextStyle(color: Colors.grey[700])
                         ),
-                        SizedBox(height: 30),
-                        DropdownButtonFormField(
-                          value: category ?? '',
-                          decoration: AppStyle.pantryInputDecoration.copyWith(
-                            labelText: "Category",
-                            labelStyle: TextStyle(color: Colors.grey[700])
+                        items: categories.map((category) {
+                          return DropdownMenuItem(
+                            value: category,
+                            child: Text(
+                              category,
+                              style: TextStyle(color: CategoryColor.get(category)),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (val) => setState(() => category = val),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        focusNode: _ingredientNameFocusNode,
+                        initialValue: '',
+                        decoration: AppStyle.pantryInputDecoration.copyWith(
+                          labelText: "Ingredient name",
+                          labelStyle: TextStyle(
+                            color: _ingredientNameFocusNode.hasFocus
+                                ? Colors.redAccent
+                                : Colors.grey[700]
                           ),
-                          items: categories.map((category) {
-                            return DropdownMenuItem(
-                              value: category,
-                              child: Text(
-                                category,
-                                style: TextStyle(color: CategoryColor.get(category)),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (val) => setState(() => category = val),
                         ),
-                        SizedBox(height: 20.0),
-                        TextFormField(
-                          focusNode: _ingredientNameFocusNode,
-                          initialValue: '',
-                          decoration: AppStyle.pantryInputDecoration.copyWith(
-                            labelText: "Ingredient name",
-                            labelStyle: TextStyle(color: _ingredientNameFocusNode.hasFocus ? Colors.redAccent : Colors.grey[700]),
+                        validator: (val) => val.isEmpty ? 'Please enter an ingredient' : null,
+                        onChanged: (val) => setState(() => name = val),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        focusNode: _quantityFocusNode,
+                        initialValue: '',
+                        keyboardType: TextInputType.number,
+                        decoration: AppStyle.pantryInputDecoration.copyWith(
+                          labelText: "Quantity",
+                          labelStyle: TextStyle(
+                            color: _quantityFocusNode.hasFocus
+                                ? Colors.redAccent
+                                : Colors.grey[700]
                           ),
-                          validator: (val) => val.isEmpty ? 'Please enter an ingredient' : null,
-                          onChanged: (val) => setState(() => name = val),
                         ),
-                        SizedBox(height: 20.0),
-                        TextFormField(
-                          focusNode: _quantityFocusNode,
-                          initialValue: '',
-                          keyboardType: TextInputType.number,
-                          decoration: AppStyle.pantryInputDecoration.copyWith(
-                            labelText: "Quantity",
-                            labelStyle: TextStyle(color: _quantityFocusNode.hasFocus ? Colors.redAccent : Colors.grey[700]),
-                          ),
-                          validator: (val) => val.isEmpty ? 'Please enter a quantity' : null,
-                          onChanged: (val) => setState(() => quantity = val),
+                        validator: (val) => val.isEmpty ? 'Please enter a quantity' : null,
+                        onChanged: (val) => setState(() => quantity = val),
+                      ),
+                      SizedBox(height: 20.0),
+                      DropdownButtonFormField(
+                        value: unit ?? '',
+                        decoration: AppStyle.pantryInputDecoration.copyWith(
+                          labelText: "Units",
+                          labelStyle: TextStyle(color: Colors.grey[700]),
                         ),
-                        SizedBox(height: 20.0),
-                        DropdownButtonFormField(
-                          value: unit ?? '',
-                          decoration: AppStyle.pantryInputDecoration.copyWith(
-                            labelText: "Units",
-                            labelStyle: TextStyle(color: Colors.grey[700]),
-                          ),
-                          items: siUnits.map((units) {
-                            return DropdownMenuItem(
-                              value: units,
-                              child: Text(units),
-                            );
-                          }).toList(),
-                          onChanged: (val) => setState(() => unit = val),
-                        ),
-                        SizedBox(height: 30.0),
-                        _buildAddIngredientButton(user, snapshot),
-                      ],
-                    ),
+                        items: siUnits.map((units) {
+                          return DropdownMenuItem(
+                            value: units,
+                            child: Text(units),
+                          );
+                        }).toList(),
+                        onChanged: (val) => setState(() => unit = val),
+                      ),
+                      SizedBox(height: 30.0),
+                      _buildAddIngredientButton(user, snapshot),
+                    ],
                   ),
                 ),
               ),

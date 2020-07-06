@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
-import 'ProfileSettings.dart';
+import '../../../AppStyle.dart';
+import 'SettingsForm.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -17,123 +19,143 @@ class _ProfileState extends State<Profile> {
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
 
-    //contains the currentuser details
+    // contains the current user details
     RecipeMiner currentUserData = RecipeMiner(
         name: 'Loading',
         email: 'Loading',
         uid: 'Loading',
-        profilePic:
-            'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg');
+        profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg'
+    );
+
     users.forEach((element) {
       if (element.uid == currentUserUID.uid) {
         currentUserData = element;
       }
     });
 
-    //current user details fields
+    // current user details fields
     String name = currentUserData.name ?? '';
     String email = currentUserData.email ?? '';
-    String profilePic = currentUserData.profilePic ??
-        'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
+    String profilePic = currentUserData.profilePic ?? 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
 
     return Scaffold(
-      body: Column(children: <Widget>[
-        SizedBox(height: 50),
-        CircleAvatar(
-          radius: 75,
-          backgroundColor: Colors.pink,
-          child: ClipOval(
-            child: new SizedBox(
-              width: 150.0,
-              height: 150.0,
-              child: Image.network(
-                profilePic,
-                fit: BoxFit.cover,
-                width: 1000,
-                height: 1000,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildAvatar(profilePic),
+              SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Username',
+                    style: AppStyle.caption,
+                  ),
+                  Text(
+                    name,
+                    style: AppStyle.userDetail,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Email',
+                    style: AppStyle.caption,
+                  ),
+                  Text(
+                    email,
+                    style: AppStyle.userDetail,
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              _buildLogOutButton(_auth),
+            ]
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAvatar(String profilePic) {
+    return Center(
+      child: Column(
+        children: <Widget> [
+          CircleAvatar(
+            radius: 75,
+            child: ClipOval(
+              child: SizedBox(
+                width: 150.0,
+                height: 150.0,
+                child: Image.network(
+                  profilePic,
+                  fit: BoxFit.cover,
+                  width: 1000,
+                  height: 1000,
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(height: 30),
-        IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () {
-            showModalBottomSheet(
+          SizedBox(height: 5),
+          RaisedButton(
+            child: Text(
+              "Edit profile",
+              style: TextStyle(
+                color: Colors.grey[800],
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(color: Colors.grey, width: 0.5),
+            ),
+            onPressed: () {
+              showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
                 builder: (context) {
-                  return Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-                    child: SettingsForm(),
-                  );
-                });
-          },
-        ),
-        SizedBox(height: 30),
-        Row(
+                  return SettingsForm();
+                }
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLogOutButton(AuthService authService) {
+    return Container(
+      height: 50,
+      width: double.maxFinite,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        color: Colors.redAccent,
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Username',
-                        style:
-                            TextStyle(color: Colors.blueGrey, fontSize: 18.0)),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(name,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ],
+            Text(
+              "Log out",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
           ],
         ),
-        SizedBox(height: 40),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Email',
-                        style:
-                            TextStyle(color: Colors.blueGrey, fontSize: 18.0)),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(email,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 25),
-        RaisedButton(
-            color: Colors.pink[400],
-            child: Text(
-              'Logout',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () async {
-              _auth.signOut();
-            }),
-      ]),
+        onPressed: () async {
+          authService.signOut();
+        },
+      ),
     );
   }
 }

@@ -204,13 +204,13 @@ class _CookingAssistantState extends State<CookingAssistant> {
             SizedBox(height: 20),
             Text(
               "Search for a recipe",
-              style: AppStyle.emptyViewHeader,
+              style: AppStyle.mediumHeader,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 10),
             Text(
               "The recipe that you selected will be displayed here.",
-              style: AppStyle.emptyViewCaption,
+              style: AppStyle.caption,
               textAlign: TextAlign.center,
             ),
           ],

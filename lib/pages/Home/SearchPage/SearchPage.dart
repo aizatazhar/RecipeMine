@@ -273,12 +273,12 @@ class _SearchPageState extends State<SearchPage> {
             SizedBox(height: 20),
             Text(
               "No recipes found",
-              style: AppStyle.emptyViewHeader,
+              style: AppStyle.mediumHeader,
             ),
             SizedBox(height: 10),
             Text(
               "Try searching with different ingredients!",
-              style: AppStyle.emptyViewCaption,
+              style: AppStyle.caption,
               textAlign: TextAlign.center,
             ),
           ],
