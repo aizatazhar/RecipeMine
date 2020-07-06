@@ -73,13 +73,13 @@ class _PantryState extends State<Pantry> {
             SizedBox(height: 20),
             Text(
               "No ingredients in your pantry",
-              style: AppStyle.emptyViewHeader,
+              style: AppStyle.mediumHeader,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 10),
             Text(
               "Your pantry ingredients can be used to search for recipes.",
-              style: AppStyle.emptyViewCaption,
+              style: AppStyle.caption,
               textAlign: TextAlign.center,
             ),
           ],

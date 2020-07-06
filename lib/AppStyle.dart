@@ -2,6 +2,35 @@ import 'package:flappy_search_bar/search_bar_style.dart';
 import "package:flutter/material.dart";
 
 class AppStyle {
+  // ----- TextStyle -----
+  static final caption = TextStyle(
+    color: Colors.grey[700],
+    fontSize: 16,
+  );
+
+  static final mediumHeader = TextStyle(
+    fontSize: 26,
+    fontWeight: FontWeight.w500,
+  );
+
+  static final largeHeader = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 42,
+  );
+
+  static final clickableCaption = TextStyle(
+      color: Colors.redAccent,
+      fontSize: 16,
+      fontWeight: FontWeight.w500
+  );
+
+  static final userDetail = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+
+
+  // ----- InputDecoration -----
   static final signInDecoration = InputDecoration(
     focusedBorder: UnderlineInputBorder(
       borderSide: BorderSide(color: Colors.redAccent, width: 2),
@@ -37,6 +66,8 @@ class AppStyle {
     floatingLabelBehavior: FloatingLabelBehavior.always
   );
 
+
+  // ----- SearchBarStyle -----
   static final searchBarStyle = SearchBarStyle(
     borderRadius: BorderRadius.circular(10),
     backgroundColor: Colors.white,
@@ -48,16 +79,8 @@ class AppStyle {
     fontSize: 14.0,
   );
 
-  static final emptyViewHeader = TextStyle(
-    fontSize: 26,
-    fontWeight: FontWeight.bold,
-  );
 
-  static final emptyViewCaption = TextStyle(
-    color: Colors.grey[700],
-    fontSize: 16,
-  );
-
+  // ----- Icon -----
   static Widget buildEmptyViewIcon(IconData icon) {
     return Container(
       padding: EdgeInsets.all(15),
@@ -73,16 +96,7 @@ class AppStyle {
     );
   }
 
-  static final clickableCaption = TextStyle(
-    color: Colors.redAccent,
-    fontSize: 16,
-    fontWeight: FontWeight.w500
-  );
 
-  static final largeHeader = TextStyle(
-    fontWeight: FontWeight.w500,
-    fontSize: 42,
-  );
 }
 
 

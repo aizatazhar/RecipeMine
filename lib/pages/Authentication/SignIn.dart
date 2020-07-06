@@ -84,7 +84,7 @@ class _SignInState extends State<SignIn> {
         SizedBox(height: 10),
         Text(
             "Sign in to continue",
-            style: AppStyle.emptyViewCaption
+            style: AppStyle.caption
         ),
       ],
     );
@@ -204,7 +204,7 @@ class _SignInState extends State<SignIn> {
             children: <TextSpan> [
               TextSpan(
                 text: "Not signed up yet? ",
-                style: AppStyle.emptyViewCaption,
+                style: AppStyle.caption,
               ),
               TextSpan(
                 text: "Sign up",

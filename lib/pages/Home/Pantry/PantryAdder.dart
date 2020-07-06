@@ -73,7 +73,7 @@ class _PantryAdderState extends State<PantryAdder> {
                       children: <Widget>[
                         Text(
                           "Add an ingredient to your pantry",
-                          style: AppStyle.emptyViewHeader,
+                          style: AppStyle.mediumHeader,
                         ),
                         SizedBox(height: 30),
                         DropdownButtonFormField(
