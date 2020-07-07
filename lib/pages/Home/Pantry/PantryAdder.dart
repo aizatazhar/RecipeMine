@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:recipemine/AppStyle.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
@@ -33,9 +34,22 @@ class _PantryAdderState extends State<PantryAdder> {
   bool _isAddingIngredient = false; // to update UI of button
   bool _buttonPressed = false; // so that user can only press the button once
 
+  final _clearIconSize = 20.0;
+
   // Used to change color of label text when in focus
   FocusNode _ingredientNameFocusNode = FocusNode();
   FocusNode _quantityFocusNode = FocusNode();
+
+  // Used to clear input
+  final TextEditingController _ingredientController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+
+  @override
+  void dispose() {
+    _ingredientNameFocusNode.dispose();
+    _quantityFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +109,7 @@ class _PantryAdderState extends State<PantryAdder> {
                       SizedBox(height: 20.0),
                       TextFormField(
                         focusNode: _ingredientNameFocusNode,
-                        initialValue: '',
+                        controller: _ingredientController,
                         decoration: AppStyle.pantryInputDecoration.copyWith(
                           labelText: "Ingredient name",
                           labelStyle: TextStyle(
@@ -103,15 +117,21 @@ class _PantryAdderState extends State<PantryAdder> {
                                 ? Colors.redAccent
                                 : Colors.grey[700]
                           ),
+                          suffixIcon: _ingredientNameFocusNode.hasFocus && _ingredientController.text.length > 0
+                              ? _buildClearButton(_ingredientController)
+                              : null,
                         ),
-                        validator: (val) => val.isEmpty ? 'Please enter an ingredient' : null,
+                        validator: ingredientValidator,
                         onChanged: (val) => setState(() => name = val),
                       ),
                       SizedBox(height: 20.0),
                       TextFormField(
                         focusNode: _quantityFocusNode,
-                        initialValue: '',
+                        controller: _quantityController,
                         keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
                         decoration: AppStyle.pantryInputDecoration.copyWith(
                           labelText: "Quantity",
                           labelStyle: TextStyle(
@@ -119,8 +139,11 @@ class _PantryAdderState extends State<PantryAdder> {
                                 ? Colors.redAccent
                                 : Colors.grey[700]
                           ),
+                          suffixIcon: _quantityFocusNode.hasFocus && _quantityController.text.length > 0
+                              ? _buildClearButton(_quantityController)
+                              : null,
                         ),
-                        validator: (val) => val.isEmpty ? 'Please enter a quantity' : null,
+                        validator: quantityValidator,
                         onChanged: (val) => setState(() => quantity = val),
                       ),
                       SizedBox(height: 20.0),
@@ -199,4 +222,23 @@ class _PantryAdderState extends State<PantryAdder> {
       ),
     );
   }
+
+  Widget _buildClearButton(TextEditingController controller) {
+    return IconButton(
+      onPressed: () => controller.clear(),
+      icon: Icon(
+        Icons.clear,
+        size: _clearIconSize,
+        color: Colors.redAccent,
+      ),
+    );
+  }
+}
+
+String ingredientValidator(String string) {
+  return string.isEmpty ? 'Please enter an ingredient' : null;
+}
+
+String quantityValidator(String string) {
+  return string.isEmpty ? 'Please enter a quantity' : null;
 }

@@ -200,7 +200,7 @@ class _CookingAssistantState extends State<CookingAssistant> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            AppStyle.buildEmptyViewIcon(Icons.favorite_border),
+            AppStyle.buildEmptyViewIcon(Icons.whatshot),
             SizedBox(height: 20),
             Text(
               "Search for a recipe",
