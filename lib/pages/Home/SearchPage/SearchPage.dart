@@ -9,6 +9,8 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'DetailView.dart';
+import 'FilterInterface.dart';
+import 'SortInterface.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -327,94 +329,120 @@ class _SearchPageState extends State<SearchPage> {
     List<Widget> body = [];
 
     // Widgets that are always present
-    body.add(Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        PopupMenuButton<String>(
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.sort),
-              Text("Sort")
-            ],
-          ),
-          initialValue: "",
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              value: "alphabetical",
-              child: Text("Alphabetical order"),
-            ),
-            PopupMenuItem(
-              value: "rating",
-              child: Text("Rating"),
-            ),
-            PopupMenuItem(
-              value: "cooking time",
-              child: Text("Cooking time"),
-            ),
-            PopupMenuItem(
-              value: "number of ingredients",
-              child: Text("Number of ingredients required"),
-            ),
-          ],
-          onSelected: (value) {
-            if (value == "alphabetical") {
-              _searchBarController.sortList((Recipe a, Recipe b) {
-                return a.name.compareTo(b.name);
-              });
-            } else if (value == "rating") {
-              _searchBarController.sortList((Recipe a, Recipe b) {
-                return b.rating.compareTo(a.rating); // Sorts descending
-              });
-            } else if (value == "cooking time") {
-              _searchBarController.sortList((Recipe a, Recipe b) {
-                return a.duration.compareTo(b.duration);
-              });
-            } else if (value == "number of ingredients") {
-              _searchBarController.sortList((Recipe a, Recipe b) {
-                return a.ingredients.length.compareTo(b.ingredients.length);
-              });
-            } else {
-              print("Unknown value: $value");
-            }
-          },
-        ),
-        PopupMenuButton<String>(
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.filter_list),
-              Text("Filter")
-            ],
-          ),
-          initialValue: "",
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              value: "recipe type",
-              child: Text("Recipe type"),
-            ),
-            PopupMenuItem(
-              value: "have all ingredients",
-              child: Text("Have all ingredients"),
-            ),
-          ],
-          onSelected: (value) {
-            if (value == "recipe type") {
-              print("$value");
-            } else {
-              print("Unknown value: $value");
-            }
-          },
-        ),
-      ],
-    ));
-    body.add(SizedBox(height: 10));
+//    body.add(
+//
+//    );
 
     // Widgets that are only present when user is not searching
     if (!_isSearching) {
-      body.add(Text("HELLO"));
+      body.add(Container(child: Center(child: Text("HELLO"))));
+    }
+
+    // Widgets that are only present when user is searching
+    if (_isSearching) {
+      body.add(
+        Container(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildSortButton(_searchBarController),
+              _buildFilterButton(_searchBarController),
+            ],
+          ),
+        )
+      );
     }
 
     return Column(
       children: body,
     );
   }
+
+  Widget _buildSortButton(SearchBarController searchBarController) {
+    return RaisedButton(
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.sort),
+          Text(
+            "Sort",
+            style: TextStyle(
+              color: Colors.grey[800],
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey, width: 0.5),
+      ),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (BuildContext context) => SortInterface(searchBarController: searchBarController)
+        ));
+      },
+    );
+  }
+
+  Widget _buildFilterButton(SearchBarController searchBarController) {
+    return RaisedButton(
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.filter_list),
+          Text(
+            "Filter",
+            style: TextStyle(
+              color: Colors.grey[800],
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey, width: 0.5),
+      ),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+            builder: (BuildContext context) => FilterInterface(searchBarController: searchBarController)
+        ));
+      },
+    );
+
+  }
+
+  Widget _buildFilterInterface() {
+    return PopupMenuButton<String>(
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.filter_list),
+          Text("Filter")
+        ],
+      ),
+      initialValue: "",
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: "recipe type",
+          child: Text("Recipe type"),
+        ),
+        PopupMenuItem(
+          value: "have all ingredients",
+          child: Text("Have all ingredients"),
+        ),
+      ],
+      onSelected: (value) {
+        if (value == "recipe type") {
+          print("$value");
+        } else {
+          print("Unknown value: $value");
+        }
+      },
+    );
+  }
 }
+

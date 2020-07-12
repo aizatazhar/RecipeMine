@@ -7,6 +7,12 @@ enum RecipeType {
   drink,
 }
 
+extension RecipeTypeExtension on RecipeType {
+  String get name {
+    return this.toString().split(".").last;
+  }
+}
+
 // Recipe class models a recipe
 class Recipe {
   String id;
@@ -51,4 +57,5 @@ class Recipe {
     this.instructions = new List<String>.from(recipe["instructions"]);
     this.smartTimer = new List<String>.from(recipe['smartTimer']);
   }
+
 }
