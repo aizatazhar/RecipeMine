@@ -31,6 +31,7 @@ class _SearchPageState extends State<SearchPage> {
         hintText: "Type some ingredients",
         hintStyle: AppStyle.searchBarHintStyle,
 
+        iconActiveColor: Colors.redAccent,
         searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
         searchBarStyle: AppStyle.searchBarStyle,
         searchBarController: _searchBarController,
@@ -416,33 +417,5 @@ class _SearchPageState extends State<SearchPage> {
 
   }
 
-  Widget _buildFilterInterface() {
-    return PopupMenuButton<String>(
-      child: Row(
-        children: <Widget>[
-          Icon(Icons.filter_list),
-          Text("Filter")
-        ],
-      ),
-      initialValue: "",
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          value: "recipe type",
-          child: Text("Recipe type"),
-        ),
-        PopupMenuItem(
-          value: "have all ingredients",
-          child: Text("Have all ingredients"),
-        ),
-      ],
-      onSelected: (value) {
-        if (value == "recipe type") {
-          print("$value");
-        } else {
-          print("Unknown value: $value");
-        }
-      },
-    );
-  }
 }
 
