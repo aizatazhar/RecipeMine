@@ -64,19 +64,21 @@ class _AlarmState extends State<Alarm> {
           child: Container(
             child: Ink(
               decoration: ShapeDecoration(
-                color: Colors.pink,
+                color: Color(0xffDB3A34),
                 shape: CircleBorder(),
               ),
               child: IconButton(
-                  icon: Icon(Icons.play_arrow),
-                  color: Colors.white,
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return Center(child: CountDown(hour, minute, second));
-                        });
-                  }),
+                icon: Icon(Icons.play_arrow),
+                color: Colors.white,
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Center(child: CountDown(hour, minute, second));
+                    }
+                  );
+                }
+              ),
             ),
           ),
         ),
@@ -107,7 +109,7 @@ class _CountDownState extends State<CountDown> {
       builder: (BuildContext ctx, String remaining) {
         return Text(
           remaining,
-          style: TextStyle(fontSize: 35),
+          style: TextStyle(fontSize: 30, color: Colors.blue),
         ); // 01:00:00
       },
     );

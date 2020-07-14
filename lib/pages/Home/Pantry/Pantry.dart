@@ -92,7 +92,7 @@ class _PantryState extends State<Pantry> {
     return FloatingActionButton(
       child: Icon(Icons.add),
       backgroundColor: Colors.redAccent,
-      elevation: 0,
+      elevation: 5,
       onPressed: () {
         showModalBottomSheet<void>(
           context: context,
@@ -122,6 +122,7 @@ class PantryTile extends StatelessWidget {
 
     return Card(
       margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+      elevation: 2,
       child: ListTile(
         leading: Container(
           width: 80,
@@ -135,7 +136,7 @@ class PantryTile extends StatelessWidget {
         title: Text(name),
         subtitle: Text("Quantity: " + quantity),
         trailing: IconButton(
-          icon: Icon(Icons.remove),
+          icon: Icon(Icons.clear),
           onPressed: () {
             currentUser.pantry.remove(ingredient);
             DatabaseService().updateUserData(

@@ -50,7 +50,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   List<Widget> _buildAppBarTitles() {
     return [
-      Text('Search Page'),
+      Text('Search'),
       Text('Assistant'),
       Text('Favourites'),
       Text('Pantry'),

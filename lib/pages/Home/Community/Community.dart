@@ -116,6 +116,7 @@ class _CommunityState extends State<Community> {
           hintText: "Search for other users",
           hintStyle: AppStyle.searchBarHintStyle,
 
+          iconActiveColor: Colors.redAccent,
           searchBarPadding: EdgeInsets.symmetric(horizontal: 20.0),
           searchBarStyle: AppStyle.searchBarStyle,
 
