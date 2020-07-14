@@ -1,5 +1,7 @@
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import "package:flutter/material.dart";
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
+import 'package:recipemine/Custom/CustomWidgets/SecondaryButton.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/pages/Home/SearchPage/RecipeTypeFilter.dart';
 import '../../../AppStyle.dart';
@@ -165,30 +167,20 @@ class _FilterInterfaceState extends State<FilterInterface> {
         ),
       ],
     );
-
   }
 
   Widget _buildResetButton() {
-    return Container(
-      height: 50,
-      child: RaisedButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Reset",
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-          onPressed: resetFilters
+    return SecondaryButton(
+      child: Text(
+        "Reset",
+        style: TextStyle(
+          color: Colors.grey[800],
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
       ),
+      width: double.maxFinite,
+      onPressed: resetFilters,
     );
   }
 
@@ -206,26 +198,17 @@ class _FilterInterfaceState extends State<FilterInterface> {
   }
 
   Widget _buildApplyButton() {
-    return Container(
-      height: 50,
-      child: RaisedButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          color: Colors.redAccent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Apply",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-          onPressed: applyFilters
+    return MainButton(
+      child: Text(
+        "Apply",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
       ),
+      width: double.maxFinite,
+      onPressed: applyFilters,
     );
   }
 

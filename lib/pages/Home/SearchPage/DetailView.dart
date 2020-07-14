@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import '../HomeWrapper.dart';
 import 'SliverCustomHeaderDelegate.dart';
@@ -117,33 +118,28 @@ class _DetailViewState extends State<DetailView> {
   }
 
   Widget _buildBeginButton() {
-    return Container(
-      height: 40,
-      width: double.maxFinite,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10)
-        ),
-        color: Colors.red,
-        child: Text(
-          "Begin Cooking",
-          style: TextStyle(
+    return MainButton(
+      child: Text(
+        "Begin Cooking",
+        style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20
-          ),
         ),
-        onPressed: () {
-          // Returns a new instance of HomeWrapper with the selected recipe as the CookingAssistant page
-          // Probably not the best solution since this would remove all state from the other bottom
-          // navigation tabs
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomeWrapper(recipe: this.widget.recipe, initialBottomNavigationBarIndex: 1)),
-            (Route<dynamic> route) => false // Removes all routes below the pushed route by using a [RoutePredicate] that always returns false
-          );
-        },
       ),
+      width: double.maxFinite,
+      onPressed: () {
+        // Returns a new instance of HomeWrapper with the selected recipe as the CookingAssistant page
+        // Probably not the best solution since this would remove all state from the other bottom
+        // navigation tabs
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) =>
+              HomeWrapper(recipe: this.widget.recipe, initialBottomNavigationBarIndex: 1)
+          ),
+          (Route<dynamic> route) => false // Removes all routes below the pushed route by using a [RoutePredicate] that always returns false
+        );
+      },
     );
   }
 }

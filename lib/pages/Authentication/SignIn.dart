@@ -1,3 +1,5 @@
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
+import 'package:recipemine/Custom/CustomWidgets/SecondaryButton.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipemine/pages/Loading.dart';
@@ -148,75 +150,60 @@ class _SignInState extends State<SignIn> {
   }
 
   Widget _buildSignInButton() {
-    return Container(
-      height: 50,
-      width: double.maxFinite,
-      child: RaisedButton(
-        key: Key("signIn"),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15)
-        ),
-        color: Colors.redAccent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget> [
-            Text(
-              "Sign in",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+    return MainButton(
+      key: Key("signIn"),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget> [
+          Text(
+            "Sign in",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
-            SizedBox(width: 5),
-            Icon(Icons.arrow_forward, color: Colors.white, size: 16,)
-          ],
-        ),
-        onPressed: () async {
-          if (_formKey.currentState.validate()){
-            setState(() {loading = true;});
-
-            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-            if (result is String) {
-              setState(() {
-                loading = false;
-                error = result;
-              });
-            }
-          }
-        },
+          ),
+          SizedBox(width: 5),
+          Icon(Icons.arrow_forward, color: Colors.white, size: 16,)
+        ],
       ),
+      width: double.maxFinite,
+      onPressed: () async {
+        if (_formKey.currentState.validate()){
+          setState(() {loading = true;});
+
+          dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+          if (result is String) {
+            setState(() {
+              loading = false;
+              error = result;
+            });
+          }
+        }
+      },
     );
   }
 
   Widget _buildSignUpButton() {
-    return Container(
-      height: 50,
-      width: double.maxFinite,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-          side: BorderSide(color: Colors.grey, width: 0.5),
+    return SecondaryButton(
+      child: RichText(
+        text: TextSpan(
+          children: <TextSpan> [
+            TextSpan(
+              text: "Not signed up yet? ",
+              style: AppStyle.caption,
+            ),
+            TextSpan(
+              text: "Sign up",
+              style: AppStyle.clickableCaption,
+            )
+          ],
         ),
-        color: Colors.white,
-        child: RichText(
-          text: TextSpan(
-            children: <TextSpan> [
-              TextSpan(
-                text: "Not signed up yet? ",
-                style: AppStyle.caption,
-              ),
-              TextSpan(
-                text: "Sign up",
-                style: AppStyle.clickableCaption,
-              )
-            ],
-          ),
-        ),
-        onPressed: () async {
-          widget.toggleView();
-        },
       ),
+      width: double.maxFinite,
+      onPressed: () async {
+        widget.toggleView();
+      },
     );
   }
 

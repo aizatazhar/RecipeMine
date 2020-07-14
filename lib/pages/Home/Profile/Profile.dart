@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
@@ -133,29 +134,19 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildLogOutButton(AuthService authService) {
-    return Container(
-      height: 50,
-      width: double.maxFinite,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        color: Colors.redAccent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Log out",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-          ],
+    return MainButton(
+      child: Text(
+        "Log out",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
         ),
-        onPressed: () async {
-          authService.signOut();
-        },
       ),
+      width: double.maxFinite,
+      onPressed: () async {
+        authService.signOut();
+      },
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipemine/pages/Loading.dart';
@@ -181,38 +182,31 @@ class _RegisterState extends State<Register> {
   }
 
   Widget _buildSignUpButton() {
-    return Container(
-      height: 50,
+    return MainButton(
+      key: Key("signUp"),
       width: double.maxFinite,
-      child: RaisedButton(
-        key: Key("signUp"),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15)
+      child: Text(
+        "Sign up",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
         ),
-        color: Colors.redAccent,
-        child: Text(
-          "Sign up",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        onPressed: () async {
-          if (_formKey.currentState.validate()) {
-            setState(() {
-              loading = true;
-            });
-            dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-            if (result is String) {
-              setState(() {
-                loading = false;
-                error = result;
-              });
-            }
-          }
-        },
       ),
+      onPressed: () async {
+        if (_formKey.currentState.validate()) {
+          setState(() {
+            loading = true;
+          });
+          dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+          if (result is String) {
+            setState(() {
+              loading = false;
+              error = result;
+            });
+          }
+        }
+      },
     );
   }
 
