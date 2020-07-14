@@ -29,6 +29,12 @@ class AppStyle {
     fontWeight: FontWeight.w500,
   );
 
+  static final assistantHeader = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: Colors.redAccent,
+  );
+
 
   // ----- InputDecoration -----
   static final signInDecoration = InputDecoration(
