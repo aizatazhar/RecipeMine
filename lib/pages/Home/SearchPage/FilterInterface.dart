@@ -91,13 +91,15 @@ class _FilterInterfaceState extends State<FilterInterface> {
                   });
                 }
               ),
-            Row(
-              children: <Widget>[
-                Flexible(flex: 1, child: _buildResetButton()),
-                SizedBox(width: 10),
-                Flexible(flex: 2, child: _buildApplyButton()),
-              ],
-            ),
+              Expanded(child: Container()),
+              Row(
+                children: <Widget>[
+                  Flexible(flex: 1, child: _buildResetButton()),
+                  SizedBox(width: 10),
+                  Flexible(flex: 2, child: _buildApplyButton()),
+                ],
+              ),
+              SizedBox(height: 20),
             ],
           ),
         ),
