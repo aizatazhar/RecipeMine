@@ -8,6 +8,10 @@ class AppStyle {
     fontSize: 16,
   );
 
+  static final subtitle = TextStyle(
+    fontSize: 16,
+  );
+
   static final mediumHeader = TextStyle(
     fontSize: 26,
     fontWeight: FontWeight.w500,

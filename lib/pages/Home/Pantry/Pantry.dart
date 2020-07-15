@@ -4,6 +4,7 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:recipemine/pages/Home/Pantry/CategoryColor.dart';
+import "package:recipemine/Custom/CustomWidgets/StringExtension.dart";
 
 import '../../../AppStyle.dart';
 import 'PantryAdder.dart';
@@ -133,7 +134,7 @@ class PantryTile extends StatelessWidget {
             ),
           ),
         ),
-        title: Text(name),
+        title: Text(name.capitalize()),
         subtitle: Text("Quantity: " + quantity),
         trailing: IconButton(
           icon: Icon(Icons.clear),

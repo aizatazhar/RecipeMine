@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:recipemine/AppStyle.dart';
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
@@ -177,51 +178,46 @@ class _PantryAdderState extends State<PantryAdder> {
   }
 
   Widget _buildAddIngredientButton(User user, AsyncSnapshot<RecipeMiner> snapshot) {
-    return Container(
-      height: 50,
+    return MainButton(
       width: double.maxFinite,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        color: Colors.redAccent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _isAddingIngredient
-                  ? "Adding ingredient..."
-                  : "Add ingredient to pantry",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            _isAddingIngredient
+                ? "Adding ingredient..."
+                : "Add ingredient to pantry",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
-          ],
-        ),
-        onPressed: () async {
-          if (!_buttonPressed) {
-            String toAdd = "$name,$quantity $unit,$category";
-            snapshot.data.pantry.add(toAdd);
-
-            if (_formKey.currentState.validate()) {
-              setState(() {
-                _isAddingIngredient = true;
-                _buttonPressed = true;
-              });
-
-              await DatabaseService(uid: user.uid).updateUserData(
-                snapshot.data.name,
-                snapshot.data.email,
-                snapshot.data.uid,
-                snapshot.data.profilePic,
-                snapshot.data.pantry,
-                snapshot.data.favourites,
-              );
-              Navigator.pop(context);
-            }
-          }
-        },
+          ),
+        ],
       ),
+      onPressed: () async {
+        if (!_buttonPressed) {
+          String toAdd = "$name,$quantity $unit,$category";
+          snapshot.data.pantry.add(toAdd);
+
+          if (_formKey.currentState.validate()) {
+            setState(() {
+              _isAddingIngredient = true;
+              _buttonPressed = true;
+            });
+
+            await DatabaseService(uid: user.uid).updateUserData(
+              snapshot.data.name,
+              snapshot.data.email,
+              snapshot.data.uid,
+              snapshot.data.profilePic,
+              snapshot.data.pantry,
+              snapshot.data.favourites,
+            );
+            Navigator.pop(context);
+          }
+        }
+      },
     );
   }
 

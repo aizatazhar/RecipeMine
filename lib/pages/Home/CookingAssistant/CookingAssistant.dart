@@ -147,7 +147,11 @@ class _CookingAssistantState extends State<CookingAssistant> {
           style: AppStyle.assistantHeader
         ),
         SizedBox(height: 5),
-        UnorderedList(texts: formattedIngredients, spacing: 2, style: AppStyle.caption),
+        UnorderedList(
+          texts: formattedIngredients,
+          spacing: 2,
+          style: AppStyle.subtitle
+        ),
       ],
     );
   }
@@ -158,7 +162,11 @@ class _CookingAssistantState extends State<CookingAssistant> {
     for (int i = 0; i < instructions.length; i++) {
       steps.add(Text("Step ${i+1}", style: AppStyle.assistantHeader));
       steps.add(SizedBox(height: 5));
-      steps.add(Text("${instructions[i].toString()}", style: AppStyle.caption.copyWith(height: 1.5), textAlign: TextAlign.justify));
+      steps.add(Text(
+        "${instructions[i].toString()}",
+        style: AppStyle.subtitle.copyWith(height: 1.5),
+        textAlign: TextAlign.justify
+      ));
       steps.add(SizedBox(height: 10));
       if (this.widget.recipe.smartTimer[i] != '0,0,0') {
         steps.add(_buildSmartTimer(this.widget.recipe.smartTimer[i]));

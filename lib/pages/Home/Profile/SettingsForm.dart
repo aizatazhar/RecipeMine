@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
@@ -160,44 +161,40 @@ class _SettingsFormState extends State<SettingsForm> {
   }
 
   Widget _buildSaveButton(BuildContext context, User user, AsyncSnapshot<RecipeMiner> snapshot) {
-    return Container(
-      height: 50,
-      width: double.maxFinite,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        color: Colors.redAccent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _saving ? "Saving..." : "Save profile",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+    return MainButton(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            _saving ? "Saving..." : "Save profile",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
-          ],
-        ),
-        onPressed: () async {
-          if (!_saveButtonPressed && !_saveDisabled) {
-            if (_formKey.currentState.validate()) {
-              _saving = true;
-              _saveButtonPressed = true;
+          ),
+        ],
+      ),
+      width: double.maxFinite,
+      onPressed: () async {
+        if (!_saveButtonPressed && !_saveDisabled) {
+          if (_formKey.currentState.validate()) {
+            _saving = true;
+            _saveButtonPressed = true;
 
-              await DatabaseService(uid: user.uid).updateUserData(
-                _currentName ?? snapshot.data.name,
-                snapshot.data.email,
-                snapshot.data.uid,
-                _currentProfilePic ?? snapshot.data.profilePic,
-                snapshot.data.pantry,
-                snapshot.data.favourites,
-              );
-              Navigator.pop(context);
-            }
+            await DatabaseService(uid: user.uid).updateUserData(
+              _currentName ?? snapshot.data.name,
+              snapshot.data.email,
+              snapshot.data.uid,
+              _currentProfilePic,
+              snapshot.data.pantry,
+              snapshot.data.favourites,
+            );
+
+            Navigator.pop(context);
           }
         }
-      ),
+      },
     );
   }
 }
