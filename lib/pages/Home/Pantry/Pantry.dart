@@ -94,14 +94,11 @@ class _PantryState extends State<Pantry> {
       child: Icon(Icons.add),
       backgroundColor: Colors.redAccent,
       elevation: 5,
+
       onPressed: () {
-        showModalBottomSheet<void>(
-          context: context,
-          isScrollControlled: true,
-          builder: (context) {
-            return PantryAdder();
-          }
-        );
+        Navigator.push(context, MaterialPageRoute(
+            builder: (BuildContext context) => PantryAdder()
+        ));
       },
     );
   }

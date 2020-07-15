@@ -5,10 +5,8 @@ import 'package:recipemine/pages/Home/Profile/RecipeBuilder/IngredientAdder/Ingr
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/InstructionsAdder/InstructionsAdder.dart';
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/RecipePropertyAdder/RecipePropertyAdder.dart';
 
-
-
 class RecipeBuilder extends StatefulWidget {
-  RecipeMiner currentUser;
+  final RecipeMiner currentUser;
 
   RecipeBuilder({this.currentUser});
   @override
@@ -16,8 +14,6 @@ class RecipeBuilder extends StatefulWidget {
 }
 
 class _RecipeBuilderState extends State<RecipeBuilder> {
-
-
   List<dynamic> ingredients = [];
   List<dynamic> instructions = ['cut the meat', 'cut the fish'];
   List<dynamic> smartTimer = ['1,1,1', '0,0,0'];
@@ -26,42 +22,47 @@ class _RecipeBuilderState extends State<RecipeBuilder> {
 
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
-        length:4,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('RecipeMaker'),
-            backgroundColor: Colors.red,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            bottom: TabBar(
-              isScrollable: true,
-              indicatorColor: Colors.white,
-              tabs: <Widget>[
-                Tab(text:'Ingredients'),
-                Tab(text:'Instructions'),
-                Tab(text:'Recipe Properties'),
-                Tab(text:'Final Step'),
-              ],
-            ),
+      length:4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('RecipeMaker'),
+          backgroundColor: Colors.redAccent,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-
-          body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              IngredientAdder(ingredients: ingredients),
-              InstructionsAdder(instructions: instructions, smartTimer: smartTimer),
-              RecipePropertyAdder(properties: recipeProperties),
-              CompletionScreen(ingredients: ingredients,instructions: instructions,smartTimer: smartTimer,properties: recipeProperties, imageURL: imageURL,currentUser: widget.currentUser),
+          bottom: TabBar(
+            isScrollable: true,
+            indicatorColor: Colors.white,
+            tabs: <Widget>[
+              Tab(text:'Ingredients'),
+              Tab(text:'Instructions'),
+              Tab(text:'Properties'),
+              Tab(text:'Publish'),
             ],
           ),
         ),
-      );
+        body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            IngredientAdder(ingredients: ingredients),
+            InstructionsAdder(instructions: instructions, smartTimer: smartTimer),
+            RecipePropertyAdder(properties: recipeProperties),
+            CompletionScreen(
+              ingredients: ingredients,
+              instructions: instructions,
+              smartTimer: smartTimer,
+              properties:  recipeProperties,
+              imageURL: imageURL,
+              currentUser: widget.currentUser,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

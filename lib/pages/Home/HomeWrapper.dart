@@ -70,7 +70,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
         appBar: AppBar(
           title: _buildAppBarTitles()[navigationIndex],
           titleSpacing: 20.0,
-          backgroundColor: Color(0xffFF464F),
+          backgroundColor: Colors.redAccent,
           actions: <Widget>[
             FlatButton.icon(
               icon: Icon(Icons.person, color: Colors.white),

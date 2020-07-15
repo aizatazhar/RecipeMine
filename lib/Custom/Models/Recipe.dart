@@ -58,10 +58,9 @@ class Recipe {
     this.duration = recipe["duration"];
     this.servingSize = recipe["servingSize"];
     this.imageURL = recipe["imageURL"];
-    this.ratings = new List<int>.from(recipe['ratings']);
+    this.ratings = new List<dynamic>.from(recipe['ratings']);
     this.ingredients = new List<String>.from(recipe["ingredients"]);
     this.instructions = new List<String>.from(recipe["instructions"]);
     this.smartTimer = new List<String>.from(recipe['smartTimer']);
   }
-
 }

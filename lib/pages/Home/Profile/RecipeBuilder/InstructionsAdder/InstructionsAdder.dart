@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/InstructionsAdder/InstructionTile.dart';
 
 import '../../../../../AppStyle.dart';
 
 class InstructionsAdder extends StatefulWidget {
-  List<dynamic> instructions;
-  List<dynamic> smartTimer;
+  final List<dynamic> instructions;
+  final List<dynamic> smartTimer;
+
   InstructionsAdder({this.instructions, this.smartTimer});
   @override
   _InstructionsAdderState createState() => _InstructionsAdderState();
@@ -24,8 +26,8 @@ class _InstructionsAdderState extends State<InstructionsAdder> {
   String instruction = '';
   String step = '0';
 
-
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,19 +59,15 @@ class _InstructionsAdderState extends State<InstructionsAdder> {
           ),
           Text('Swipe to remove instruction from recipe', style:AppStyle.caption),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: FloatingActionButton(
               child: Icon(Icons.add),
               backgroundColor: Colors.redAccent,
-              elevation: 0,
+              elevation: 5,
               onPressed: () {
-                showModalBottomSheet<void>(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return _buildIndividualInstructionAdder(widget.instructions, widget.smartTimer);
-                    }
-                );
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (BuildContext context) => _buildIndividualInstructionAdder(widget.instructions, widget.smartTimer)
+                ));
               },
             ),
           ),
@@ -78,7 +76,8 @@ class _InstructionsAdderState extends State<InstructionsAdder> {
       ),
     );
   }
-//just have an additional steps field to insert recipe
+
+  //just have an additional steps field to insert recipe
   Widget _buildIndividualInstructionAdder(List<dynamic> instructions, List<dynamic> smartTimer){
     return Container(
       child: Scaffold(
@@ -102,49 +101,44 @@ class _InstructionsAdderState extends State<InstructionsAdder> {
           key: _formKey,
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Add Instructions', style: AppStyle.largeHeader),
+                  Text('Add instructions', style: AppStyle.mediumHeader),
                   SizedBox(height: 25),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12,0,12,0),
-                    child: TextFormField(
-                      focusNode: _stepNode,
-                      initialValue: (widget.instructions.length+1).toString() ,
-                      keyboardType: TextInputType.number,
-                      maxLines: null,
-                      decoration: AppStyle.pantryInputDecoration.copyWith(
-                        labelText: "Step number",
-                        labelStyle: TextStyle(
-                            color: _stepNode.hasFocus
-                                ? Colors.redAccent
-                                : Colors.grey[700]
-                        ),
+                  TextFormField(
+                    focusNode: _stepNode,
+                    initialValue: (widget.instructions.length+1).toString() ,
+                    keyboardType: TextInputType.number,
+                    maxLines: null,
+                    decoration: AppStyle.pantryInputDecoration.copyWith(
+                      labelText: "Step number",
+                      labelStyle: TextStyle(
+                          color: _stepNode.hasFocus
+                              ? Colors.redAccent
+                              : Colors.grey[700]
                       ),
-                      onChanged: (val) => setState(() => step = val),
-                      validator: (val) => int.parse(val) > (instructions.length+1) ? 'Please insert step ' + (instructions.length+1).toString() + '\nOR insert instruction between previous steps'  : null,
                     ),
+                    onChanged: (val) => setState(() => step = val),
+                    validator: (val) => int.parse(val) > (instructions.length+1) ? 'Please insert step ' + (instructions.length+1).toString() + '\nOR insert instruction between previous steps'  : null,
                   ),
                   SizedBox(height: 25),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12,0,12,0),
-                    child: TextFormField(
-                      focusNode: _instructionNode,
-                      initialValue: '',
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      decoration: AppStyle.pantryInputDecoration.copyWith(
-                        labelText: "Instruction for step",
-                        labelStyle: TextStyle(
-                            color: _instructionNode.hasFocus
-                                ? Colors.redAccent
-                                : Colors.grey[700]
-                        ),
+                  TextFormField(
+                    focusNode: _instructionNode,
+                    initialValue: '',
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: AppStyle.pantryInputDecoration.copyWith(
+                      labelText: "Instruction for step",
+                      labelStyle: TextStyle(
+                          color: _instructionNode.hasFocus
+                              ? Colors.redAccent
+                              : Colors.grey[700]
                       ),
-                      onChanged: (val) => setState(() => instruction = val),
-                      validator: (val) => val.isEmpty? 'Please insert instruction' : null,
                     ),
+                    onChanged: (val) => setState(() => instruction = val),
+                    validator: (val) => val.isEmpty? 'Please insert instruction' : null,
                   ),
                   SizedBox(height: 25),
                   Text('SmartTimer Settings', style: AppStyle.caption),
@@ -152,8 +146,8 @@ class _InstructionsAdderState extends State<InstructionsAdder> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      SizedBox(
-                        width: 100,
+                      Flexible(
+                        flex: 1,
                         child: TextFormField(
                           focusNode: _hoursNode,
                           initialValue: '0',
@@ -169,8 +163,9 @@ class _InstructionsAdderState extends State<InstructionsAdder> {
                           onChanged: (val) => setState(() => hours = val),
                         ),
                       ),
-                      SizedBox(
-                        width:100,
+                      SizedBox(width: 10),
+                      Flexible(
+                        flex: 1,
                         child: TextFormField(
                           focusNode: _minutesNode,
                           initialValue: '0',
@@ -187,8 +182,9 @@ class _InstructionsAdderState extends State<InstructionsAdder> {
                           validator: (val) => int.parse(val) >= 60 ? 'Less than 60' : null,
                         ),
                       ),
-                      SizedBox(
-                        width: 100,
+                      SizedBox(width: 10),
+                      Flexible(
+                        flex: 1,
                         child: TextFormField(
                           focusNode: _secondsFocusNode,
                           initialValue: '0',
@@ -207,44 +203,35 @@ class _InstructionsAdderState extends State<InstructionsAdder> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12,0,12,0),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                      color: Colors.redAccent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'Add Instruction to recipe',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
+                  SizedBox(height: 30),
+                  MainButton(
+                    child: Text(
+                      'Add instruction to recipe',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
-                      onPressed: (){
-                        if (_formKey.currentState.validate()) {
-                          setState(() {
-                            if(step == '0'){
-                              setState(() {
-                                step = (widget.instructions.length+1).toString();
-                              });
-                            }
-                            widget.instructions.insert(int.parse(step) - 1, instruction);
-                            widget.smartTimer.insert(int.parse(step) - 1, hours.trim() + ',' + minutes.trim() + ',' + seconds.trim());
-                            hours = '0';
-                            minutes = '0';
-                            seconds = '0';
-                            step = '0';
-                          });
-                          Navigator.pop(context);
-                        }
-                      }
                     ),
+                    width: double.maxFinite,
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        setState(() {
+                          if(step == '0'){
+                            setState(() {
+                              step = (widget.instructions.length+1).toString();
+                            });
+                          }
+                          widget.instructions.insert(int.parse(step) - 1, instruction);
+                          widget.smartTimer.insert(int.parse(step) - 1, hours.trim() + ',' + minutes.trim() + ',' + seconds.trim());
+                          hours = '0';
+                          minutes = '0';
+                          seconds = '0';
+                          step = '0';
+                        });
+                        Navigator.pop(context);
+                      }
+                    },
                   ),
                 ],
               ),

@@ -7,7 +7,7 @@ import '../../AppStyle.dart';
 class Register extends StatefulWidget {
   final Function toggleView;
 
-  Register({ this.toggleView });
+  Register({this.toggleView});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -222,19 +222,12 @@ class _RegisterState extends State<Register> {
           setState(() {
             loading = true;
           });
-          dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+          dynamic result = await _auth.registerWithEmailAndPassword(email, username, password);
           if (result is String) {
             setState(() {
               loading = false;
               error = result;
             });
-            dynamic result = await _auth.registerWithEmailAndPassword(email,username, password);
-            if (result is String) {
-              setState(() {
-                loading = false;
-                error = result;
-              });
-            }
           }
         }
       },

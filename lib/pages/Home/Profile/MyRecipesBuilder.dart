@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
-import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/SearchPage/DetailView.dart';
 
 import '../../../AppStyle.dart';
 
 class MyRecipes extends StatefulWidget {
-  RecipeMiner user;
-  List<Recipe> recipeList;
+  final RecipeMiner user;
+  final List<Recipe> recipeList;
   MyRecipes({this.user, this.recipeList});
+
   @override
   _MyRecipesState createState() => _MyRecipesState();
 }
@@ -60,7 +59,7 @@ class _MyRecipesState extends State<MyRecipes> {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => DetailView(recipe)
+            builder: (context) => DetailView(recipe: recipe)
         ));
       },
       child: Container(

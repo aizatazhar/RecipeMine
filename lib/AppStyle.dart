@@ -39,6 +39,12 @@ class AppStyle {
     color: Colors.redAccent,
   );
 
+  static final assistantTitle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
+
 
   // ----- InputDecoration -----
   static final signInDecoration = InputDecoration(
