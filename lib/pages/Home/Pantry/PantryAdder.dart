@@ -105,6 +105,7 @@ class _PantryAdderState extends State<PantryAdder> {
                           );
                         }).toList(),
                         onChanged: (val) => setState(() => category = val),
+                        validator: (val) => val.isEmpty ? 'Please enter a category' : null,
                       ),
                       SizedBox(height: 20.0),
                       TextFormField(
@@ -160,6 +161,7 @@ class _PantryAdderState extends State<PantryAdder> {
                           );
                         }).toList(),
                         onChanged: (val) => setState(() => unit = val),
+                        validator: (val) => val.isEmpty ? 'Please enter a measuring unit' : null,
                       ),
                       SizedBox(height: 30.0),
                       _buildAddIngredientButton(user, snapshot),

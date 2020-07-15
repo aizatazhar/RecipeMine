@@ -49,18 +49,17 @@ class AuthService {
   }
 
   // Register with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(String email, String username, String password) async {
     try {
       String emailFormatted = email.trim();
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: emailFormatted, password: password);
       FirebaseUser user = result.user;
-
       // create a new document for the user with the uid
       List<dynamic> pantry = new List<dynamic>();
       List<dynamic> favourites = [];
 
       DatabaseService(uid: user.uid).updateUserData(
-          'New User',
+          username,
           email,
           user.uid,
           'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',

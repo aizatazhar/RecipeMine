@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
+import 'package:recipemine/pages/Home/Profile/MyRecipesBuilder.dart';
+import '../../../AppStyle.dart';
 import '../../Loading.dart';
 
 class ProfileBrowser extends StatelessWidget {
   final RecipeMiner viewedUser;
-
-  ProfileBrowser({this.viewedUser});
+  final List<Recipe> recipeList;
+  ProfileBrowser({this.viewedUser, this.recipeList});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +63,7 @@ class ProfileBrowser extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -85,6 +89,11 @@ class ProfileBrowser extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 20),
+            Text('User Recipes', style: AppStyle.mediumHeader),
+            SizedBox(height: 20),
+            MyRecipes(user: viewedUser, recipeList: recipeList),
+            SizedBox(height: 20),
           ]),
         ),
       );
