@@ -23,12 +23,20 @@ class _SettingsFormState extends State<SettingsForm> {
   String _currentProfilePic;
 
   FocusNode _usernameFocusNode = FocusNode(); // change color of label text when in focus
+  final _clearIconSize = 20.0;
 
   bool _uploaded = false; // to update upload button ui
 
   bool _saving = false; // to update save profile button ui
   bool _saveButtonPressed = false; // ensures user can only press save once
   bool _saveDisabled = false; // prevent user from saving when profile picture is uploading
+
+  @override
+  void dispose() {
+    _usernameFocusNode.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +64,7 @@ class _SettingsFormState extends State<SettingsForm> {
             }
 
             RecipeMiner userData = snapshot.data;
+
             return SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
@@ -79,7 +88,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                 : Colors.grey[700]
                           ),
                         ),
-                        validator: (val) => val.isEmpty ? 'Please enter a name' : null,
+                        validator: usernameValidator,
                         onChanged: (val) => setState(() => _currentName = val),
                       ),
                       SizedBox(height: 30.0),
@@ -191,4 +200,8 @@ class _SettingsFormState extends State<SettingsForm> {
       ),
     );
   }
+}
+
+String usernameValidator(String string) {
+  return string.isEmpty ? 'Please enter a username' : null;
 }

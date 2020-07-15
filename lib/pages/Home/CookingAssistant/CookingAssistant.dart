@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:recipemine/Custom/CustomWidgets/Alarm.dart';
+import 'package:recipemine/Custom/CustomWidgets/UnorderedList.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
+import 'package:recipemine/pages/Home/CookingAssistant/SmartTimerDisplay.dart';
 import '../../../AppStyle.dart';
 import '../HomeWrapper.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -19,8 +21,6 @@ class _CookingAssistantState extends State<CookingAssistant> {
   int navigationIndex = 1;
   bool ratingOnce = true;
 
-  Widget countdownTimer = Text('Activate Smart Timer!');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,210 +30,159 @@ class _CookingAssistantState extends State<CookingAssistant> {
     );
   }
 
+  int getENUM(Recipe recipe){
+    if(recipe.type == RecipeType.main){
+      return 0;
+    }
+    if(recipe.type == RecipeType.side){
+      return 1;
+    }
+    if(recipe.type == RecipeType.dessert){
+      return 2;
+    }
+    if(recipe.type == RecipeType.drink){
+      return 3;
+    }
+  }
+
+  Widget _buildRatingSystem(Recipe recipe){
+    return ratingOnce ?
+    Column(
+      children: <Widget>[
+        Text(
+          'Please Rate the Recipe!',
+          style:AppStyle.mediumHeader,
+        ),
+        SizedBox(height: 20),
+        RatingBar(
+          initialRating: 0,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) async {
+            List<dynamic> updatedRatings = recipe.ratings;
+            updatedRatings.add(rating);
+            double finalRating = 0;
+            updatedRatings.forEach((element) {finalRating += element;});
+            finalRating = double.parse((finalRating/updatedRatings.length).toStringAsFixed(1));
+            await Firestore.instance.collection('Recipes').document(recipe.id).setData({
+              'duration' : recipe.duration,
+              'authorUID' : recipe.authorUID,
+              'ratings' : updatedRatings,
+              'imageURL' : recipe.imageURL,
+              'ingredients' : recipe.ingredients,
+              'instructions' : recipe.instructions,
+              'name' : recipe.name,
+              'rating' : finalRating,
+              'servingSize' : recipe.servingSize,
+              'type' : getENUM(recipe),
+              'smartTimer' : recipe.smartTimer,
+            });
+            setState(() {
+              ratingOnce = false;
+            });
+            print('done');
+          },
+        ),
+      ],
+    )
+        :
+    _buildPostRating();
+  }
+
   Widget _buildRecipeView() {
-    // Maps a list of ingredients into a formatted String
-    String _buildIngredients(List<dynamic> ingredients) {
-      String result = "";
-
-      ingredients.forEach((ingredient) {
-        result += "• " + ingredient + "\n";
-      });
-
-      return result;
-    }
-
-    // Builds a page per step
-    Widget buildStep(int index) {
-      return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-            appBar: AppBar(
-                backgroundColor: Colors.redAccent,
-                flexibleSpace: TabBar(
-                  indicatorColor: Colors.white,
-                  tabs: <Widget>[
-                    Tab(text: "Instructions",),
-                    Tab(text: "Timer",),
-                  ],
-                )
-            ),
-            body: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  Container(
-                    child: ListView(
-                      padding: EdgeInsets.all(20),
-                      children: <Widget>[
-                        Text(
-                          index != null
-                              ? "Step ${index + 1}"
-                              : "Ingredients List",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(index != null
-                            ? this.widget.recipe.instructions[index]
-                            : _buildIngredients(this.widget.recipe.ingredients),
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              fontSize: 16,
-                            )
-                        ),
-                        SizedBox(height:20),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children:(index != null && (this.widget.recipe.smartTimer[index] != '0,0,0') ? <Widget>[
-                              countdownTimer,
-                              Row(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(Icons.play_arrow),
-                                    onPressed: (){
-                                      int hours = int.parse(this.widget.recipe.smartTimer[index].toString().split(',')[0]);
-                                      int minutes = int.parse(this.widget.recipe.smartTimer[index].toString().split(',')[1]);
-                                      int seconds = int.parse(this.widget.recipe.smartTimer[index].toString().split(',')[2]);
-                                      setState(() {
-                                        countdownTimer = CountDown(hours,minutes,seconds);
-                                      });
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.stop),
-                                    onPressed: (){
-                                      setState(() {
-                                        countdownTimer = Text('Activate Smart Timer!');
-                                      });
-                                    },
-                                  )
-                                ],
-                              ),
-                            ] : <Widget>[])
-                        ),
-                      ],
-                    ),
-                  ),
-                  Alarm(),
-                ]
-            )
-        ),
-      );
-    }
-
-
-    int getENUM(Recipe recipe){
-      if(recipe.type == RecipeType.main){
-        return 0;
-      }
-      if(recipe.type == RecipeType.side){
-        return 1;
-      }
-      if(recipe.type == RecipeType.dessert){
-        return 2;
-      }
-      if(recipe.type == RecipeType.drink){
-        return 3;
-      }
-    }
-
-    Widget _buildRatingSystem(Recipe recipe){
-      return ratingOnce ?
-      Column(
-        children: <Widget>[
-          Text(
-            'Please Rate the Recipe!',
-            style:AppStyle.mediumHeader,
-          ),
-          SizedBox(height: 20),
-          RatingBar(
-            initialRating: 0,
-            minRating: 1,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-            itemBuilder: (context, _) => Icon(
-              Icons.star,
-              color: Colors.amber,
-            ),
-            onRatingUpdate: (rating) async {
-              List<dynamic> updatedRatings = recipe.ratings;
-              updatedRatings.add(rating);
-              double finalRating = 0;
-              updatedRatings.forEach((element) {finalRating += element;});
-              finalRating = double.parse((finalRating/updatedRatings.length).toStringAsFixed(1));
-              await Firestore.instance.collection('Recipes').document(recipe.id).setData({
-                'duration' : recipe.duration,
-                'authorUID' : recipe.authorUID,
-                'ratings' : updatedRatings,
-                'imageURL' : recipe.imageURL,
-                'ingredients' : recipe.ingredients,
-                'instructions' : recipe.instructions,
-                'name' : recipe.name,
-                'rating' : finalRating,
-                'servingSize' : recipe.servingSize,
-                'type' : getENUM(recipe),
-                'smartTimer' : recipe.smartTimer,
-              });
-              setState(() {
-                ratingOnce = false;
-              });
-              print('done');
-            },
-          ),
-        ],
-      )
-          :
-      _buildPostRating();
-    }
-
-    Widget _buildLastPage(Recipe recipe) {
-      return Scaffold(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            this.widget.recipe.name,
-          ),
-          centerTitle: true,
           backgroundColor: Colors.redAccent,
-        ),
-        body: Center(
-          child: Container(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text('Recipe author: ' + widget.recipe.authorUID, style: AppStyle.caption),
-                    SizedBox(height: 20),
-                    _buildRatingSystem(recipe),
-                  ]
-              )
+          flexibleSpace: TabBar(
+            indicatorColor: Colors.white,
+            tabs: <Widget>[
+              Tab(text: "Instructions",),
+              Tab(text: "Timer",),
+            ],
           ),
         ),
-      );
-    }
-
-    // Method that returns a list of widgets of the pages of a recipe
-    List<Widget> getPages(Recipe recipe) {
-      List<Widget> stepPages = <Widget>[];
-      stepPages.add(buildStep(null));
-
-      for (int i = 0; i < this.widget.recipe.instructions.length; i++) {
-        stepPages.add(buildStep(i));
-      }
-
-      stepPages.add(_buildLastPage(recipe));
-      return stepPages;
-    }
-
-    return PageView(
-        children: getPages(widget.recipe),
-        onPageChanged: (int index) {
-          setState(() {countdownTimer = Text('Activate Smart Timer!');});
-        }
+        body: TabBarView(
+          children: <Widget>[
+            ListView(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              children: <Widget>[
+                _buildIngredients(this.widget.recipe.ingredients),
+                SizedBox(height: 15),
+                Divider(color: Colors.grey, thickness: 1),
+                SizedBox(height: 15),
+                _buildSteps(),
+                SizedBox(height: 5),
+                Divider(color: Colors.grey, thickness: 1),
+                SizedBox(height: 15),
+              ],
+            ),
+            Alarm(),
+          ],
+        ),
+      ),
     );
+  }
+
+  Widget _buildIngredients(List<dynamic> ingredients) {
+    List<String> formattedIngredients = [];
+
+    ingredients.forEach((ingredient) {
+      formattedIngredients.add(ingredient.toString().toLowerCase());
+    });
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "Ingredients",
+          style: AppStyle.assistantHeader
+        ),
+        SizedBox(height: 5),
+        UnorderedList(texts: formattedIngredients, spacing: 2, style: AppStyle.caption),
+      ],
+    );
+  }
+
+  Widget _buildSteps() {
+    List<dynamic> instructions = this.widget.recipe.instructions;
+    List<Widget> steps = [];
+    for (int i = 0; i < instructions.length; i++) {
+      steps.add(Text("Step ${i+1}", style: AppStyle.assistantHeader));
+      steps.add(SizedBox(height: 5));
+      steps.add(Text("${instructions[i].toString()}", style: AppStyle.caption.copyWith(height: 1.5), textAlign: TextAlign.justify));
+      steps.add(SizedBox(height: 10));
+      if (this.widget.recipe.smartTimer[i] != '0,0,0') {
+        steps.add(_buildSmartTimer(this.widget.recipe.smartTimer[i]));
+        steps.add(SizedBox(height: 20));
+      } else {
+        steps.add(SizedBox(height: 10));
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: steps,
+    );
+  }
+
+  Widget _buildSmartTimer(String smartTimer) {
+    List<String> time = smartTimer.split(",");
+    int hours = int.parse(time[0]);
+    int minutes = int.parse(time[1]);
+    int seconds = int.parse(time[2]);
+
+    int totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+    return SmartTimerDisplay(seconds: totalSeconds);
   }
 
   Widget _buildEmptyView() {
@@ -244,7 +193,7 @@ class _CookingAssistantState extends State<CookingAssistant> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            AppStyle.buildEmptyViewIcon(Icons.favorite_border),
+            AppStyle.buildEmptyViewIcon(Icons.whatshot),
             SizedBox(height: 20),
             Text(
               "Search for a recipe",

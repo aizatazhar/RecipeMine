@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
@@ -89,6 +87,18 @@ class _FavouritesState extends State<Favourites> {
         ));
       },
       child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow:  [
+            BoxShadow(
+              color: Colors.grey[600],
+              blurRadius: 2.0,
+              spreadRadius: 0.0,
+              offset: Offset(2.0, 2.0), // shadow direction: bottom right
+            )
+          ]
+        ),
         margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
