@@ -42,6 +42,9 @@ class _SearchPageState extends State<SearchPage> {
         onSearch: _search,
         onItemFound: (Recipe recipe, int index) => _buildSlider(recipe, user),
         onCancelled: () => setState(() => _isSearching = false),
+        onError: (Error error) {
+          return Center(child: Text("Error: ${error.toString()}", style: AppStyle.caption));
+        },
 
         emptyWidget: _buildEmptyView(),
         header: _buildHeader(),

@@ -30,72 +30,6 @@ class _CookingAssistantState extends State<CookingAssistant> {
     );
   }
 
-  int getENUM(Recipe recipe){
-    if(recipe.type == RecipeType.main){
-      return 0;
-    }
-    if(recipe.type == RecipeType.side){
-      return 1;
-    }
-    if(recipe.type == RecipeType.dessert){
-      return 2;
-    }
-    if(recipe.type == RecipeType.drink){
-      return 3;
-    }
-  }
-
-  Widget _buildRatingSystem(Recipe recipe){
-    return ratingOnce ?
-    Column(
-      children: <Widget>[
-        Text(
-          'Please Rate the Recipe!',
-          style:AppStyle.mediumHeader,
-        ),
-        SizedBox(height: 20),
-        RatingBar(
-          initialRating: 0,
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) async {
-            List<dynamic> updatedRatings = recipe.ratings;
-            updatedRatings.add(rating);
-            double finalRating = 0;
-            updatedRatings.forEach((element) {finalRating += element;});
-            finalRating = double.parse((finalRating/updatedRatings.length).toStringAsFixed(1));
-            await Firestore.instance.collection('Recipes').document(recipe.id).setData({
-              'duration' : recipe.duration,
-              'authorUID' : recipe.authorUID,
-              'ratings' : updatedRatings,
-              'imageURL' : recipe.imageURL,
-              'ingredients' : recipe.ingredients,
-              'instructions' : recipe.instructions,
-              'name' : recipe.name,
-              'rating' : finalRating,
-              'servingSize' : recipe.servingSize,
-              'type' : getENUM(recipe),
-              'smartTimer' : recipe.smartTimer,
-            });
-            setState(() {
-              ratingOnce = false;
-            });
-            print('done');
-          },
-        ),
-      ],
-    )
-        :
-    _buildPostRating();
-  }
-
   Widget _buildRecipeView() {
     return DefaultTabController(
       length: 2,
@@ -115,6 +49,11 @@ class _CookingAssistantState extends State<CookingAssistant> {
             ListView(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               children: <Widget>[
+                SizedBox(height: 15),
+                _buildHeader(),
+                SizedBox(height: 15),
+                Divider(color: Colors.grey, thickness: 1),
+                SizedBox(height: 15),
                 _buildIngredients(this.widget.recipe.ingredients),
                 SizedBox(height: 15),
                 Divider(color: Colors.grey, thickness: 1),
@@ -123,12 +62,28 @@ class _CookingAssistantState extends State<CookingAssistant> {
                 SizedBox(height: 5),
                 Divider(color: Colors.grey, thickness: 1),
                 SizedBox(height: 15),
+                _buildRatingSystem(this.widget.recipe),
+                SizedBox(height: 15),
+                Divider(color: Colors.grey, thickness: 1),
               ],
             ),
             Alarm(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Text(
+      widget.recipe.name,
+      style: TextStyle(
+        fontFamily: "Montserrat",
+        fontSize: 28,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+      textAlign: TextAlign.center,
     );
   }
 
@@ -193,6 +148,65 @@ class _CookingAssistantState extends State<CookingAssistant> {
     return SmartTimerDisplay(seconds: totalSeconds);
   }
 
+  Widget _buildRatingSystem(Recipe recipe){
+    if (!ratingOnce) {
+      return Text(
+        "Thanks for rating!",
+        style: AppStyle.mediumHeader,
+        textAlign: TextAlign.center,
+      );
+    }
+
+    return Column(
+      children: <Widget>[
+        Text(
+          'Rate the recipe!',
+          style:AppStyle.mediumHeader,
+        ),
+        SizedBox(height: 10),
+        RatingBar(
+          initialRating: 0,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, index) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          unratedColor: Colors.grey[300],
+          onRatingUpdate: (rating) async {
+            List<dynamic> updatedRatings = recipe.ratings;
+            updatedRatings.add(rating);
+
+            double finalRating = 0;
+            updatedRatings.forEach((element) {finalRating += element;});
+            finalRating = double.parse((finalRating/updatedRatings.length).toStringAsFixed(1));
+
+            await Firestore.instance.collection('Recipes').document(recipe.id).setData({
+              'duration' : recipe.duration,
+              'authorUID' : recipe.authorUID,
+              'ratings' : updatedRatings,
+              'imageURL' : recipe.imageURL,
+              'ingredients' : recipe.ingredients,
+              'instructions' : recipe.instructions,
+              'name' : recipe.name,
+              'rating' : finalRating,
+              'servingSize' : recipe.servingSize,
+              'type' : recipe.type.index,
+              'smartTimer' : recipe.smartTimer,
+            });
+
+            setState(() {
+              ratingOnce = false;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _buildEmptyView() {
     return Center(
       child: Container(
@@ -216,44 +230,6 @@ class _CookingAssistantState extends State<CookingAssistant> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildPostRating() {
-    return Center(
-      child: Container(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 20),
-                Text(
-                    "Find more Recipes!",
-                    style: TextStyle(
-                      fontSize: 24.0,
-                    )
-                ),
-                SizedBox(height: 20),
-                Container(
-                  child: Ink(
-                    decoration: const ShapeDecoration(
-                      color: Colors.pink,
-                      shape: CircleBorder(),
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.search),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.pushReplacement(context, new MaterialPageRoute(
-                            builder: (context) => new HomeWrapper(recipe: null, initialBottomNavigationBarIndex: 0))
-                        );
-                      },
-                    ),
-                  ),
-                )
-              ]
-          )
       ),
     );
   }
