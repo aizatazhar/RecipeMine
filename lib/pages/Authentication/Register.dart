@@ -7,7 +7,7 @@ import '../../AppStyle.dart';
 class Register extends StatefulWidget {
   final Function toggleView;
 
-  Register({ this.toggleView });
+  Register({this.toggleView});
 
   @override
   _RegisterState createState() => _RegisterState();

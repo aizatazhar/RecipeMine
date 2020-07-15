@@ -6,9 +6,10 @@ import 'package:recipemine/pages/Home/SearchPage/DetailView.dart';
 import '../../../AppStyle.dart';
 
 class MyRecipes extends StatefulWidget {
-  RecipeMiner user;
-  List<Recipe> recipeList;
+  final RecipeMiner user;
+  final List<Recipe> recipeList;
   MyRecipes({this.user, this.recipeList});
+
   @override
   _MyRecipesState createState() => _MyRecipesState();
 }

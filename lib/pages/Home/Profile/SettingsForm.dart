@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +23,6 @@ class _SettingsFormState extends State<SettingsForm> {
   String _currentProfilePic;
 
   FocusNode _usernameFocusNode = FocusNode(); // change color of label text when in focus
-  final _clearIconSize = 20.0;
 
   bool _uploaded = false; // to update upload button ui
 
@@ -38,69 +36,65 @@ class _SettingsFormState extends State<SettingsForm> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
 
-    return Container(
-      padding: EdgeInsets.only(top: 24), // not sure how to fix the status bar padding issue
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
+      ),
 
-        body: StreamBuilder<RecipeMiner>(
-          stream: DatabaseService(uid: user.uid).userData,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Loading();
-            }
+      body: StreamBuilder<RecipeMiner>(
+        stream: DatabaseService(uid: user.uid).userData,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Loading();
+          }
 
-            RecipeMiner userData = snapshot.data;
+          RecipeMiner userData = snapshot.data;
 
-            return SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      _buildHeader(),
-                      SizedBox(height: 30),
-                      _buildUploadProfilePictureButton(),
-                      SizedBox(height: 20.0),
-                      TextFormField(
-                        focusNode: _usernameFocusNode,
-                        initialValue: userData.name,
-                        decoration: AppStyle.pantryInputDecoration.copyWith(
-                          labelText: "New username",
-                          labelStyle: TextStyle(
-                            color: _usernameFocusNode.hasFocus
-                                ? Colors.redAccent
-                                : Colors.grey[700]
-                          ),
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _buildHeader(),
+                    SizedBox(height: 30),
+                    _buildUploadProfilePictureButton(),
+                    SizedBox(height: 20.0),
+                    TextFormField(
+                      focusNode: _usernameFocusNode,
+                      initialValue: userData.name,
+                      decoration: AppStyle.pantryInputDecoration.copyWith(
+                        labelText: "New username",
+                        labelStyle: TextStyle(
+                          color: _usernameFocusNode.hasFocus
+                              ? Colors.redAccent
+                              : Colors.grey[700]
                         ),
-                        validator: usernameValidator,
-                        onChanged: (val) => setState(() => _currentName = val),
                       ),
-                      SizedBox(height: 30.0),
-                      _buildSaveButton(context, user, snapshot),
-                    ],
-                  ),
+                      validator: usernameValidator,
+                      onChanged: (val) => setState(() => _currentName = val),
+                    ),
+                    SizedBox(height: 30.0),
+                    _buildSaveButton(context, user, snapshot),
+                  ],
                 ),
               ),
-            );
-          }
-        ),
+            ),
+          );
+        }
       ),
     );
   }

@@ -5,10 +5,8 @@ import 'package:recipemine/pages/Home/Profile/RecipeBuilder/IngredientAdder/Ingr
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/InstructionsAdder/InstructionsAdder.dart';
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/RecipePropertyAdder/RecipePropertyAdder.dart';
 
-
-
 class RecipeBuilder extends StatefulWidget {
-  RecipeMiner currentUser;
+  final RecipeMiner currentUser;
 
   RecipeBuilder({this.currentUser});
   @override

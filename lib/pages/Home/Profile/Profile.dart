@@ -69,8 +69,6 @@ class _ProfileState extends State<Profile> {
       }
     });
 
-
-
     // current user details fields
     String name = currentUserData.name ?? '';
     String email = currentUserData.email ?? '';
@@ -88,14 +86,8 @@ class _ProfileState extends State<Profile> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'Username',
-                    style: AppStyle.caption,
-                  ),
-                  Text(
-                    name,
-                    style: AppStyle.userDetail,
-                  ),
+                  Text('Username', style: AppStyle.caption),
+                  Text(name, style: AppStyle.userDetail),
                 ],
               ),
               SizedBox(height: 10),
@@ -113,10 +105,7 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
               SizedBox(height: 20),
-              Text(
-                'Your Recipes',
-                style: AppStyle.largeHeader,
-              ),
+              Text( 'Your Recipes', style: AppStyle.largeHeader),
               SizedBox(height: 20),
               MyRecipes(user: currentUserData, recipeList: recipeList),
               SizedBox(height: 20),
@@ -165,13 +154,9 @@ class _ProfileState extends State<Profile> {
               side: BorderSide(color: Colors.grey, width: 0.5),
             ),
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) {
-                  return SettingsForm();
-                }
-              );
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (BuildContext context) => SettingsForm()
+              ));
             },
           ),
         ],
@@ -196,13 +181,10 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-
-
   Widget _buildRecipeMakerButton(RecipeMiner currentUserData){
-
     return Center(
       child: Container(
-        child:     RaisedButton(
+        child: RaisedButton(
           child: Text(
             "Contribute a recipe!",
             style: TextStyle(
@@ -216,19 +198,15 @@ class _ProfileState extends State<Profile> {
             borderRadius: BorderRadius.circular(10),
             side: BorderSide(color: Colors.grey, width: 0.5),
           ),
-          onPressed: (){
-            showModalBottomSheet<void>(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) {
-                  return StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-                        return RecipeBuilder(currentUser: currentUserData);
-                      }
-                  );
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (BuildContext context) => StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                  return RecipeBuilder(currentUser: currentUserData);
                 }
-            );
-          },
+              )
+            ));
+          }
         ),
       ),
     );
