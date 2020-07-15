@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
-import 'package:recipemine/Custom/Models/User.dart';
+import '../../../AppStyle.dart';
 import '../HomeWrapper.dart';
-import 'package:provider/provider.dart';
 import 'SliverCustomHeaderDelegate.dart';
 
 class DetailView extends StatefulWidget {
   final Recipe recipe;
+  final RecipeMiner user;
 
-  DetailView(this.recipe);
+  DetailView({this.recipe, this.user});
 
   @override
   _DetailViewState createState() => _DetailViewState();
@@ -48,12 +48,12 @@ class _DetailViewState extends State<DetailView> {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       SizedBox(height: 10),
-                      _buildIngredients(context),
+                      _buildIngredients(),
                       SizedBox(height: 20),
                       _buildBeginButton(),
                     ]
                   ),
-              );
+                );
               },
               childCount: 1,
             ),
@@ -64,12 +64,13 @@ class _DetailViewState extends State<DetailView> {
   }
 
   Widget _buildIconRow(Recipe recipe) {
+    int numIngredients = numberOfIngredientsPresent(recipe.ingredients, widget.user.pantry);
     return Row(
       children: [
         _buildIcon(Icons.star, Color(0xffFFC440), recipe.rating.toString()),
         _buildIcon(Icons.schedule, Color(0xffFF5C64), recipe.duration.toString() + " min"),
         _buildIcon(Icons.people_outline, Color(0xff30C551), recipe.servingSize.toString()),
-        _buildIcon(Icons.kitchen, Color(0xff1D92FF), "${recipe.ingredients.length}"),
+        _buildIcon(Icons.kitchen, Color(0xff1D92FF), "$numIngredients/${recipe.ingredients.length}"),
       ],
     );
   }
@@ -99,15 +100,41 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
-  Widget _buildIngredients(BuildContext context) {
+  int numberOfIngredientsPresent(List<dynamic> ingredients, List<dynamic> pantry) {
+    int result = 0;
+
+    for (String pantryItem in pantry) {
+      String pantryIngredient = pantryItem.split(",").first;
+      for (String ingredient in ingredients) {
+        if (ingredient.toLowerCase().contains(pantryIngredient.toLowerCase())) {
+          result++;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  Widget _buildIngredients() {
     return Column(
       children: this.widget.recipe.ingredients.map((ingredient) =>
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget> [
-            Text(
-              ingredient,
-              style: Theme.of(context).textTheme.subtitle1,
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    ingredient,
+                    style: AppStyle.subtitle,
+                  ),
+                ),
+                SizedBox(
+                  child: pantryContainsIngredient(ingredient)
+                      ? Icon(Icons.check, color: Color(0xff1D92FF))
+                      : null,
+                ),
+              ],
             ),
             Divider(
               thickness: 1.5,
@@ -116,7 +143,13 @@ class _DetailViewState extends State<DetailView> {
           ],
         )).toList(),
     );
+  }
 
+  bool pantryContainsIngredient(String ingredient) {
+    return widget.user.pantry.any((pantryItem) {
+      String pantryIngredient = pantryItem.split(",").first;
+      return ingredient.contains(pantryIngredient.toLowerCase());
+    });
   }
 
   Widget _buildBeginButton() {
@@ -144,6 +177,7 @@ class _DetailViewState extends State<DetailView> {
       },
     );
   }
+
 }
 
 

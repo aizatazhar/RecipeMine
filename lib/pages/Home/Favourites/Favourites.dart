@@ -22,28 +22,22 @@ class _FavouritesState extends State<Favourites> {
   }
 
   Widget _buildBody() {
-    final users = Provider.of<List<RecipeMiner>>(context) ?? [];
-    final currentUserUID = Provider.of<User>(context);
+    List<RecipeMiner> users = Provider.of<List<RecipeMiner>>(context) ?? [];
+    User currentUserUID = Provider.of<User>(context);
 
     // contains the current user details
-    RecipeMiner currentUserData = RecipeMiner(
-        name:'Loading',
-        email: 'Loading',
-        uid: 'Loading',
-        profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',
-        favourites: []
-    );
-
-    users.forEach((element) {
-      if (element.uid == currentUserUID.uid) {
-        currentUserData = element;
+    RecipeMiner user;
+    for (int i = 0; i < users.length; i++) {
+      if (users[i].uid == currentUserUID.uid) {
+        user = users[i];
+        break;
       }
-    });
+    }
 
     List<Recipe> recipeList = Provider.of<List<Recipe>>(context) ?? [];
     List<Recipe> filteredList = [];
     for (Recipe recipe in recipeList){
-      if (currentUserData.favourites.contains(recipe.id)) {
+      if (user.favourites.contains(recipe.id)) {
         filteredList.add(recipe);
       }
     }
@@ -51,11 +45,11 @@ class _FavouritesState extends State<Favourites> {
     int recipesLength = filteredList.length;
 
     return recipesLength > 0
-        ? _buildFavouritesView(filteredList, currentUserData)
+        ? _buildFavouritesView(filteredList, user)
         : _buildEmptyView();
   }
 
-  Widget _buildFavouritesView(List<Recipe> filteredList, RecipeMiner currentUserData) {
+  Widget _buildFavouritesView(List<Recipe> filteredList, RecipeMiner user) {
     int recipesLength = filteredList.length;
 
     return GridView.builder(
@@ -66,24 +60,16 @@ class _FavouritesState extends State<Favourites> {
         padding: EdgeInsets.symmetric(horizontal: 10.0),
         itemCount: recipesLength,
         itemBuilder: (BuildContext context, int index) {
-          return _buildCard(filteredList[index], currentUserData);
+          return _buildCard(filteredList[index], user);
         }
     );
   }
 
-  Widget _buildCard(Recipe recipe, RecipeMiner currentUser) {
-    RecipeMiner user = currentUser;
-    Color heartColour = user.favourites.contains(recipe.id)
-        ? Colors.red
-        : Colors.white;
-    Icon icon = user.favourites.contains(recipe.id)
-        ? Icon(Icons.favorite)
-        : Icon(Icons.favorite_border);
-
+  Widget _buildCard(Recipe recipe, RecipeMiner user) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => DetailView(recipe)
+            builder: (context) => DetailView(recipe: recipe, user: user)
         ));
       },
       child: Container(
@@ -125,8 +111,12 @@ class _FavouritesState extends State<Favourites> {
                         user.favourites
                     );
                   },
-                  icon: icon,
-                  color: heartColour,
+                  icon: user.favourites.contains(recipe.id)
+                      ? Icon(Icons.favorite)
+                      : Icon(Icons.favorite_border),
+                  color: user.favourites.contains(recipe.id)
+                      ? Colors.red
+                      : Colors.white,
                   iconSize: 20.0,
                 ),
               ),
