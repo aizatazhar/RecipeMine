@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipemine/AppStyle.dart';
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 
 class CompletionScreen extends StatefulWidget {
@@ -12,9 +13,19 @@ class CompletionScreen extends StatefulWidget {
   final List<dynamic> instructions;
   final List<dynamic> ingredients;
   final List<dynamic> smartTimer;
-  RecipeMiner currentUser;
+  final RecipeMiner currentUser;
   String imageURL;
-  CompletionScreen({this.properties,this.instructions,this.ingredients,this.smartTimer, this.imageURL, this.currentUser});
+
+  CompletionScreen(
+    {
+      this.properties,
+      this.instructions,
+      this.ingredients,
+      this.smartTimer,
+      this.imageURL,
+      this.currentUser
+    }
+  );
 
   @override
   _CompletionScreenState createState() => _CompletionScreenState();
@@ -22,75 +33,75 @@ class CompletionScreen extends StatefulWidget {
 
 class _CompletionScreenState extends State<CompletionScreen>  {
   bool disableButton = true;
+
   @override
   Widget build(BuildContext context) {
     if(widget.properties[3] != null){
       disableButton = false;
     }
-    return Column(
-      children: <Widget>[
-        SizedBox(height:20),
-        Text(
-          'Upload a picture of your dish!',
-          style: AppStyle.mediumHeader
-        ),
-        SizedBox(height:20),
-        Center(
-          child: ClipRect(
-            child: SizedBox(
-              width: 200.0,
-              height: 200.0,
-              child: Image.network(
-                widget.imageURL ?? 'https://firebasestorage.googleapis.com/v0/b/recipemine-18d5f.appspot.com/o/67894614-organic-food-background-food-photography-different-fruits-on-wood-background-copy-space-.jpg?alt=media&token=cfe240ec-43a7-44f9-a979-066a1bf663e9',
-                fit: BoxFit.cover,
-                width: 1000,
-                height: 1000,
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: <Widget>[
+          SizedBox(height:20),
+          Text(
+            'Upload a picture of your dish!',
+            style: AppStyle.mediumHeader
+          ),
+          SizedBox(height:20),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: SizedBox(
+                width: 200.0,
+                height: 200.0,
+                child: Image.network(
+                  widget.imageURL ?? 'https://firebasestorage.googleapis.com/v0/b/recipemine-18d5f.appspot.com/o/67894614-organic-food-background-food-photography-different-fruits-on-wood-background-copy-space-.jpg?alt=media&token=cfe240ec-43a7-44f9-a979-066a1bf663e9',
+                  fit: BoxFit.cover,
+                  width: 1000,
+                  height: 1000,
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(height:10),
-        Center(
-            child:IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () async {
-                await _getImage();
-                setState(() {
-                });
-              },
-            )
-        ),
-        SizedBox(height: 30),
-        Container(
-          height: 50,
-          width: 300,
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              color: Colors.redAccent,
-                child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                Text(
-                  "Publish my Recipe!",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+          SizedBox(height:10),
+          Center(
+              child:IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () async {
+                  await _getImage();
+                  setState(() {
+                  });
+                },
+              )
+          ),
+          SizedBox(height: 30),
+          MainButton(
+            child: Text(
+              "Publish my recipe!",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
-              onPressed: () async {
-                if (!disableButton) {
-                  await uploadRecipe();
-                  Navigator.pop(context);
-                }
+            ),
+            width: double.maxFinite,
+            onPressed: () async {
+              if (!disableButton) {
+                await uploadRecipe();
+                Navigator.pop(context);
               }
-            ),
+            },
           ),
-        SizedBox(height: 10),
-        Text('Your recipe will only be uploaded if you have saved your recipe properties!', style: AppStyle.caption, textAlign: TextAlign.center),
-      ],
+          SizedBox(height: 10),
+          Text(
+            'Your recipe will only be uploaded if you have saved your recipe properties.',
+            style: AppStyle.caption,
+            textAlign: TextAlign.center
+          ),
+        ],
+      ),
     );
   }
 
@@ -130,6 +141,4 @@ class _CompletionScreenState extends State<CompletionScreen>  {
       'ratings' : [5]
     });
   }
-
-
 }

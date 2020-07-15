@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/IngredientAdder/IngredientTile.dart';
 
 
@@ -55,19 +56,15 @@ class _IngredientAdderState extends State<IngredientAdder> {
           ),
           Text('Swipe to remove ingredient from recipe', style:AppStyle.caption),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(10.0),
             child: FloatingActionButton(
               child: Icon(Icons.add),
               backgroundColor: Colors.redAccent,
-              elevation: 0,
+              elevation: 5,
               onPressed: () {
-                showModalBottomSheet<void>(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return _buildIndividualIngredientAdder(widget.ingredients);
-                    }
-                );
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (BuildContext context) => _buildIndividualIngredientAdder(widget.ingredients)
+                ));
               },
             ),
           ),
@@ -78,7 +75,6 @@ class _IngredientAdderState extends State<IngredientAdder> {
   }
 
   Widget _buildIndividualIngredientAdder(List<dynamic> ingredients){
-
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -95,13 +91,13 @@ class _IngredientAdderState extends State<IngredientAdder> {
           key: _formKey,
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Add an ingredient to your Recipe",
+                    "Add an ingredient to your recipe",
                     style: AppStyle.mediumHeader,
                   ),
                   SizedBox(height: 30),
@@ -152,36 +148,27 @@ class _IngredientAdderState extends State<IngredientAdder> {
                     validator: (val) => val.isEmpty ? 'Please enter a measuring unit' : null,
                   ),
                   SizedBox(height: 30.0),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12,0,12,0),
-                    child: RaisedButton(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        color: Colors.redAccent,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Add Instruction to recipe',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            setState(() {
-                              ingredients.add(quantity + ',' + unit + ',' + name);
-                              quantity = '';
-                              unit = '';
-                              name = '';
-                            });
-                            Navigator.pop(context);
-                          }
-                        }
+                  MainButton(
+                    child: Text(
+                      'Add instruction',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
+                    width: double.maxFinite,
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        setState(() {
+                          ingredients.add(quantity + ',' + unit + ',' + name);
+                          quantity = '';
+                          unit = '';
+                          name = '';
+                        });
+                        Navigator.pop(context);
+                      }
+                    },
                   ),
                 ],
               ),
