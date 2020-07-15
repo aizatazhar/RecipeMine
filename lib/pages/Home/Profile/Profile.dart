@@ -1,9 +1,11 @@
-import 'package:flutter/gestures.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
+import 'package:recipemine/pages/Home/Profile/MyRecipesBuilder.dart';
+import 'package:recipemine/pages/Home/Profile/RecipeBuilder/RecipeBuilder.dart';
 import '../../../AppStyle.dart';
 import 'SettingsForm.dart';
 
@@ -18,6 +20,39 @@ class _ProfileState extends State<Profile> {
     final AuthService _auth = AuthService();
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
+    List<Recipe> recipeList = Provider.of<List<Recipe>>(context) ?? [];
+    //Recipe database manipulation methods.
+//    int getENUM(Recipe recipe){
+//      if(recipe.type == RecipeType.main){
+//        return 0;
+//      }
+//      if(recipe.type == RecipeType.side){
+//        return 1;
+//      }
+//      if(recipe.type == RecipeType.dessert){
+//        return 2;
+//      }
+//      if(recipe.type == RecipeType.drink){
+//        return 3;
+//      }
+//    }
+//
+//    recipes.forEach((element) {
+//       Firestore.instance.collection('Recipes').document(element.id).setData({
+//         'duration' : element.duration,
+//         'authorUID' : 'RecipeMine',
+//         'ratings' : [5],
+//         'imageURL' : element.imageURL,
+//         'ingredients' : element.ingredients,
+//         'instructions' : element.instructions,
+//         'name' : element.name,
+//         'rating' : element.rating,
+//         'servingSize' : element.servingSize,
+//         'type' : getENUM(element),
+//         'smartTimer' : element.smartTimer,
+//       });
+//    });
+    //Recipe database manipulation methods.
 
     // contains the current user details
     RecipeMiner currentUserData = RecipeMiner(
@@ -32,6 +67,8 @@ class _ProfileState extends State<Profile> {
         currentUserData = element;
       }
     });
+    
+
 
     // current user details fields
     String name = currentUserData.name ?? '';
@@ -74,6 +111,15 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
+              Text(
+                'Your Recipes',
+                style: AppStyle.largeHeader,
+              ),
+              SizedBox(height: 20),
+              MyRecipes(user: currentUserData, recipeList: recipeList),
+              SizedBox(height: 20),
+              _buildRecipeMakerButton(currentUserData),
               SizedBox(height: 20),
               _buildLogOutButton(_auth),
             ]
@@ -155,6 +201,44 @@ class _ProfileState extends State<Profile> {
         onPressed: () async {
           authService.signOut();
         },
+      ),
+    );
+  }
+
+
+
+  Widget _buildRecipeMakerButton(RecipeMiner currentUserData){
+
+    return Center(
+      child: Container(
+        child:     RaisedButton(
+          child: Text(
+            "Contribute a recipe!",
+            style: TextStyle(
+              color: Colors.grey[800],
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(color: Colors.grey, width: 0.5),
+          ),
+          onPressed: (){
+            showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                        return RecipeBuilder(currentUser: currentUserData);
+                      }
+                  );
+                }
+            );
+          },
+        ),
       ),
     );
   }

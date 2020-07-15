@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -179,11 +180,10 @@ class _SettingsFormState extends State<SettingsForm> {
                 _currentName ?? snapshot.data.name,
                 snapshot.data.email,
                 snapshot.data.uid,
-                _currentProfilePic,
+                _currentProfilePic ?? snapshot.data.profilePic,
                 snapshot.data.pantry,
                 snapshot.data.favourites,
               );
-
               Navigator.pop(context);
             }
           }

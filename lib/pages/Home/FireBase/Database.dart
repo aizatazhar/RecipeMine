@@ -76,6 +76,8 @@ class DatabaseService {
         ingredients: doc.data['ingredients'],
         instructions: doc.data['instructions'],
         smartTimer: doc.data['smartTimer'],
+        ratings: doc.data['ratings'],
+        authorUID: doc.data['authorUID'],
       );
     }).toList();
   }

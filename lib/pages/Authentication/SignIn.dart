@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recipemine/pages/Authentication/Services/PasswordReset.dart';
 import 'package:recipemine/pages/Loading.dart';
 import 'package:recipemine/AppStyle.dart';
 
@@ -61,7 +63,8 @@ class _SignInState extends State<SignIn> {
                 _buildForms(),
                 SizedBox(height: 30),
                 _buildSignInButton(),
-                SizedBox(height: 15),
+                _buildPasswordReset(),
+                SizedBox(height: 10),
                 _buildSignUpButton(),
                 SizedBox(height: 20),
                 _buildErrorMessage(),
@@ -69,6 +72,29 @@ class _SignInState extends State<SignIn> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordReset(){
+    return Center(
+      child: FlatButton(
+        child: Text(
+            'Forgot password?',
+            style: TextStyle(
+            color: Colors.grey,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            )),
+        onPressed: (){
+          showModalBottomSheet<void>(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) {
+                return passwordReset();
+              }
+          );
+        },
       ),
     );
   }

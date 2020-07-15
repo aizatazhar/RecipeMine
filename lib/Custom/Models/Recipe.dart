@@ -11,6 +11,7 @@ enum RecipeType {
 class Recipe {
   String id;
   String name;
+  String authorUID;
 
   RecipeType type;
   double rating;
@@ -21,10 +22,12 @@ class Recipe {
   List<dynamic> ingredients;
   List<dynamic> instructions;
   List<dynamic> smartTimer;
+  List<dynamic> ratings;
 
   Recipe({
     this.id,
     this.name,
+    this.authorUID,
 
     this.type,
     this.rating,
@@ -32,6 +35,7 @@ class Recipe {
     this.servingSize,
     this.imageURL,
 
+    this.ratings,
     this.ingredients,
     this.instructions,
     this.smartTimer,
@@ -42,11 +46,13 @@ class Recipe {
   Recipe.fromDocumentSnapshot(DocumentSnapshot recipe) {
     this.id = recipe.documentID;
     this.name = recipe["name"];
+    this.authorUID = recipe['authorUID'];
     this.type = RecipeType.values[recipe["type"]];
     this.rating = recipe["rating"];
     this.duration = recipe["duration"];
     this.servingSize = recipe["servingSize"];
     this.imageURL = recipe["imageURL"];
+    this.ratings = new List<int>.from(recipe['ratings']);
     this.ingredients = new List<String>.from(recipe["ingredients"]);
     this.instructions = new List<String>.from(recipe["instructions"]);
     this.smartTimer = new List<String>.from(recipe['smartTimer']);

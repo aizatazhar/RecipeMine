@@ -20,6 +20,7 @@ class _CommunityState extends State<Community> {
     final AuthService _auth = AuthService();
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
+    List<Recipe> recipeList = Provider.of<List<Recipe>>(context) ?? [];
 
     // contains the current user details
     RecipeMiner currentUserData = RecipeMiner(
@@ -71,7 +72,7 @@ class _CommunityState extends State<Community> {
     // prevent lag when transition
     Future<Widget> buildPageAsync(RecipeMiner user) async {
       return Future.microtask(() {
-        return ProfileBrowser(viewedUser: user);
+        return ProfileBrowser(viewedUser: user, recipeList : recipeList);
       });
     }
 
