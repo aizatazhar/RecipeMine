@@ -26,6 +26,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    RecipeMiner user = getUser();
     return Scaffold(
       body: SearchBar<Recipe>(
         hintText: "Type some ingredients",
@@ -39,7 +40,7 @@ class _SearchPageState extends State<SearchPage> {
         mainAxisSpacing: 20,
 
         onSearch: _search,
-        onItemFound: (Recipe recipe, int index) => _buildSlider(recipe),
+        onItemFound: (Recipe recipe, int index) => _buildSlider(recipe, user),
         onCancelled: () => setState(() => _isSearching = false),
 
         emptyWidget: _buildEmptyView(),
@@ -48,8 +49,24 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  RecipeMiner getUser() {
+    List<RecipeMiner> users = Provider.of<List<RecipeMiner>>(context) ?? [];
+    User currentUserUID = Provider.of<User>(context);
+
+    // contains the current user details
+    RecipeMiner currentUserData;
+    for (int i = 0; i < users.length; i++) {
+      if (users[i].uid == currentUserUID.uid) {
+        currentUserData = users[i];
+        break;
+      }
+    }
+
+    return currentUserData;
+  }
+
   // Takes in a single recipe and builds its corresponding slider
-  Widget _buildSlider(Recipe recipe) {
+  Widget _buildSlider(Recipe recipe, RecipeMiner user) {
     // Builds the icons at the top of a slider
     Widget _buildIcon(IconData iconData, Color iconColor, String text) {
       return Row(
@@ -75,31 +92,7 @@ class _SearchPageState extends State<SearchPage> {
 
     // Builds the top section of a slider
     _buildTopSection(Recipe recipe) {
-      final users = Provider.of<List<RecipeMiner>>(context) ?? [];
-      final currentUserUID = Provider.of<User>(context);
-
-      // contains the current user details
-      RecipeMiner currentUserData = RecipeMiner(
-          name:'Loading',
-          email: 'Loading',
-          uid: 'Loading',
-          profilePic: 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg',
-          favourites: []
-      );
-
-      users.forEach((element) {
-        if (element.uid == currentUserUID.uid){
-          currentUserData = element;
-        }
-      });
-
-      Color heartColour = currentUserData.favourites.contains(recipe.id)
-          ? Colors.red
-          : Colors.white;
-      IconData iconData = currentUserData.favourites.contains(recipe.id)
-          ? Icons.favorite
-          : Icons.favorite_border;
-
+      int ingredientsPresent = numberOfIngredientsPresent(recipe.ingredients, user.pantry);
       return Positioned( // Top icons
         top: 0.0,
         left: 0.0,
@@ -124,21 +117,21 @@ class _SearchPageState extends State<SearchPage> {
               Spacer(),
               _buildIcon(Icons.people_outline, Color(0xff30C551), recipe.servingSize.toString()),
               Spacer(),
-              _buildIcon(Icons.kitchen, Color(0xff1D92FF), "${recipe.ingredients.length}"),
+              _buildIcon(Icons.kitchen, Color(0xff1D92FF), "$ingredientsPresent/${recipe.ingredients.length}"),
               Spacer(),
               IconButton(
                 icon: Icon(
-                  iconData,
-                  color: heartColour,
+                  user.favourites.contains(recipe.id)  ? Icons.favorite : Icons.favorite_border,
+                  color: user.favourites.contains(recipe.id) ? Colors.red : Colors.white,
                 ),
                 iconSize: _iconSize,
                 onPressed: () {
-                  if (currentUserData.favourites.contains(recipe.id)){
-                    currentUserData.favourites.remove(recipe.id);
-                    DatabaseService().updateUserData(currentUserData.name, currentUserData.email, currentUserData.uid, currentUserData.profilePic, currentUserData.pantry,currentUserData.favourites);
+                  if (user.favourites.contains(recipe.id)){
+                    user.favourites.remove(recipe.id);
+                    DatabaseService().updateUserData(user.name, user.email, user.uid, user.profilePic, user.pantry,user.favourites);
                   } else {
-                    currentUserData.favourites.add(recipe.id);
-                    DatabaseService().updateUserData(currentUserData.name, currentUserData.email, currentUserData.uid, currentUserData.profilePic, currentUserData.pantry,currentUserData.favourites);
+                    user.favourites.add(recipe.id);
+                    DatabaseService().updateUserData(user.name, user.email, user.uid, user.profilePic, user.pantry,user.favourites);
                   }
                 },
               ),
@@ -188,7 +181,7 @@ class _SearchPageState extends State<SearchPage> {
             child: Stack(
               children: <Widget>[
                 Image.network(
-                    recipe.imageURL ,
+                    recipe.imageURL,
                     fit: BoxFit.cover,
                     width: 1000,
                     height: 1000
@@ -206,6 +199,19 @@ class _SearchPageState extends State<SearchPage> {
         ));
       },
     );
+  }
+
+  int numberOfIngredientsPresent(List<dynamic> ingredients, List<dynamic> pantry) {
+    int result = 0;
+    
+    for (String pantryItem in pantry) {
+      String pantryIngredient = pantryItem.split(",").first;
+      if (ingredients.any((ingredient) => ingredient.contains(pantryIngredient))) {
+        result++;
+      }
+    }
+    
+    return result;
   }
 
   Future<List<Recipe>> _search(String input) async {
@@ -414,8 +420,6 @@ class _SearchPageState extends State<SearchPage> {
         ));
       },
     );
-
   }
-
 }
 

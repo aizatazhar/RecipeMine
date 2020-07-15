@@ -1,8 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
+import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
+import 'package:recipemine/Custom/Models/User.dart';
 import '../HomeWrapper.dart';
+import 'package:provider/provider.dart';
 import 'SliverCustomHeaderDelegate.dart';
 
 class DetailView extends StatefulWidget {
