@@ -19,11 +19,13 @@ class _RegisterState extends State<Register> {
 
   // Used to change color of label text and show clear icon when in focus
   FocusNode _emailFocusNode = FocusNode();
+  FocusNode _usernameFocusNode = FocusNode();
   FocusNode _passwordFocusNode = FocusNode();
   FocusNode _confirmPasswordFocusNode = FocusNode();
 
   // Used to clear input and to validate password during registration
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
@@ -35,6 +37,7 @@ class _RegisterState extends State<Register> {
   // Text field state
   String email = '';
   String password = '';
+  String username = '';
 
   @override
   void dispose() {
@@ -110,6 +113,7 @@ class _RegisterState extends State<Register> {
 
             decoration: AppStyle.registerDecoration.copyWith(
               // At the time of writing this, there is a bug that will
+              // At the time of writing this, there is a bug that will
               // only show the hint and suffix upon focus, this has been
               // fixed in a very recent PR and will be available shortly.
               // See GitHub issue https://github.com/flutter/flutter/pull/60394
@@ -118,6 +122,26 @@ class _RegisterState extends State<Register> {
               labelStyle: TextStyle(color: _emailFocusNode.hasFocus ? Colors.redAccent : Colors.grey[700]),
               suffixIcon: _emailFocusNode.hasFocus && _emailController.text.length > 0
                   ? _buildClearButton(_emailController)
+                  : null,
+            ),
+          ),
+          SizedBox(height: 20.0),
+          TextFormField(
+            key: Key("username"),
+            focusNode: _usernameFocusNode,
+            controller: _usernameController,
+            onTap: () {
+              setState(() {FocusScope.of(context).requestFocus(_usernameFocusNode);});
+            },
+
+            onChanged: (val) => setState(() => username = val),
+
+            decoration: AppStyle.registerDecoration.copyWith(
+              hintText: 'Enter a username',
+              labelText: 'Username',
+              labelStyle: TextStyle(color: _usernameFocusNode.hasFocus ? Colors.redAccent : Colors.grey[700]),
+              suffixIcon: _usernameFocusNode.hasFocus && _usernameController.text.length > 0
+                  ? _buildClearButton(_usernameController)
                   : null,
             ),
           ),
@@ -204,6 +228,13 @@ class _RegisterState extends State<Register> {
               loading = false;
               error = result;
             });
+            dynamic result = await _auth.registerWithEmailAndPassword(email,username, password);
+            if (result is String) {
+              setState(() {
+                loading = false;
+                error = result;
+              });
+            }
           }
         }
       },
