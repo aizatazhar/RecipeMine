@@ -206,10 +206,16 @@ class _SearchPageState extends State<SearchPage> {
 
   int numberOfIngredientsPresent(List<dynamic> ingredients, List<dynamic> pantry) {
     int result = 0;
-    
-    for (String pantryItem in pantry) {
-      String pantryIngredient = pantryItem.split(",").first;
-      if (ingredients.any((ingredient) => ingredient.contains(pantryIngredient))) {
+
+    bool pantryContainsIngredient(String ingredient) {
+      return pantry.any((pantryItem) {
+        String pantryIngredient = pantryItem.split(",").first;
+        return ingredient.contains(pantryIngredient.toLowerCase());
+      });
+    }
+
+    for (String ingredient in ingredients) {
+      if (pantryContainsIngredient(ingredient)) {
         result++;
       }
     }

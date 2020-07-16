@@ -103,12 +103,9 @@ class _DetailViewState extends State<DetailView> {
   int numberOfIngredientsPresent(List<dynamic> ingredients, List<dynamic> pantry) {
     int result = 0;
 
-    for (String pantryItem in pantry) {
-      String pantryIngredient = pantryItem.split(",").first;
-      for (String ingredient in ingredients) {
-        if (ingredient.toLowerCase().contains(pantryIngredient.toLowerCase())) {
-          result++;
-        }
+    for (String ingredient in ingredients) {
+      if (pantryContainsIngredient(ingredient)) {
+        result++;
       }
     }
 
