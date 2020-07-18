@@ -83,4 +83,14 @@ class Recipe {
     return result;
   }
 
+  double calculateRelevanceScore(List<dynamic> pantry) {
+    double normalise(double value, double min, double max) {
+      return (value - min) / (max - min);
+    }
+
+    return normalise(rating, 0, 5) * 0.3
+        - normalise(duration.toDouble(), 0, 1000) * 0.2
+        + normalise(numberOfIngredientsPresent(pantry).toDouble(), 0, ingredients.length.toDouble()) * 0.4
+        - normalise(ingredients.length.toDouble(), 0, 100) * 0.1;
+  }
 }

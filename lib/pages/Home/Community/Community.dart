@@ -1,5 +1,4 @@
 import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:flappy_search_bar/search_bar_style.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:recipemine/AppStyle.dart';
@@ -98,7 +97,6 @@ class _CommunityState extends State<Community> {
             ),
           ),
           title: Text(user.name),
-          subtitle: Text(user.email),
           trailing: IconButton(
             icon: Icon(Icons.person_outline),
             onPressed: () async {
@@ -123,7 +121,34 @@ class _CommunityState extends State<Community> {
 
           onSearch: search,
           onItemFound: whenFound,
+
+          emptyWidget: _buildEmptyView(),
         )
+      ),
+    );
+  }
+
+  Widget _buildEmptyView() {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AppStyle.buildEmptyViewIcon(Icons.group),
+            SizedBox(height: 20),
+            Text(
+              "No users found",
+              style: AppStyle.mediumHeader,
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Try searching for other users!",
+              style: AppStyle.caption,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

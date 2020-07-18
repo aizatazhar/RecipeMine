@@ -45,7 +45,6 @@ class _MyRecipesState extends State<MyRecipes> {
           crossAxisCount: 2,
           childAspectRatio: 0.65,
         ),
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
         itemCount: recipesLength,
         itemBuilder: (BuildContext context, int index) {
           return _buildCard(filteredList[index], currentUserData);

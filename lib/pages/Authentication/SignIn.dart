@@ -65,11 +65,11 @@ class _SignInState extends State<SignIn> {
                 _buildForms(),
                 SizedBox(height: 30),
                 _buildSignInButton(),
-                _buildPasswordReset(),
                 SizedBox(height: 10),
                 _buildSignUpButton(),
                 SizedBox(height: 20),
                 _buildErrorMessage(),
+                _buildPasswordReset(),
               ],
             ),
           ),
@@ -84,18 +84,14 @@ class _SignInState extends State<SignIn> {
         child: Text(
             'Forgot password?',
             style: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
+            color: Colors.grey[600],
+            fontWeight: FontWeight.w500,
             fontSize: 16,
             )),
         onPressed: (){
-          showModalBottomSheet<void>(
-              context: context,
-              isScrollControlled: true,
-              builder: (context) {
-                return passwordReset();
-              }
-          );
+          Navigator.push(context, MaterialPageRoute(
+              builder: (BuildContext context) => PasswordReset()
+          ));
         },
       ),
     );

@@ -117,6 +117,10 @@ class _SortInterfaceState extends State<SortInterface> {
       ),
       onPressed: ()  {
         if (selectedParameter.name == "Relevance") {
+          widget.searchBarController.sortList((Recipe first, Recipe second) {
+            return first.calculateRelevanceScore(widget.userPantry)
+                .compareTo(second.calculateRelevanceScore(widget.userPantry));
+          });
           Navigator.of(context).pop();
         } else if (selectedParameter.name == "Alphabetical") {
           widget.searchBarController.sortList((Recipe first, Recipe second) {
