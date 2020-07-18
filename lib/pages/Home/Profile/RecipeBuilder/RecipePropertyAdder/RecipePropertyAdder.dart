@@ -129,7 +129,7 @@ class _RecipePropertyAdderState extends State<RecipePropertyAdder> {
                 DropdownButtonFormField(
                   value: getType(widget.properties[3]) ?? '',
                   decoration: AppStyle.pantryInputDecoration.copyWith(
-                    labelText: "RecipeTypes",
+                    labelText: "Recipe type",
                     labelStyle: TextStyle(color: Colors.grey[700]),
                   ),
                   items: recipeType.map((units) {

@@ -95,7 +95,7 @@ class _SearchPageState extends State<SearchPage> {
 
     // Builds the top section of a slider
     _buildTopSection(Recipe recipe) {
-      int ingredientsPresent = numberOfIngredientsPresent(recipe.ingredients, user.pantry);
+      int ingredientsPresent = recipe.numberOfIngredientsPresent(user.pantry);
       return Positioned( // Top icons
         top: 0.0,
         left: 0.0,
@@ -202,19 +202,6 @@ class _SearchPageState extends State<SearchPage> {
         ));
       },
     );
-  }
-
-  int numberOfIngredientsPresent(List<dynamic> ingredients, List<dynamic> pantry) {
-    int result = 0;
-    
-    for (String pantryItem in pantry) {
-      String pantryIngredient = pantryItem.split(",").first;
-      if (ingredients.any((ingredient) => ingredient.contains(pantryIngredient))) {
-        result++;
-      }
-    }
-    
-    return result;
   }
 
   Future<List<Recipe>> _search(String input) async {
@@ -391,7 +378,10 @@ class _SearchPageState extends State<SearchPage> {
       ),
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
-          builder: (BuildContext context) => SortInterface(searchBarController: searchBarController)
+          builder: (BuildContext context) => SortInterface(
+            searchBarController: searchBarController,
+            userPantry: getUser().pantry,
+          )
         ));
       },
     );
@@ -419,7 +409,10 @@ class _SearchPageState extends State<SearchPage> {
       ),
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
-            builder: (BuildContext context) => FilterInterface(searchBarController: searchBarController)
+            builder: (BuildContext context) => FilterInterface(
+              searchBarController: searchBarController,
+              userPantry: getUser().pantry,
+            )
         ));
       },
     );

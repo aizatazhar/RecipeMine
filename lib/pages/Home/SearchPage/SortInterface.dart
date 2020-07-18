@@ -6,8 +6,12 @@ import '../../../AppStyle.dart';
 
 class SortInterface extends StatefulWidget {
   final SearchBarController<Recipe> searchBarController;
+  final List<dynamic> userPantry;
 
-  SortInterface({@required this.searchBarController});
+  SortInterface({
+    @required this.searchBarController,
+    @required this.userPantry,
+  });
 
   @override
   _SortInterfaceState createState() => _SortInterfaceState();
@@ -16,11 +20,12 @@ class SortInterface extends StatefulWidget {
 class _SortInterfaceState extends State<SortInterface> {
   // static preserves the state of the sort parameter used
   static List<SortParameter> parameters = [
-    SortParameter(id: 0, parameter: "Relevance"),
-    SortParameter(id: 1, parameter: "Alphabetical"),
-    SortParameter(id: 2, parameter: "Rating"),
-    SortParameter(id: 3, parameter: "Cooking time"),
-    SortParameter(id: 4, parameter: "Number of ingredients"),
+    SortParameter(name: "Relevance"),
+    SortParameter(name: "Alphabetical"),
+    SortParameter(name: "Rating"),
+    SortParameter(name: "Cooking time"),
+    SortParameter(name: "Number of ingredients required"),
+    SortParameter(name: "Number of ingredients in pantry"),
   ];
   static SortParameter selectedParameter = parameters[0];
 
@@ -73,7 +78,7 @@ class _SortInterfaceState extends State<SortInterface> {
                 groupValue: selectedParameter,
                 activeColor: Colors.redAccent,
                 title: Text(
-                  parameter.parameter,
+                  parameter.name,
                   style: TextStyle(
                     fontSize: selectedParameter == parameter ? 18 : 16,
                     fontWeight: selectedParameter == parameter ? FontWeight.bold : FontWeight.normal,
@@ -111,26 +116,32 @@ class _SortInterfaceState extends State<SortInterface> {
         ],
       ),
       onPressed: ()  {
-        if (selectedParameter.id == 0) {
+        if (selectedParameter.name == "Relevance") {
           Navigator.of(context).pop();
-        } else if (selectedParameter.id == 1) {
+        } else if (selectedParameter.name == "Alphabetical") {
           widget.searchBarController.sortList((Recipe first, Recipe second) {
             return first.name.compareTo(second.name);
           });
           Navigator.of(context).pop();
-        } else if (selectedParameter.id == 2) {
+        } else if (selectedParameter.name == "Rating") {
           widget.searchBarController.sortList((Recipe first, Recipe second) {
             return second.rating.compareTo(first.rating); // Sorts descending
           });
           Navigator.of(context).pop();
-        } else if (selectedParameter.id == 3) {
+        } else if (selectedParameter.name == "Cooking time") {
           widget.searchBarController.sortList((Recipe first, Recipe second) {
             return first.duration.compareTo(second.duration);
           });
           Navigator.of(context).pop();
-        } else if (selectedParameter.id == 4) {
+        } else if (selectedParameter.name == "Number of ingredients required") {
           widget.searchBarController.sortList((Recipe first, Recipe second) {
             return first.ingredients.length.compareTo(second.ingredients.length);
+          });
+          Navigator.of(context).pop();
+        } else if (selectedParameter.name == "Number of ingredients in pantry") {
+          widget.searchBarController.sortList((Recipe first, Recipe second) {
+            return second.numberOfIngredientsPresent(widget.userPantry)
+                .compareTo(first.numberOfIngredientsPresent(widget.userPantry));
           });
           Navigator.of(context).pop();
         } else {
@@ -139,12 +150,12 @@ class _SortInterfaceState extends State<SortInterface> {
       },
     );
   }
+
 }
 
 class SortParameter {
-  int id;
-  String parameter;
+  String name;
 
-  SortParameter({this.id, this.parameter});
+  SortParameter({this.name});
 }
 
