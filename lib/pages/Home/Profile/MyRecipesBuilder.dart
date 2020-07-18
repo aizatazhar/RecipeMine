@@ -59,7 +59,7 @@ class _MyRecipesState extends State<MyRecipes> {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => DetailView(recipe: recipe)
+            builder: (context) => DetailView(recipe: recipe, user: user)
         ));
       },
       child: Container(

@@ -1,5 +1,6 @@
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import "package:flutter/material.dart";
+import 'package:recipemine/Custom/CustomWidgets/CustomRangeFilter.dart';
 import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/CustomWidgets/SecondaryButton.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
@@ -8,8 +9,12 @@ import '../../../AppStyle.dart';
 
 class FilterInterface extends StatefulWidget {
   final SearchBarController<Recipe> searchBarController;
+  final List<dynamic> userPantry;
 
-  FilterInterface({@required this.searchBarController});
+  FilterInterface({
+    @required this.searchBarController,
+    @required this.userPantry,
+  });
 
   @override
   _FilterInterfaceState createState() => _FilterInterfaceState();
@@ -25,6 +30,8 @@ class _FilterInterfaceState extends State<FilterInterface> {
     RecipeType.dessert,
     RecipeType.drink,
   ];
+
+  bool allIngredientsInPantrySwitch = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +56,7 @@ class _FilterInterfaceState extends State<FilterInterface> {
                 style: AppStyle.mediumHeader,
               ),
               SizedBox(height: 20),
-              _buildRangeFilter(
+              CustomRangeFilter(
                 title: "Cooking time",
                 unit: "min",
                 min: 0,
@@ -80,7 +87,7 @@ class _FilterInterfaceState extends State<FilterInterface> {
                 ],
               ),
               SizedBox(height: 20),
-              _buildRangeFilter(
+              CustomRangeFilter(
                 title: "Serving size",
                 unit: "people",
                 min: 1,
@@ -93,6 +100,8 @@ class _FilterInterfaceState extends State<FilterInterface> {
                   });
                 }
               ),
+              SizedBox(height: 20),
+              _haveAllIngredients(),
               Expanded(child: Container()),
               Row(
                 children: <Widget>[
@@ -108,62 +117,26 @@ class _FilterInterfaceState extends State<FilterInterface> {
     );
   }
 
-  Widget _buildRangeFilter({@required String title, @required String unit,
-      @required double min, @required double max, @required RangeValues selectedRange,
-      @required int divisions, @required Function onChanged }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget> [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  width: 40,
-                  height: 34,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Color(0xffFFE5E7),
-                  ),
-                  child: Center(child: Text("${selectedRange.start.round()}")),
-                ),
-                SizedBox(width: 5),
-                Container(
-                  child: Text("to"),
-                ),
-                SizedBox(width: 5),
-                Container(
-                  width: 40,
-                  height: 34,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Color(0xffFFE5E7),
-                  ),
-                  child: Center(child: Text("${selectedRange.end.round()}")),
-                ),
-                SizedBox(width: 5),
-                Container(
-                  child: Text(unit),
-                ),
-              ],
-            ),
-          ],
+  Widget _haveAllIngredients() {
+    return Row(
+      children: <Widget>[
+        Text(
+          "Have all ingredients in pantry",
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500
+          ),
         ),
-        RangeSlider(
-          values: selectedRange,
-          min: min,
-          max: max,
-          divisions: divisions,
+        Expanded(child: Container(),),
+        Switch(
+          onChanged: (bool value) {
+            setState(() {
+              allIngredientsInPantrySwitch = value;
+            });
+          },
+          value: allIngredientsInPantrySwitch,
+          activeTrackColor: Colors.redAccent,
           activeColor: Colors.redAccent,
-          onChanged: onChanged,
         ),
       ],
     );
@@ -194,6 +167,8 @@ class _FilterInterfaceState extends State<FilterInterface> {
         resetRecipeTypeFilters.add(type);
       }
       recipeTypeFilters = resetRecipeTypeFilters;
+
+      allIngredientsInPantrySwitch = false;
     });
   }
 
@@ -222,7 +197,12 @@ class _FilterInterfaceState extends State<FilterInterface> {
             (recipe.servingSize >= servingSizeSelectedRange.start &&
                 recipe.servingSize <= servingSizeSelectedRange.end)
             &&
-            (recipeTypeFilters.contains(recipe.type));
+            (recipeTypeFilters.contains(recipe.type))
+            &&
+            (allIngredientsInPantrySwitch
+                ? recipe.ingredients.length == recipe.numberOfIngredientsPresent(widget.userPantry)
+                : true
+            );
       }
     );
 

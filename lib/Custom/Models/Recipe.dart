@@ -63,4 +63,24 @@ class Recipe {
     this.instructions = new List<String>.from(recipe["instructions"]);
     this.smartTimer = new List<String>.from(recipe['smartTimer']);
   }
+
+  int numberOfIngredientsPresent(List<dynamic> pantry) {
+    int result = 0;
+
+    bool pantryContainsIngredient(String ingredient) {
+      return pantry.any((pantryItem) {
+        String pantryIngredient = pantryItem.split(",").first;
+        return ingredient.contains(pantryIngredient.toLowerCase());
+      });
+    }
+
+    for (String ingredient in ingredients) {
+      if (pantryContainsIngredient(ingredient)) {
+        result++;
+      }
+    }
+
+    return result;
+  }
+
 }

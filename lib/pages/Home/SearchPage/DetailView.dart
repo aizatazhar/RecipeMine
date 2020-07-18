@@ -64,7 +64,7 @@ class _DetailViewState extends State<DetailView> {
   }
 
   Widget _buildIconRow(Recipe recipe) {
-    int numIngredients = numberOfIngredientsPresent(recipe.ingredients, widget.user.pantry);
+    int numIngredients = recipe.numberOfIngredientsPresent(widget.user.pantry);
     return Row(
       children: [
         _buildIcon(Icons.star, Color(0xffFFC440), recipe.rating.toString()),
@@ -98,18 +98,6 @@ class _DetailViewState extends State<DetailView> {
         ],
       ),
     );
-  }
-
-  int numberOfIngredientsPresent(List<dynamic> ingredients, List<dynamic> pantry) {
-    int result = 0;
-
-    for (String ingredient in ingredients) {
-      if (pantryContainsIngredient(ingredient)) {
-        result++;
-      }
-    }
-
-    return result;
   }
 
   Widget _buildIngredients() {
