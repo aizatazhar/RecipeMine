@@ -3,8 +3,12 @@ import 'package:recipemine/Custom/CustomWidgets/CustomCountdown.dart';
 
 class SmartTimerDisplay extends StatefulWidget {
   final int seconds;
+  final bool centered;
 
-  SmartTimerDisplay({@required this.seconds});
+  SmartTimerDisplay({
+    @required this.seconds,
+    this.centered = false,
+  });
 
   @override
   _SmartTimerDisplayState createState() => _SmartTimerDisplayState();
@@ -19,27 +23,9 @@ class _SmartTimerDisplayState extends State<SmartTimerDisplay> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget> [
-        CustomCountdown(
-          seconds: widget.seconds,
-          controller: controller,
-          interval: Duration(seconds: 1),
-          startImmediately: false,
-          build: (BuildContext context, int time) => Text(
-            CustomCountdown.prettify(Duration(seconds: time)),
-            style: isPaused
-                ? TextStyle(
-              fontSize: 31,
-              fontWeight: FontWeight.w500,
-              color: Color(0xff323031),
-            )
-                : TextStyle(
-                fontSize: 31,
-                fontWeight: FontWeight.bold,
-                color: Color(0xffffc857)
-            ),
-          ),
-        ),
+        widget.centered ? Center(child: _buildCountdown()) : _buildCountdown(),
         Row(
+          mainAxisAlignment: widget.centered ? MainAxisAlignment.center : MainAxisAlignment.start,
           children: <Widget> [
             _buildStartButton(),
             SizedBox(width: 10),
@@ -47,6 +33,29 @@ class _SmartTimerDisplayState extends State<SmartTimerDisplay> {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildCountdown() {
+    return CustomCountdown(
+      seconds: widget.seconds,
+      controller: controller,
+      interval: Duration(seconds: 1),
+      startImmediately: false,
+      build: (BuildContext context, int time) => Text(
+        CustomCountdown.prettify(Duration(seconds: time)),
+        style: isPaused
+            ? TextStyle(
+          fontSize: 31,
+          fontWeight: FontWeight.w500,
+          color: Color(0xff323031),
+        )
+            : TextStyle(
+            fontSize: 31,
+            fontWeight: FontWeight.bold,
+            color: Color(0xffffc857)
+        ),
+      ),
     );
   }
 
@@ -74,7 +83,6 @@ class _SmartTimerDisplayState extends State<SmartTimerDisplay> {
       },
     );
   }
-
 
   Widget _buildResetButton() {
     return RawMaterialButton(

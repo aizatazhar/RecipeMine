@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../../../AppStyle.dart';
 
-class passwordReset extends StatefulWidget {
+class PasswordReset extends StatefulWidget {
   @override
-  _passwordResetState createState() => _passwordResetState();
+  _PasswordResetState createState() => _PasswordResetState();
 }
 
-class _passwordResetState extends State<passwordReset> {
+class _PasswordResetState extends State<PasswordReset> {
   String email = '';
   final _formKey = GlobalKey<FormState>();
   FocusNode _emailNameFocusNode = FocusNode();
@@ -16,51 +16,48 @@ class _passwordResetState extends State<passwordReset> {
   bool _isSendingEmail = true;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 24), // not sure how to fix the status bar padding issue
-      child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-        body: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Please enter your email to reset your password",
-                    style: AppStyle.mediumHeader,
-                  ),
-                  SizedBox(height: 30),
-                  TextFormField(
-                    focusNode: _emailNameFocusNode,
-                    initialValue: '',
-                    decoration: AppStyle.pantryInputDecoration.copyWith(
-                      labelText: "Insert Email",
-                      labelStyle: TextStyle(
-                          color: _emailNameFocusNode.hasFocus
-                              ? Colors.redAccent
-                              : Colors.grey[700]
-                      ),
+        ),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Please enter your email to reset your password",
+                  style: AppStyle.mediumHeader,
+                ),
+                SizedBox(height: 30),
+                TextFormField(
+                  focusNode: _emailNameFocusNode,
+                  initialValue: '',
+                  decoration: AppStyle.pantryInputDecoration.copyWith(
+                    labelText: "Insert Email",
+                    labelStyle: TextStyle(
+                        color: _emailNameFocusNode.hasFocus
+                            ? Colors.redAccent
+                            : Colors.grey[700]
                     ),
-                    validator: (val) => val.isEmpty ? 'Please enter an email' : null,
-                    onChanged: (val) => setState(() => email = val),
                   ),
-                  SizedBox(height:30),
-                  _buildPasswordResetButton(),
-                ],
-              ),
+                  validator: (val) => val.isEmpty ? 'Please enter an email' : null,
+                  onChanged: (val) => setState(() => email = val),
+                ),
+                SizedBox(height:30),
+                _buildPasswordResetButton(),
+              ],
             ),
           ),
         ),

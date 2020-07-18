@@ -39,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
 
         mainAxisSpacing: 20,
 
-        onSearch: _search,
+        onSearch: (String query) => _search(query, user.pantry),
         onItemFound: (Recipe recipe, int index) => _buildSlider(recipe, user),
         onCancelled: () => setState(() => _isSearching = false),
         onError: (Error error) {
@@ -204,7 +204,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Future<List<Recipe>> _search(String input) async {
+  Future<List<Recipe>> _search(String input, List<dynamic> userPantry) async {
     // Triggers rebuild to remove the default view
     setState(() => _isSearching = true);
 
@@ -215,7 +215,7 @@ class _SearchPageState extends State<SearchPage> {
     // Parse user input
     Set<String> queries = _getQueries(input);
 
-    Set<Recipe> result = Set();
+    Set<Recipe> resultSet = Set();
 
     // Add recipes that contains an ingredient which was queried to result or
     // if the name of the recipe contains the query
@@ -225,14 +225,20 @@ class _SearchPageState extends State<SearchPage> {
 
       for (String query in queries) {
         if (flattenedIngredients.contains(query) || recipe.name.toLowerCase().contains(query)) {
-          result.add(recipe);
+          resultSet.add(recipe);
         }
       }
     });
 
     await Future.delayed(Duration(seconds: 1));
 
-    return result.toList();
+    List<Recipe> result = resultSet.toList();
+    result.sort((Recipe first, Recipe second) {
+      return first.calculateRelevanceScore(userPantry)
+          .compareTo(second.calculateRelevanceScore(userPantry));
+    });
+
+    return result;
   }
 
   // Parses based on comma
