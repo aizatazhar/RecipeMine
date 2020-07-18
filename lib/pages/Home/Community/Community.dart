@@ -1,5 +1,4 @@
 import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:flappy_search_bar/search_bar_style.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:recipemine/AppStyle.dart';
@@ -98,7 +97,6 @@ class _CommunityState extends State<Community> {
             ),
           ),
           title: Text(user.name),
-          subtitle: Text(user.email),
           trailing: IconButton(
             icon: Icon(Icons.person_outline),
             onPressed: () async {
