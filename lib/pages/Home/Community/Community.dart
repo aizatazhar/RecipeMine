@@ -123,7 +123,34 @@ class _CommunityState extends State<Community> {
 
           onSearch: search,
           onItemFound: whenFound,
+
+          emptyWidget: _buildEmptyView(),
         )
+      ),
+    );
+  }
+
+  Widget _buildEmptyView() {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AppStyle.buildEmptyViewIcon(Icons.group),
+            SizedBox(height: 20),
+            Text(
+              "No users found",
+              style: AppStyle.mediumHeader,
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Try searching for other users!",
+              style: AppStyle.caption,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
