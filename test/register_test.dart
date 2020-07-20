@@ -40,6 +40,16 @@ void runUnitTests() {
     expect(result, "Passwords do not match");
   });
 
+  test("Empty username returns error", () {
+    final result = usernameValidator("");
+    expect(result, "Username cannot be empty");
+  });
+
+  test("Non-empty username returns null", () {
+    final result = usernameValidator("username");
+    expect(result, null);
+  });
+
 }
 
 void runWidgetTests() {
@@ -52,7 +62,7 @@ void runWidgetTests() {
     await tester.pumpWidget(page);
 
     expect(find.text("Create a new account"), findsOneWidget);
-    expect(find.byType(TextFormField), findsNWidgets(3));
+    expect(find.byType(TextFormField), findsNWidgets(4));
     expect(find.byType(RaisedButton), findsNWidgets(1));
 
     expect(find.text("Enter an email"), findsNothing);

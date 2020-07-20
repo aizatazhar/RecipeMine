@@ -22,6 +22,7 @@ class FilterInterface extends StatefulWidget {
 
 class _FilterInterfaceState extends State<FilterInterface> {
   // static preserves state
+  static RangeValues ratingSelectedRange = RangeValues(0, 5);
   static RangeValues cookingTimeSelectedRange = RangeValues(0, 600);
   static RangeValues servingSizeSelectedRange = RangeValues(1, 10);
   static List<RecipeType> recipeTypeFilters = [
@@ -48,70 +49,86 @@ class _FilterInterfaceState extends State<FilterInterface> {
       ),
       body: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Filter",
-                style: AppStyle.mediumHeader,
-              ),
-              SizedBox(height: 20),
-              CustomRangeFilter(
-                title: "Cooking time",
-                unit: "min",
-                min: 0,
-                max: 600,
-                selectedRange: cookingTimeSelectedRange,
-                divisions: 40,
-                onChanged: (RangeValues value) {
-                  setState(() {
-                    cookingTimeSelectedRange = value;
-                  });
-                }
-              ),
-              SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget> [
-                  Text(
-                    "Dish",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Filter",
+                  style: AppStyle.mediumHeader,
+                ),
+                SizedBox(height: 20),
+                CustomRangeFilter(
+                    title: "Rating",
+                    unit: "",
+                    min: 0,
+                    max: 5,
+                    selectedRange: ratingSelectedRange,
+                    divisions: 5,
+                    onChanged: (RangeValues value) {
+                      setState(() {
+                        ratingSelectedRange = value;
+                      });
+                    }
+                ),
+                SizedBox(height: 20),
+                CustomRangeFilter(
+                  title: "Cooking time",
+                  unit: "min",
+                  min: 0,
+                  max: 600,
+                  selectedRange: cookingTimeSelectedRange,
+                  divisions: 40,
+                  onChanged: (RangeValues value) {
+                    setState(() {
+                      cookingTimeSelectedRange = value;
+                    });
+                  }
+                ),
+                SizedBox(height: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget> [
+                    Text(
+                      "Dish",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500
+                      ),
                     ),
-                  ),
-                  RecipeTypeFilter(
-                    types: RecipeType.values,
-                    filters: recipeTypeFilters,
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              CustomRangeFilter(
-                title: "Serving size",
-                unit: "people",
-                min: 1,
-                max: 10,
-                selectedRange: servingSizeSelectedRange,
-                divisions: 9,
-                onChanged: (RangeValues value) {
-                  setState(() {
-                    servingSizeSelectedRange = value;
-                  });
-                }
-              ),
-              SizedBox(height: 20),
-              _haveAllIngredients(),
-              Expanded(child: Container()),
-              Row(
-                children: <Widget>[
-                  Flexible(flex: 1, child: _buildResetButton()),
-                  SizedBox(width: 10),
-                  Flexible(flex: 2, child: _buildApplyButton()),
-                ],
-              ),
-              SizedBox(height: 20),
-            ],
+                    RecipeTypeFilter(
+                      types: RecipeType.values,
+                      filters: recipeTypeFilters,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                CustomRangeFilter(
+                  title: "Serving size",
+                  unit: "people",
+                  min: 1,
+                  max: 10,
+                  selectedRange: servingSizeSelectedRange,
+                  divisions: 9,
+                  onChanged: (RangeValues value) {
+                    setState(() {
+                      servingSizeSelectedRange = value;
+                    });
+                  }
+                ),
+                SizedBox(height: 20),
+                _haveAllIngredients(),
+                SizedBox(height: 20),
+                Row(
+                  children: <Widget>[
+                    Flexible(flex: 1, child: _buildResetButton()),
+                    SizedBox(width: 10),
+                    Flexible(flex: 2, child: _buildApplyButton()),
+                  ],
+                ),
+                SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
     );
@@ -159,6 +176,7 @@ class _FilterInterfaceState extends State<FilterInterface> {
 
   void resetFilters() {
     setState(() {
+      ratingSelectedRange = RangeValues(0, 5);
       cookingTimeSelectedRange = RangeValues(0, 600);
       servingSizeSelectedRange = RangeValues(1, 10);
 
@@ -191,18 +209,21 @@ class _FilterInterfaceState extends State<FilterInterface> {
     widget.searchBarController.filterList(
       (Recipe recipe) {
         return
-            (recipe.duration >= cookingTimeSelectedRange.start &&
-                recipe.duration <= cookingTimeSelectedRange.end)
-            &&
-            (recipe.servingSize >= servingSizeSelectedRange.start &&
-                recipe.servingSize <= servingSizeSelectedRange.end)
-            &&
-            (recipeTypeFilters.contains(recipe.type))
-            &&
-            (allIngredientsInPantrySwitch
-                ? recipe.ingredients.length == recipe.numberOfIngredientsPresent(widget.userPantry)
-                : true
-            );
+          (recipe.rating >= ratingSelectedRange.start &&
+              recipe.rating <= ratingSelectedRange.end)
+          &&
+          (recipe.duration >= cookingTimeSelectedRange.start &&
+              recipe.duration <= cookingTimeSelectedRange.end)
+          &&
+          (recipe.servingSize >= servingSizeSelectedRange.start &&
+              recipe.servingSize <= servingSizeSelectedRange.end)
+          &&
+          (recipeTypeFilters.contains(recipe.type))
+          &&
+          (allIngredientsInPantrySwitch
+              ? recipe.ingredients.length == recipe.numberOfIngredientsPresent(widget.userPantry)
+              : true
+          );
       }
     );
 

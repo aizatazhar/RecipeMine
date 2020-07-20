@@ -1,6 +1,7 @@
 import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recipemine/pages/Home/Profile/SettingsForm.dart';
 import 'package:recipemine/pages/Loading.dart';
 import '../../AppStyle.dart';
 
@@ -134,6 +135,7 @@ class _RegisterState extends State<Register> {
               setState(() {FocusScope.of(context).requestFocus(_usernameFocusNode);});
             },
 
+            validator: usernameValidator,
             onChanged: (val) => setState(() => username = val),
 
             decoration: AppStyle.registerDecoration.copyWith(
@@ -245,6 +247,10 @@ class _RegisterState extends State<Register> {
 // Extracted methods to enable unit testing
 String emailValidator(String email) {
   return email.isEmpty ? 'Enter an email' : null;
+}
+
+String usernameValidator(String username) {
+  return username.isEmpty ? "Username cannot be empty" : null;
 }
 
 String passwordValidator(String password) {
