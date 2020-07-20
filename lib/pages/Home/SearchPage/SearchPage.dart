@@ -29,7 +29,7 @@ class _SearchPageState extends State<SearchPage> {
     RecipeMiner user = getUser();
     return Scaffold(
       body: SearchBar<Recipe>(
-        hintText: "egg, flour, butter",
+        hintText: "eggs, flour, butter",
         hintStyle: AppStyle.searchBarHintStyle,
 
         iconActiveColor: Colors.redAccent,
@@ -218,16 +218,22 @@ class _SearchPageState extends State<SearchPage> {
     Set<Recipe> resultSet = Set();
 
     // Add recipes that contains an ingredient which was queried to result or
-    // if the name of the recipe contains the query
+    // if the name of the recipe contains the query, and subsequently
+    // increment the numberOfMatchingQueries
     recipes.forEach((recipeSnapshot) {
+      int numberOfMatchingQueries = 0;
       Recipe recipe = Recipe.fromDocumentSnapshot(recipeSnapshot);
-      Set<String> flattenedIngredients = _flattenIngredients(recipe.ingredients);
+      Set<String> flattenedIngredients = recipe.queryIngredients == null
+          ? _flattenIngredients(recipe.ingredients)
+          : _flattenQueryIngredients(recipe.queryIngredients);
 
       for (String query in queries) {
         if (flattenedIngredients.contains(query) || recipe.name.toLowerCase().contains(query)) {
           resultSet.add(recipe);
+          numberOfMatchingQueries++;
         }
       }
+      recipe.numberOfMatchingQueries = numberOfMatchingQueries;
     });
 
     await Future.delayed(Duration(seconds: 1));
@@ -262,6 +268,16 @@ class _SearchPageState extends State<SearchPage> {
       for (String word in words) {
         result.add(word.trim().toLowerCase());
       }
+    }
+
+    return result;
+  }
+
+  Set<String> _flattenQueryIngredients(List<dynamic> ingredients) {
+    Set<String> result = Set();
+
+    for (String ingredient in ingredients) {
+      result.add(ingredient);
     }
 
     return result;

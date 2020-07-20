@@ -30,6 +30,9 @@ class Recipe {
   List<dynamic> smartTimer;
   List<dynamic> ratings;
 
+  int numberOfMatchingQueries = 0;
+  List<dynamic> queryIngredients;
+
   Recipe({
     this.id,
     this.name,
@@ -62,6 +65,7 @@ class Recipe {
     this.ingredients = new List<String>.from(recipe["ingredients"]);
     this.instructions = new List<String>.from(recipe["instructions"]);
     this.smartTimer = new List<String>.from(recipe['smartTimer']);
+    this.queryIngredients = recipe["queryIngredients"];
   }
 
   int numberOfIngredientsPresent(List<dynamic> pantry) {
@@ -91,6 +95,7 @@ class Recipe {
     return normalise(rating, 0, 5) * 0.3
         - normalise(duration.toDouble(), 0, 1000) * 0.2
         + normalise(numberOfIngredientsPresent(pantry).toDouble(), 0, ingredients.length.toDouble()) * 0.4
-        - normalise(ingredients.length.toDouble(), 0, 100) * 0.1;
+        - normalise(ingredients.length.toDouble(), 0, 100) * 0.1
+        + normalise(numberOfMatchingQueries.toDouble(), 0, ingredients.length.toDouble()) * 0.5;
   }
 }
