@@ -29,7 +29,7 @@ class _SearchPageState extends State<SearchPage> {
     RecipeMiner user = getUser();
     return Scaffold(
       body: SearchBar<Recipe>(
-        hintText: "Type some ingredients",
+        hintText: "egg, flour, butter",
         hintStyle: AppStyle.searchBarHintStyle,
 
         iconActiveColor: Colors.redAccent,

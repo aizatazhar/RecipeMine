@@ -42,25 +42,27 @@ class _SortInterfaceState extends State<SortInterface> {
           },
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget> [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Sort by",
-              style: AppStyle.mediumHeader
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget> [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                "Sort by",
+                style: AppStyle.mediumHeader
+              ),
             ),
-          ),
-          SizedBox(height: 10),
-          Column(children: createRadioListParameters()),
-          Expanded(child: Container()),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: _buildApplyButton()
-          ),
-          SizedBox(height: 20),
-        ],
+            SizedBox(height: 10),
+            Column(children: createRadioListParameters()),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: _buildApplyButton()
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
