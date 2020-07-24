@@ -1,9 +1,6 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
-import 'package:recipemine/Custom/Models/Recipe.dart';
 import '../../../../../AppStyle.dart';
 
 class RecipePropertyAdder extends StatefulWidget {

@@ -5,7 +5,6 @@ import 'package:recipemine/Custom/CustomWidgets/UnorderedList.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/pages/Home/CookingAssistant/SmartTimerDisplay.dart';
 import '../../../AppStyle.dart';
-import '../HomeWrapper.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CookingAssistant extends StatefulWidget {

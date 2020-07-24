@@ -1,7 +1,6 @@
 import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recipemine/pages/Home/Profile/SettingsForm.dart';
 import 'package:recipemine/pages/Loading.dart';
 import '../../AppStyle.dart';
 

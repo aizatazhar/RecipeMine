@@ -11,14 +11,14 @@ class DatabaseService {
   final Firestore db = Firestore.instance;
 
   Future<void> updateUserData(String name, String email, String uid,
-      String ProfilePic, List<dynamic> Pantry, List<dynamic> Favourites) async {
+      String profilePic, List<dynamic> pantry, List<dynamic> favourites) async {
     return await db.collection('Users').document(uid).setData({
       'name': name,
       'email': email,
       'UID': uid,
-      'ProfilePic': ProfilePic,
-      'Pantry' : Pantry,
-      'Favourites': Favourites,
+      'ProfilePic': profilePic,
+      'Pantry' : pantry,
+      'Favourites': favourites,
     });
   }
 
