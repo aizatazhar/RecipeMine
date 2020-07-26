@@ -5,7 +5,6 @@ import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/pages/Home/SearchPage/SortInterface.dart';
 
 void main() {
-
   runWidgetTests();
 }
 

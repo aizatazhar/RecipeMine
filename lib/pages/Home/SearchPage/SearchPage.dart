@@ -336,7 +336,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-//   Used to build initial suggestion when user has not searched anything
+  // Used to build initial suggestion when user has not searched anything
   Future<List<Recipe>> _getRandomRecipe() async {
     // Hardcoded number of the total number of recipes to save reads on Firestore
     int endIndex = 52;
