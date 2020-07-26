@@ -127,10 +127,18 @@ class _CompletionScreenState extends State<CompletionScreen>  {
   }
 
   Future<void> uploadRecipe() async {
+    List<dynamic> buffer = [];
+    widget.ingredients.forEach((element) {
+      List<String> splitIngredients = element.split(",");
+      String numericalQuantity = splitIngredients[0];
+      String units = splitIngredients[1];
+      String name = splitIngredients[2];
+      buffer.add(numericalQuantity + ' '+ units + ' '+ name);
+    });
     return await Firestore.instance.collection('Recipes').document().setData({
       'duration' : widget.properties[2],
-      'imageURL' : widget.imageURL,
-      'ingredients' : widget.ingredients,
+      'imageURL' : widget.imageURL ?? 'https://firebasestorage.googleapis.com/v0/b/recipemine-18d5f.appspot.com/o/67894614-organic-food-background-food-photography-different-fruits-on-wood-background-copy-space-.jpg?alt=media&token=cfe240ec-43a7-44f9-a979-066a1bf663e9',
+      'ingredients' : buffer,
       'instructions' : widget.instructions,
       'smartTimer' : widget.smartTimer,
       'name': widget.properties[0],
