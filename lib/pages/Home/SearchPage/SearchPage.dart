@@ -30,12 +30,17 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     loadingSuggestion = true;
-    _getRandomRecipe().then((value) => suggestion = value);
+    _getRandomRecipe().then((value) =>
+      setState(() {
+        suggestion = value;
+      })
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     RecipeMiner user = getUser();
     return Scaffold(
       body: SearchBar<Recipe>(
@@ -59,7 +64,6 @@ class _SearchPageState extends State<SearchPage> {
         emptyWidget: _buildEmptyView(),
         header: _buildHeader(),
         suggestions: loadingSuggestion ? [] : suggestion,
-
       )
     );
   }
@@ -189,7 +193,19 @@ class _SearchPageState extends State<SearchPage> {
     return GestureDetector(
       child: Container(
         height: 500,
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow:  [
+              BoxShadow(
+                color: Colors.grey[600],
+                blurRadius: 2.0,
+                spreadRadius: 0.0,
+                offset: Offset(2.5, 2.5), // shadow direction: bottom right
+              )
+            ]
+        ),
+        margin: EdgeInsets.symmetric(horizontal: 20),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Container(
