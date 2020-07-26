@@ -121,9 +121,9 @@ class _FilterInterfaceState extends State<FilterInterface> {
                 SizedBox(height: 20),
                 Row(
                   children: <Widget>[
-                    Flexible(flex: 1, child: _buildResetButton()),
+                    Expanded(flex: 1, child: _buildResetButton()),
                     SizedBox(width: 10),
-                    Flexible(flex: 2, child: _buildApplyButton()),
+                    Expanded(flex: 2, child: _buildApplyButton()),
                   ],
                 ),
                 SizedBox(height: 20),
@@ -169,7 +169,6 @@ class _FilterInterfaceState extends State<FilterInterface> {
           fontSize: 16,
         ),
       ),
-      width: double.maxFinite,
       onPressed: resetFilters,
     );
   }
@@ -200,7 +199,6 @@ class _FilterInterfaceState extends State<FilterInterface> {
           fontSize: 16,
         ),
       ),
-      width: double.maxFinite,
       onPressed: applyFilters,
     );
   }

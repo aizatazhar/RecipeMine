@@ -24,8 +24,23 @@ class _SearchPageState extends State<SearchPage> {
 
   bool _isSearching = false;
 
+  List<Recipe> suggestion;
+  bool loadingSuggestion;
+
+  @override
+  void initState() {
+    loadingSuggestion = true;
+    _getRandomRecipe().then((value) =>
+      setState(() {
+        suggestion = value;
+      })
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     RecipeMiner user = getUser();
     return Scaffold(
       body: SearchBar<Recipe>(
@@ -48,6 +63,7 @@ class _SearchPageState extends State<SearchPage> {
 
         emptyWidget: _buildEmptyView(),
         header: _buildHeader(),
+        suggestions: loadingSuggestion ? [] : suggestion,
       )
     );
   }
@@ -177,17 +193,29 @@ class _SearchPageState extends State<SearchPage> {
     return GestureDetector(
       child: Container(
         height: 500,
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow:  [
+              BoxShadow(
+                color: Colors.grey[600],
+                blurRadius: 2.0,
+                spreadRadius: 0.0,
+                offset: Offset(2.5, 2.5), // shadow direction: bottom right
+              )
+            ]
+        ),
+        margin: EdgeInsets.symmetric(horizontal: 20),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Container(
             child: Stack(
               children: <Widget>[
                 Image.network(
-                    recipe.imageURL,
-                    fit: BoxFit.cover,
-                    width: 1000,
-                    height: 1000
+                  recipe.imageURL,
+                  fit: BoxFit.cover,
+                  width: 1000,
+                  height: 1000
                 ),
                 _buildTopSection(recipe),
                 _buildBottomSection(recipe),
@@ -308,41 +336,35 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  // Used to build initial suggestions list when user has not searched anything
-//  Future<List<Recipe>> _getRandomRecipes(int numberOfRecipes) async {
-//    // Hardcoded number of the total number of recipes to save reads on Firestore
-//    int endIndex = 52;
-//
-//    // Create a list of numbers from 0 to 52, then shuffle
-//    List<int> randomList = List.generate(endIndex + 1, (i) => i);
-//    randomList.shuffle();
-//
-//    // Get the required number of indices
-//    List<int> recipeIndices = [];
-//    for (int i = 0; i< numberOfRecipes; i++) {
-//      recipeIndices.add(randomList[i]);
-//    }
-//
-//    List<Recipe> result = [];
-//
-//    // Get recipes from Firestore corresponding to the random indices
-//    for (int i = 0; i < recipeIndices.length; i++) {
-//      await Firestore.instance
-//          .collection("Recipes")
-//          .document(recipeIndices[i].toString())
-//          .get()
-//          .then((snapshot) {
-//        if (snapshot.exists) {
-//          Recipe recipe = Recipe.fromDocumentSnapshot(snapshot);
-//          result.add(recipe);
-//        } else {
-//          print("value does not exist");
-//        }
-//      });
-//    }
-//
-//    return result.toList();
-//  }
+  // Used to build initial suggestion when user has not searched anything
+  Future<List<Recipe>> _getRandomRecipe() async {
+    // Hardcoded number of the total number of recipes to save reads on Firestore
+    int endIndex = 52;
+
+    // Create a list of numbers from 0 to 52, then shuffle
+    List<int> randomList = List.generate(endIndex + 1, (i) => i);
+    randomList.shuffle();
+    int randomIndex = randomList[0];
+
+    List<Recipe> result = [];
+
+    // Get recipes from Firestore corresponding to the random index
+    await Firestore.instance
+        .collection("Recipes")
+        .document(randomIndex.toString())
+        .get()
+        .then((snapshot) {
+      if (snapshot.exists) {
+        Recipe recipe = Recipe.fromDocumentSnapshot(snapshot);
+        result.add(recipe);
+        loadingSuggestion = false;
+      } else {
+        print("value does not exist");
+      }
+    });
+
+    return result;
+  }
 
   Widget _buildHeader()  {
     List<Widget> body = [];
@@ -354,7 +376,13 @@ class _SearchPageState extends State<SearchPage> {
 
     // Widgets that are only present when user is not searching
     if (!_isSearching) {
-      body.add(Container(child: Center(child: Text("Search for a recipe!"))));
+//      body.add(Container(
+//        child: Center(
+//          child: Text(
+//            "Try this recipe!",
+//          )
+//        )
+//      ));
     }
 
     // Widgets that are only present when user is searching
