@@ -36,7 +36,9 @@ class ProfileBrowser extends StatelessWidget {
                         height: 150.0,
                         child: Image.network(
                           viewedUser.profilePic,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
+                          width: 1000,
+                          height: 1000,
                         ),
                       ),
                     ),
