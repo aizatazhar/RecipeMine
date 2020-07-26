@@ -354,7 +354,7 @@ class _SearchPageState extends State<SearchPage> {
 
     // Widgets that are only present when user is not searching
     if (!_isSearching) {
-      body.add(Container(child: Center(child: Text("HELLO"))));
+      body.add(Container(child: Center(child: Text("Search for a recipe!"))));
     }
 
     // Widgets that are only present when user is searching
