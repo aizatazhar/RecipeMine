@@ -7,6 +7,7 @@ import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/pages/Home/SearchPage/RecipeTypeFilter.dart';
 import '../../../AppStyle.dart';
 
+/// Builds the interface for filtering recipes.
 class FilterInterface extends StatefulWidget {
   final SearchBarController<Recipe> searchBarController;
   final List<dynamic> userPantry;
@@ -21,7 +22,7 @@ class FilterInterface extends StatefulWidget {
 }
 
 class _FilterInterfaceState extends State<FilterInterface> {
-  // static preserves state
+  // Static preserves state?
   static RangeValues ratingSelectedRange = RangeValues(0, 5);
   static RangeValues cookingTimeSelectedRange = RangeValues(0, 600);
   static RangeValues servingSizeSelectedRange = RangeValues(1, 10);

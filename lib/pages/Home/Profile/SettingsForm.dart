@@ -11,6 +11,7 @@ import 'package:path/path.dart';
 import 'package:recipemine/pages/Loading.dart';
 import 'package:recipemine/AppStyle.dart';
 
+/// Builds the page for users to edit their profile.
 class SettingsForm extends StatefulWidget {
   @override
   _SettingsFormState createState() => _SettingsFormState();

@@ -8,6 +8,7 @@ import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:recipemine/pages/Home/Community/ProfileBrowser.dart';
 
+/// Builds the Community page.
 class Community extends StatefulWidget {
   final Function onBeginCooking;
 
@@ -39,28 +40,25 @@ class _CommunityState extends State<Community> {
       }
     });
 
-    // SearchEngine logic
-    bool searchEngine(String input, RecipeMiner element){
-      if (input == 'all'){
-        return true;
-      }
-
-      if (element.email.toLowerCase().contains(input.toLowerCase())){
-        return true;
-      }
-
-      if (element.name.toLowerCase().contains(input.toLowerCase())){
-        return true;
-      }
-
-      return false;
-    }
-
-    // method for searching
+    /// Method for searching for a user.
     Future<List<RecipeMiner>> search(String input) async{
+      // Search helper logic
+      bool _searchHelper(String input, RecipeMiner element){
+        if (input == 'all'){
+          return true;
+        }
+        if (element.email.toLowerCase().contains(input.toLowerCase())){
+          return true;
+        }
+        if (element.name.toLowerCase().contains(input.toLowerCase())){
+          return true;
+        }
+        return false;
+      }
+
       List<RecipeMiner> buffer = [];
       users.forEach((element) {
-        if (searchEngine(input,element)) {
+        if (_searchHelper(input, element)) {
           buffer.add(element);
         }
       });
@@ -68,7 +66,7 @@ class _CommunityState extends State<Community> {
       return buffer;
     }
 
-    // prevent lag when transition
+    // Prevents lag when transitioning.
     Future<Widget> buildPageAsync(RecipeMiner user) async {
       return Future.microtask(() {
         return ProfileBrowser(
@@ -79,7 +77,7 @@ class _CommunityState extends State<Community> {
       });
     }
 
-    // method onfound
+    /// Builds a card given for a given user.
     Widget whenFound(RecipeMiner user, int index){
       return Card(
         margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
@@ -134,6 +132,7 @@ class _CommunityState extends State<Community> {
     );
   }
 
+  /// Builds the view when there are no users found.
   Widget _buildEmptyView() {
     return Center(
       child: Container(

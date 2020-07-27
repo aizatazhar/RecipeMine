@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:recipemine/pages/Loading.dart';
 import '../../AppStyle.dart';
 
+/// Builds the Register page.
 class Register extends StatefulWidget {
   final Function toggleView;
 

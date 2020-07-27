@@ -1,4 +1,5 @@
 
+/// Models a user.
 class RecipeMiner{
   final String name;
   final String user;

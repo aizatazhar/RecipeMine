@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 
+/// Displays a countdown with the ability to start, pause and reset.
 class CustomCountdown extends StatefulWidget {
   // Length of the timer
   final int seconds;

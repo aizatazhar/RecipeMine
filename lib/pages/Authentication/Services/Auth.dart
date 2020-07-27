@@ -2,22 +2,23 @@ import 'package:recipemine/Custom/Models/User.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 
+/// Class that deals with authentication.
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Create user obj based on Firebase user
+  /// Creates a user object based on Firebase user.
   User _userFromFirebaseUser(FirebaseUser user) {
     return user != null ? User(uid: user.uid) : null;
   }
 
-  // Auth change user stream
+  /// Auth change user stream.
   Stream<User> get user {
     return _auth.onAuthStateChanged
         .map(_userFromFirebaseUser);
 //        .map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
-  // Sign in anonymously
+  /// Signs in anonymously.
   Future signInAnon() async {
     try {
       AuthResult result = await _auth.signInAnonymously();
@@ -29,7 +30,7 @@ class AuthService {
     }
   }
 
-  // Sign in with email and password
+  /// Signs in with email and password.
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
       String emailFormatted = email.trim();
@@ -48,7 +49,7 @@ class AuthService {
     }
   }
 
-  // Register with email and password
+  /// Registers with email and password.
   Future registerWithEmailAndPassword(String email, String username, String password) async {
     try {
       String emailFormatted = email.trim();
@@ -77,7 +78,7 @@ class AuthService {
     }
   }
 
-  // Sign out
+  /// Signs out.
   Future signOut() async {
     try {
       return await _auth.signOut();
@@ -87,6 +88,7 @@ class AuthService {
     }
   }
 
+  /// Gets the current user.
   Future getCurrentUser() async {
     return await _auth.currentUser();
   }

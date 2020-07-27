@@ -2,12 +2,12 @@ import "package:flutter/material.dart";
 import "package:numberpicker/numberpicker.dart";
 import "package:countdown_flutter/countdown_flutter.dart";
 
+/// Overall class that displays the time picker and countdown.
 class Alarm extends StatefulWidget {
   @override
   _AlarmState createState() => _AlarmState();
 }
 
-// Class used to set the count down timing
 class _AlarmState extends State<Alarm> {
   int hour = 0;
   int minute = 0;
@@ -87,7 +87,7 @@ class _AlarmState extends State<Alarm> {
   }
 }
 
-// Class used to show the countdown
+/// Class that takes in a duration and shows a countdown.
 class CountDown extends StatefulWidget {
   final int hour;
   final int minute;

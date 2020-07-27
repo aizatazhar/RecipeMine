@@ -1,6 +1,7 @@
 import 'package:flappy_search_bar/search_bar_style.dart';
 import "package:flutter/material.dart";
 
+/// Class that contains the standardised style of the app.
 class AppStyle {
   // ----- TextStyle -----
   static final caption = TextStyle(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Enumerates the various types of recipes.
 enum RecipeType {
   main,
   side,
@@ -7,13 +8,14 @@ enum RecipeType {
   drink,
 }
 
+/// Extension to have a custom toString() method for enums.
 extension RecipeTypeExtension on RecipeType {
   String get name {
     return this.toString().split(".").last;
   }
 }
 
-// Recipe class models a recipe
+/// Models a recipe.
 class Recipe {
   String id;
   String name;
@@ -25,13 +27,13 @@ class Recipe {
   int servingSize;
   String imageURL;
 
-  List<dynamic> ingredients;
+  List<dynamic> ingredients; // String array used for ingredient display only.
   List<dynamic> instructions;
-  List<dynamic> smartTimer;
-  List<dynamic> ratings;
+  List<dynamic> smartTimer; // String array for creating timers for each step.
+  List<dynamic> ratings; // Double array of all user ratings of the recipe.
 
   int numberOfMatchingQueries = 0;
-  List<dynamic> queryIngredients;
+  List<dynamic> queryIngredients; // String array used for querying only.
 
   Recipe({
     this.id,
@@ -50,8 +52,8 @@ class Recipe {
     this.smartTimer,
   });
 
-  // Named constructor that deserialises data received from Firestore
-  // and initialises a new Recipe object
+  /// Named constructor initialises a new Recipe object from the snapshot received
+  /// from Firestore
   Recipe.fromDocumentSnapshot(DocumentSnapshot recipe) {
     this.id = recipe.documentID;
     this.name = recipe["name"];
@@ -68,6 +70,8 @@ class Recipe {
     this.queryIngredients = recipe["queryIngredients"];
   }
 
+  /// Returns the number of ingredients required for this recipe that the
+  /// user has in their pantry.
   int numberOfIngredientsPresent(List<dynamic> pantry) {
     int result = 0;
 
@@ -87,15 +91,18 @@ class Recipe {
     return result;
   }
 
+  /// Calculates the relevance score of a recipe based off of various parameters.
+  ///
+  /// First normalise the parameters then multiply by a desired weight.
   double calculateRelevanceScore(List<dynamic> pantry) {
     double normalise(double value, double min, double max) {
       return (value - min) / (max - min);
     }
 
     return normalise(rating, 0, 5) * 0.3
-        - normalise(duration.toDouble(), 0, 1000) * 0.2
-        + normalise(numberOfIngredientsPresent(pantry).toDouble(), 0, ingredients.length.toDouble()) * 0.4
-        - normalise(ingredients.length.toDouble(), 0, 100) * 0.1
-        + normalise(numberOfMatchingQueries.toDouble(), 0, ingredients.length.toDouble()) * 0.5;
+      - normalise(duration.toDouble(), 0, 1000) * 0.2
+      + normalise(numberOfIngredientsPresent(pantry).toDouble(), 0, ingredients.length.toDouble()) * 0.4
+      - normalise(ingredients.length.toDouble(), 0, 100) * 0.1
+      + normalise(numberOfMatchingQueries.toDouble(), 0, ingredients.length.toDouble()) * 0.5;
   }
 }

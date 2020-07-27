@@ -6,6 +6,7 @@ import 'package:recipemine/pages/Authentication/Services/PasswordReset.dart';
 import 'package:recipemine/pages/Loading.dart';
 import 'package:recipemine/AppStyle.dart';
 
+/// Builds the sign in page.
 class SignIn extends StatefulWidget {
   final Function toggleView;
 

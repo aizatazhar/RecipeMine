@@ -5,10 +5,10 @@ import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:recipemine/pages/Home/Pantry/CategoryColor.dart';
 import "package:recipemine/Custom/CustomWidgets/StringExtension.dart";
-
 import '../../../AppStyle.dart';
 import 'PantryAdder.dart';
 
+/// Builds the Pantry page.
 class Pantry extends StatefulWidget {
   @override
   _PantryState createState() => _PantryState();
@@ -46,6 +46,7 @@ class _PantryState extends State<Pantry> {
         : _buildEmptyPantryView();
   }
 
+  /// Builds the view when a user's pantry has ingredients.
   Widget _buildPantryView(RecipeMiner currentUserData) {
     var userPantry = currentUserData.pantry;
 
@@ -62,6 +63,7 @@ class _PantryState extends State<Pantry> {
     );
   }
 
+  /// Builds the view when a user's pantry has no ingredients.
   Widget _buildEmptyPantryView() {
     return Center(
       child: Container(
@@ -104,6 +106,7 @@ class _PantryState extends State<Pantry> {
   }
 }
 
+/// Class that builds the individual pantry ingredients.
 class PantryTile extends StatelessWidget {
   final String ingredient;
   final RecipeMiner currentUser;

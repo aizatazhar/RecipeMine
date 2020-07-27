@@ -12,6 +12,7 @@ import 'DetailView.dart';
 import 'FilterInterface.dart';
 import 'SortInterface.dart';
 
+/// Builds the Search Page.
 class SearchPage extends StatefulWidget {
 
   final Function onBeginCooking;
@@ -29,20 +30,22 @@ class _SearchPageState extends State<SearchPage> {
 
   bool _isSearching = false;
 
-//  List<Recipe> suggestion;
-//  bool loadingSuggestion;
+/*
+  List<Recipe> suggestion;
+  bool loadingSuggestion;
 
   // Used for random recipe generation
-//  @override
-//  void initState() {
-//    loadingSuggestion = true;
-//    _getRandomRecipe().then((value) =>
-//      setState(() {
-//        suggestion = value;
-//      })
-//    );
-//    super.initState();
-//  }
+  @override
+  void initState() {
+    loadingSuggestion = true;
+    _getRandomRecipe().then((value) =>
+      setState(() {
+        suggestion = value;
+      })
+    );
+    super.initState();
+  }
+*/
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +93,7 @@ class _SearchPageState extends State<SearchPage> {
     return currentUserData;
   }
 
-  // Takes in a single recipe and builds its corresponding slider
+  /// Takes in a single recipe and builds its corresponding slider
   Widget _buildSlider(Recipe recipe, RecipeMiner user) {
     // Builds the icons at the top of a slider
     Widget _buildIcon(IconData iconData, Color iconColor, String text) {
@@ -242,6 +245,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  /// Method for searching for recipes.
   Future<List<Recipe>> _search(String input, List<dynamic> userPantry) async {
     // Triggers rebuild to remove the default view
     setState(() => _isSearching = true);
@@ -285,7 +289,7 @@ class _SearchPageState extends State<SearchPage> {
     return result;
   }
 
-  // Parses based on comma
+  /// Parses query based on comma.
   Set<String> _getQueries(String query) {
     Set<String> result = Set();
 
@@ -298,6 +302,9 @@ class _SearchPageState extends State<SearchPage> {
     return result;
   }
 
+  /// Takes in a list of ingredients and returns a set containing every word of
+  /// the list. Used to enable searching for recipes which do not have a
+  /// queryIngredients field.
   Set<String> _flattenIngredients(List<String> ingredients) {
     Set<String> result = Set();
 
@@ -311,6 +318,7 @@ class _SearchPageState extends State<SearchPage> {
     return result;
   }
 
+  /// Removes duplicate ingredients.
   Set<String> _flattenQueryIngredients(List<dynamic> ingredients) {
     Set<String> result = Set();
 
@@ -321,6 +329,7 @@ class _SearchPageState extends State<SearchPage> {
     return result;
   }
 
+  /// Builds the view when no recipes are found with the given user query.
   Widget _buildEmptyView() {
     return Center(
       child: Container(
@@ -346,53 +355,48 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+/*
   // Used to build initial suggestion when user has not searched anything
-//  Future<List<Recipe>> _getRandomRecipe() async {
-//    // Hardcoded number of the total number of recipes to save reads on Firestore
-//    int endIndex = 52;
-//
-//    // Create a list of numbers from 0 to 52, then shuffle
-//    List<int> randomList = List.generate(endIndex + 1, (i) => i);
-//    randomList.shuffle();
-//    int randomIndex = randomList[0];
-//
-//    List<Recipe> result = [];
-//
-//    // Get recipes from Firestore corresponding to the random index
-//    await Firestore.instance
-//        .collection("Recipes")
-//        .document(randomIndex.toString())
-//        .get()
-//        .then((snapshot) {
-//      if (snapshot.exists) {
-//        Recipe recipe = Recipe.fromDocumentSnapshot(snapshot);
-//        result.add(recipe);
-//        loadingSuggestion = false;
-//      } else {
-//        print("value does not exist");
-//      }
-//    });
-//
-//    return result;
-//  }
+  Future<List<Recipe>> _getRandomRecipe() async {
+    // Hardcoded number of the total number of recipes to save reads on Firestore
+    int endIndex = 52;
 
+    // Create a list of numbers from 0 to 52, then shuffle
+    List<int> randomList = List.generate(endIndex + 1, (i) => i);
+    randomList.shuffle();
+    int randomIndex = randomList[0];
+
+    List<Recipe> result = [];
+
+    // Get recipes from Firestore corresponding to the random index
+    await Firestore.instance
+        .collection("Recipes")
+        .document(randomIndex.toString())
+        .get()
+        .then((snapshot) {
+      if (snapshot.exists) {
+        Recipe recipe = Recipe.fromDocumentSnapshot(snapshot);
+        result.add(recipe);
+        loadingSuggestion = false;
+      } else {
+        print("value does not exist");
+      }
+    });
+
+    return result;
+  }
+*/
+
+  /// Builds the view below the search bar.
   Widget _buildHeader()  {
     List<Widget> body = [];
 
     // Widgets that are always present
-//    body.add(
-//
-//    );
+//    body.add();
 
     // Widgets that are only present when user is not searching
     if (!_isSearching) {
-//      body.add(Container(
-//        child: Center(
-//          child: Text(
-//            "Try this recipe!",
-//          )
-//        )
-//      ));
+//    body.add();
     }
 
     // Widgets that are only present when user is searching

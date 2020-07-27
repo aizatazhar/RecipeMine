@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+/// A RaisedButton with custom decorations corresponding to the main
+/// call-to-action.
 class MainButton extends StatelessWidget {
   final Key key;
   final Function onPressed;
