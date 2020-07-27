@@ -13,6 +13,11 @@ import 'FilterInterface.dart';
 import 'SortInterface.dart';
 
 class SearchPage extends StatefulWidget {
+
+  final Function onBeginCooking;
+
+  SearchPage({this.onBeginCooking});
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -24,19 +29,20 @@ class _SearchPageState extends State<SearchPage> {
 
   bool _isSearching = false;
 
-  List<Recipe> suggestion;
-  bool loadingSuggestion;
+//  List<Recipe> suggestion;
+//  bool loadingSuggestion;
 
-  @override
-  void initState() {
-    loadingSuggestion = true;
-    _getRandomRecipe().then((value) =>
-      setState(() {
-        suggestion = value;
-      })
-    );
-    super.initState();
-  }
+  // Used for random recipe generation
+//  @override
+//  void initState() {
+//    loadingSuggestion = true;
+//    _getRandomRecipe().then((value) =>
+//      setState(() {
+//        suggestion = value;
+//      })
+//    );
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
 
         emptyWidget: _buildEmptyView(),
         header: _buildHeader(),
-        suggestions: loadingSuggestion ? [] : suggestion,
+//        suggestions: loadingSuggestion ? [] : suggestion,
       )
     );
   }
@@ -226,7 +232,11 @@ class _SearchPageState extends State<SearchPage> {
       ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => DetailView(recipe: recipe, user: user)
+          builder: (context) => DetailView(
+            recipe: recipe,
+            user: user,
+            onBeginCooking: this.widget.onBeginCooking,
+          )
         ));
       },
     );
@@ -337,34 +347,34 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   // Used to build initial suggestion when user has not searched anything
-  Future<List<Recipe>> _getRandomRecipe() async {
-    // Hardcoded number of the total number of recipes to save reads on Firestore
-    int endIndex = 52;
-
-    // Create a list of numbers from 0 to 52, then shuffle
-    List<int> randomList = List.generate(endIndex + 1, (i) => i);
-    randomList.shuffle();
-    int randomIndex = randomList[0];
-
-    List<Recipe> result = [];
-
-    // Get recipes from Firestore corresponding to the random index
-    await Firestore.instance
-        .collection("Recipes")
-        .document(randomIndex.toString())
-        .get()
-        .then((snapshot) {
-      if (snapshot.exists) {
-        Recipe recipe = Recipe.fromDocumentSnapshot(snapshot);
-        result.add(recipe);
-        loadingSuggestion = false;
-      } else {
-        print("value does not exist");
-      }
-    });
-
-    return result;
-  }
+//  Future<List<Recipe>> _getRandomRecipe() async {
+//    // Hardcoded number of the total number of recipes to save reads on Firestore
+//    int endIndex = 52;
+//
+//    // Create a list of numbers from 0 to 52, then shuffle
+//    List<int> randomList = List.generate(endIndex + 1, (i) => i);
+//    randomList.shuffle();
+//    int randomIndex = randomList[0];
+//
+//    List<Recipe> result = [];
+//
+//    // Get recipes from Firestore corresponding to the random index
+//    await Firestore.instance
+//        .collection("Recipes")
+//        .document(randomIndex.toString())
+//        .get()
+//        .then((snapshot) {
+//      if (snapshot.exists) {
+//        Recipe recipe = Recipe.fromDocumentSnapshot(snapshot);
+//        result.add(recipe);
+//        loadingSuggestion = false;
+//      } else {
+//        print("value does not exist");
+//      }
+//    });
+//
+//    return result;
+//  }
 
   Widget _buildHeader()  {
     List<Widget> body = [];

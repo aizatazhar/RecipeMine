@@ -3,14 +3,15 @@ import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import '../../../AppStyle.dart';
-import '../HomeWrapper.dart';
 import 'SliverCustomHeaderDelegate.dart';
 
 class DetailView extends StatefulWidget {
   final Recipe recipe;
   final RecipeMiner user;
 
-  DetailView({this.recipe, this.user});
+  final Function onBeginCooking;
+
+  DetailView({@required this.recipe, @required this.user, @required this.onBeginCooking});
 
   @override
   _DetailViewState createState() => _DetailViewState();
@@ -149,20 +150,10 @@ class _DetailViewState extends State<DetailView> {
       ),
       width: double.maxFinite,
       onPressed: () {
-        // Returns a new instance of HomeWrapper with the selected recipe as the CookingAssistant page
-        // Probably not the best solution since this would remove all state from the other bottom
-        // navigation tabs
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) =>
-              HomeWrapper(recipe: this.widget.recipe, initialBottomNavigationBarIndex: 1)
-          ),
-          (Route<dynamic> route) => false // Removes all routes below the pushed route by using a [RoutePredicate] that always returns false
-        );
+        this.widget.onBeginCooking(this.widget.recipe);
       },
     );
   }
-
 }
 
 

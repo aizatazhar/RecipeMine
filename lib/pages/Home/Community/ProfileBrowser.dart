@@ -8,7 +8,9 @@ import '../../Loading.dart';
 class ProfileBrowser extends StatelessWidget {
   final RecipeMiner viewedUser;
   final List<Recipe> recipeList;
-  ProfileBrowser({this.viewedUser, this.recipeList});
+  final Function onBeginCooking;
+
+  ProfileBrowser({this.viewedUser, this.recipeList, @required this.onBeginCooking});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,11 @@ class ProfileBrowser extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text('User Recipes', style: AppStyle.caption),
-                MyRecipes(user: viewedUser, recipeList: recipeList),
+                MyRecipes(
+                  user: viewedUser,
+                  recipeList: recipeList,
+                  onBeginCooking: onBeginCooking,
+                ),
                 SizedBox(height: 20),
               ]
             ),

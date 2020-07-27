@@ -12,7 +12,7 @@ class Wrapper extends StatelessWidget {
     if (user == null){
       return Authenticate();
     } else {
-      return HomeWrapper(recipe: null, initialBottomNavigationBarIndex: 0);
+      return HomeWrapper();
     }
   }
 }

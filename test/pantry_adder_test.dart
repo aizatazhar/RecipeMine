@@ -3,8 +3,6 @@ import 'package:recipemine/pages/Home/Pantry/PantryAdder.dart';
 
 void main() {
   runUnitTests();
-
-  runWidgetTests();
 }
 
 void runUnitTests() {
@@ -27,10 +25,4 @@ void runUnitTests() {
     final result = quantityValidator("100");
     expect(result, null);
   });
-
-}
-
-
-void runWidgetTests() {
-
 }

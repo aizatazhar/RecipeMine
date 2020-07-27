@@ -8,7 +8,9 @@ import '../../../AppStyle.dart';
 class MyRecipes extends StatefulWidget {
   final RecipeMiner user;
   final List<Recipe> recipeList;
-  MyRecipes({this.user, this.recipeList});
+  final Function onBeginCooking;
+
+  MyRecipes({this.user, this.recipeList, @required this.onBeginCooking});
 
   @override
   _MyRecipesState createState() => _MyRecipesState();
@@ -58,7 +60,11 @@ class _MyRecipesState extends State<MyRecipes> {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => DetailView(recipe: recipe, user: user)
+          builder: (context) => DetailView(
+            recipe: recipe,
+            user: user,
+            onBeginCooking: this.widget.onBeginCooking,
+          )
         ));
       },
       child: Container(

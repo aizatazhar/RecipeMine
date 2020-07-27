@@ -10,14 +10,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class CookingAssistant extends StatefulWidget {
   final Recipe recipe;
 
-  CookingAssistant(this.recipe);
+  CookingAssistant({this.recipe});
 
   @override
   _CookingAssistantState createState() => _CookingAssistantState();
 }
 
 class _CookingAssistantState extends State<CookingAssistant> {
-  int navigationIndex = 1;
   bool ratingOnce = true;
 
   @override
@@ -158,6 +157,11 @@ class _CookingAssistantState extends State<CookingAssistant> {
 
     return Column(
       children: <Widget>[
+        Text(
+          'Author: ${this.widget.recipe.authorUID}',
+          style:AppStyle.caption,
+        ),
+        SizedBox(height: 10),
         Text(
           'Rate the recipe!',
           style:AppStyle.mediumHeader,
