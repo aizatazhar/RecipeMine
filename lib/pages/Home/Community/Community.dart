@@ -9,6 +9,10 @@ import 'package:recipemine/pages/Authentication/Services/Auth.dart';
 import 'package:recipemine/pages/Home/Community/ProfileBrowser.dart';
 
 class Community extends StatefulWidget {
+  final Function onBeginCooking;
+
+  Community({@required this.onBeginCooking});
+
   @override
   _CommunityState createState() => _CommunityState();
 }
@@ -41,10 +45,6 @@ class _CommunityState extends State<Community> {
         return true;
       }
 
-      if (element.email == currentUserData.email){
-        return false;
-      }
-
       if (element.email.toLowerCase().contains(input.toLowerCase())){
         return true;
       }
@@ -71,7 +71,11 @@ class _CommunityState extends State<Community> {
     // prevent lag when transition
     Future<Widget> buildPageAsync(RecipeMiner user) async {
       return Future.microtask(() {
-        return ProfileBrowser(viewedUser: user, recipeList : recipeList);
+        return ProfileBrowser(
+          viewedUser: user,
+          recipeList : recipeList,
+          onBeginCooking: this.widget.onBeginCooking,
+        );
       });
     }
 

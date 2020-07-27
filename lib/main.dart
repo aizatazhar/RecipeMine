@@ -10,7 +10,7 @@ void main() {
     routes: {
       "/": (context) => SplashScreen(),
       "/SearchPage": (context) => SearchPage(),
-      "/CookingAssistant": (context) => CookingAssistant(null),
+      "/CookingAssistant": (context) => CookingAssistant(recipe: null),
       "/AuthenticationWrapper" : (context) => Wrapper(),
     })
   );

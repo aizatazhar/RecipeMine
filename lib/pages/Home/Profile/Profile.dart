@@ -11,6 +11,10 @@ import '../../../AppStyle.dart';
 import 'SettingsForm.dart';
 
 class Profile extends StatefulWidget {
+  final Function onBeginCooking;
+
+  Profile({@required this.onBeginCooking});
+
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -106,7 +110,11 @@ class _ProfileState extends State<Profile> {
               ),
               SizedBox(height: 10),
               Text('Your recipes', style: AppStyle.caption),
-              MyRecipes(user: currentUserData, recipeList: recipeList),
+              MyRecipes(
+                user: currentUserData,
+                recipeList: recipeList,
+                onBeginCooking: this.widget.onBeginCooking,
+              ),
               SizedBox(height: 20),
               _buildRecipeMakerButton(currentUserData),
               SizedBox(height: 20),

@@ -10,6 +10,10 @@ import 'package:recipemine/pages/Home/SearchPage/DetailView.dart';
 import '../../../AppStyle.dart';
 
 class Favourites extends StatefulWidget {
+  final Function onBeginCooking;
+
+  Favourites({@required this.onBeginCooking});
+
   @override
   _FavouritesState createState() => _FavouritesState();
 }
@@ -69,7 +73,11 @@ class _FavouritesState extends State<Favourites> {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => DetailView(recipe: recipe, user: user)
+            builder: (context) => DetailView(
+              recipe: recipe,
+              user: user,
+              onBeginCooking: this.widget.onBeginCooking,
+            )
         ));
       },
       child: Container(
