@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Widget that returns an unordered list with proper formatting.
 class UnorderedList extends StatelessWidget {
   final List<String> texts;
   final TextStyle style;

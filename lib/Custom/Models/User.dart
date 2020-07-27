@@ -1,4 +1,4 @@
-// Placeholder class used for AuthenticationWrapper, do not touch. It works.
+/// Placeholder class used for AuthenticationWrapper.
 class User {
   final String uid;
 

@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 
+/// A RangeFilter with custom decorations.
 class CustomRangeFilter extends StatelessWidget {
   final String title;
   final String unit;
