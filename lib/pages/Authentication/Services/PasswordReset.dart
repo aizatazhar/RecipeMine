@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../AppStyle.dart';
 
+/// Builds the password reset page.
 class PasswordReset extends StatefulWidget {
   @override
   _PasswordResetState createState() => _PasswordResetState();
@@ -14,6 +15,7 @@ class _PasswordResetState extends State<PasswordReset> {
   FocusNode _emailNameFocusNode = FocusNode();
   FirebaseAuth auth = FirebaseAuth.instance;
   bool _isSendingEmail = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

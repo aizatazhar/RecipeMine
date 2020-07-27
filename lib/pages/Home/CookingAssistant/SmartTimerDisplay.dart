@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:recipemine/Custom/CustomWidgets/CustomCountdown.dart';
 
+/// Class that is responsible for displaying a SmartTimer.
 class SmartTimerDisplay extends StatefulWidget {
   final int seconds;
   final bool centered;

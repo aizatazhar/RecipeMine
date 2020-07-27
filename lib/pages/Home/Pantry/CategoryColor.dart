@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 
+/// Simple class to return the colour of a category.
 class CategoryColor {
   static Color get(String category) {
     if (category == 'Vegetable') {

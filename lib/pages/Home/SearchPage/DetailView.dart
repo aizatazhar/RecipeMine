@@ -5,6 +5,7 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import '../../../AppStyle.dart';
 import 'SliverCustomHeaderDelegate.dart';
 
+/// Builds the page displayed when clicking on a recipe.
 class DetailView extends StatefulWidget {
   final Recipe recipe;
   final RecipeMiner user;

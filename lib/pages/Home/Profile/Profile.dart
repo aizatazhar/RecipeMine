@@ -10,6 +10,7 @@ import 'package:recipemine/pages/Home/Profile/RecipeBuilder/RecipeBuilder.dart';
 import '../../../AppStyle.dart';
 import 'SettingsForm.dart';
 
+/// Builds the user's profile page.
 class Profile extends StatefulWidget {
   final Function onBeginCooking;
 
@@ -26,38 +27,6 @@ class _ProfileState extends State<Profile> {
     final users = Provider.of<List<RecipeMiner>>(context) ?? [];
     final currentUserUID = Provider.of<User>(context);
     List<Recipe> recipeList = Provider.of<List<Recipe>>(context) ?? [];
-    //Recipe database manipulation methods.
-//    int getENUM(Recipe recipe){
-//      if(recipe.type == RecipeType.main){
-//        return 0;
-//      }
-//      if(recipe.type == RecipeType.side){
-//        return 1;
-//      }
-//      if(recipe.type == RecipeType.dessert){
-//        return 2;
-//      }
-//      if(recipe.type == RecipeType.drink){
-//        return 3;
-//      }
-//    }
-//
-//    recipes.forEach((element) {
-//       Firestore.instance.collection('Recipes').document(element.id).setData({
-//         'duration' : element.duration,
-//         'authorUID' : 'RecipeMine',
-//         'ratings' : [5],
-//         'imageURL' : element.imageURL,
-//         'ingredients' : element.ingredients,
-//         'instructions' : element.instructions,
-//         'name' : element.name,
-//         'rating' : element.rating,
-//         'servingSize' : element.servingSize,
-//         'type' : getENUM(element),
-//         'smartTimer' : element.smartTimer,
-//       });
-//    });
-    //Recipe database manipulation methods.
 
     // contains the current user details
     RecipeMiner currentUserData = RecipeMiner(

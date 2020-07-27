@@ -4,6 +4,7 @@ import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 import '../../../AppStyle.dart';
 
+/// Builds the sort interface.
 class SortInterface extends StatefulWidget {
   final SearchBarController<Recipe> searchBarController;
   final List<dynamic> userPantry;
@@ -18,7 +19,7 @@ class SortInterface extends StatefulWidget {
 }
 
 class _SortInterfaceState extends State<SortInterface> {
-  // static preserves the state of the sort parameter used
+  // static preserves the state of the sort parameter used?
   static List<SortParameter> parameters = [
     SortParameter(name: "Relevance"),
     SortParameter(name: "Alphabetical"),
@@ -159,6 +160,7 @@ class _SortInterfaceState extends State<SortInterface> {
 
 }
 
+/// Simple class that encapsulates a sort parameter.
 class SortParameter {
   String name;
 

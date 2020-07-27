@@ -9,6 +9,7 @@ import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:recipemine/pages/Loading.dart';
 import 'CategoryColor.dart';
 
+/// Builds the page for adding a pantry ingredient.
 class PantryAdder extends StatefulWidget {
   @override
   _PantryAdderState createState() => _PantryAdderState();

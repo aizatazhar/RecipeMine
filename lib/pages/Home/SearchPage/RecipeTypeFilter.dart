@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:recipemine/Custom/Models/Recipe.dart';
 
+/// Builds the FilterChips for filtering recipes.
 class RecipeTypeFilter extends StatefulWidget {
   final List<RecipeType> types;
   final List<RecipeType> filters;

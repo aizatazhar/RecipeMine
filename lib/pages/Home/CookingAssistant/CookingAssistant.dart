@@ -7,6 +7,7 @@ import 'package:recipemine/pages/Home/CookingAssistant/SmartTimerDisplay.dart';
 import '../../../AppStyle.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+/// Builds the Assistant page.
 class CookingAssistant extends StatefulWidget {
   final Recipe recipe;
 
@@ -28,6 +29,7 @@ class _CookingAssistantState extends State<CookingAssistant> {
     );
   }
 
+  /// Builds the view when a recipe is loaded.
   Widget _buildRecipeView() {
     return DefaultTabController(
       length: 2,
@@ -85,6 +87,8 @@ class _CookingAssistantState extends State<CookingAssistant> {
     );
   }
 
+  // Takes in a list of ingredients and returns them formatted as an
+  // unordered list.
   Widget _buildIngredients(List<dynamic> ingredients) {
     List<String> formattedIngredients = [];
 
@@ -109,9 +113,11 @@ class _CookingAssistantState extends State<CookingAssistant> {
     );
   }
 
+  // Returns the list of steps for a given recipe
   Widget _buildSteps() {
     List<dynamic> instructions = this.widget.recipe.instructions;
     List<Widget> steps = [];
+
     for (int i = 0; i < instructions.length; i++) {
       steps.add(Text("Step ${i+1}", style: AppStyle.assistantHeader));
       steps.add(SizedBox(height: 5));
@@ -135,6 +141,8 @@ class _CookingAssistantState extends State<CookingAssistant> {
     );
   }
 
+  // Takes in a smartTimer object and returns the display corresponding
+  // to the time.
   Widget _buildSmartTimer(String smartTimer) {
     List<String> time = smartTimer.split(",");
     int hours = int.parse(time[0]);
@@ -210,6 +218,7 @@ class _CookingAssistantState extends State<CookingAssistant> {
     );
   }
 
+  /// Builds the view when there is no recipe loaded.
   Widget _buildEmptyView() {
     return Center(
       child: Container(

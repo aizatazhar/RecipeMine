@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipemine/Custom/CustomWidgets/MainButton.dart';
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/IngredientAdder/IngredientTile.dart';
-
-
 import '../../../../../AppStyle.dart';
 
 class IngredientAdder extends StatefulWidget {

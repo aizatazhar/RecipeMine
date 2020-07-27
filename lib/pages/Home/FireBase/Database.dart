@@ -22,7 +22,7 @@ class DatabaseService {
     });
   }
 
-  //get CurrentUser methods
+  // get CurrentUser methods
   Stream<RecipeMiner> get userData {
     return db.collection('Users').document(uid).snapshots()
         .map(_userDataFromSnapshot);

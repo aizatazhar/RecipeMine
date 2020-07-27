@@ -5,6 +5,7 @@ import 'package:recipemine/pages/Home/Profile/RecipeBuilder/IngredientAdder/Ingr
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/InstructionsAdder/InstructionsAdder.dart';
 import 'package:recipemine/pages/Home/Profile/RecipeBuilder/RecipePropertyAdder/RecipePropertyAdder.dart';
 
+/// Class responsible for building a user-contributed recipe.
 class RecipeBuilder extends StatefulWidget {
   final RecipeMiner currentUser;
 

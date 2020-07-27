@@ -6,9 +6,9 @@ import 'package:recipemine/Custom/Models/ReciperMinerUser.dart';
 import 'package:recipemine/Custom/Models/User.dart';
 import 'package:recipemine/pages/Home/FireBase/Database.dart';
 import 'package:recipemine/pages/Home/SearchPage/DetailView.dart';
-
 import '../../../AppStyle.dart';
 
+/// Builds the Favourites page.
 class Favourites extends StatefulWidget {
   final Function onBeginCooking;
 
@@ -53,6 +53,7 @@ class _FavouritesState extends State<Favourites> {
         : _buildEmptyView();
   }
 
+  /// Builds the view when the user has favourited recipes.
   Widget _buildFavouritesView(List<Recipe> filteredList, RecipeMiner user) {
     int recipesLength = filteredList.length;
 
@@ -69,6 +70,7 @@ class _FavouritesState extends State<Favourites> {
     );
   }
 
+  /// Builds the card corresponding to a favourited recipe
   Widget _buildCard(Recipe recipe, RecipeMiner user) {
     return GestureDetector(
       onTap: () {
@@ -162,6 +164,7 @@ class _FavouritesState extends State<Favourites> {
     );
   }
 
+  /// Builds the view when the user has not favourited any recipes.
   Widget _buildEmptyView() {
     return Center(
       child: Container(

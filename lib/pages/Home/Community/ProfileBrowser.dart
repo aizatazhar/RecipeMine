@@ -5,6 +5,7 @@ import 'package:recipemine/pages/Home/Profile/MyRecipesBuilder.dart';
 import '../../../AppStyle.dart';
 import '../../Loading.dart';
 
+/// Builds the page when clicking on a user.
 class ProfileBrowser extends StatelessWidget {
   final RecipeMiner viewedUser;
   final List<Recipe> recipeList;

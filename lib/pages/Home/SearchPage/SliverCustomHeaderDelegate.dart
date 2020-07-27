@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:recipemine/Custom/Models/Recipe.dart';
 
-// Custom class required for a SliverPersistentHeader
+/// Custom class required for a SliverPersistentHeader.
 class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double collapsedHeight;
   final double expandedHeight;
@@ -29,7 +29,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     return true;
   }
 
-  // Use this method to change the status bar properties as the page scrolls
+  /// Method to change the status bar properties as the page scrolls.
   void updateStatusBarBrightness(shrinkOffset) {
     if (shrinkOffset > 50 && this.statusBarMode == 'dark') {
       this.statusBarMode = 'light';
@@ -46,7 +46,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     }
   }
 
-  // Method to update the color of the AppBar icon as you scroll
+  /// Method to update the color of the AppBar icon as you scroll.
   Color _fadeAppBarIcon(shrinkOffset, Color color) {
     final int alpha = -(shrinkOffset / (this.maxExtent - this.minExtent) * 255)
         .clamp(1, 255)
