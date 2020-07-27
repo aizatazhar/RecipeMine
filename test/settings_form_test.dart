@@ -3,8 +3,6 @@ import 'package:recipemine/pages/Home/Profile/SettingsForm.dart';
 
 void main() {
   runUnitTests();
-
-  runWidgetTests();
 }
 
 void runUnitTests() {
@@ -13,12 +11,8 @@ void runUnitTests() {
     expect(result, "Please enter a username");
   });
 
-  test("Non-empty ingredient returns null", () {
+  test("Non-empty username returns null", () {
     final result = usernameValidator("username");
     expect(result, null);
   });
-}
-
-void runWidgetTests() {
-
 }
