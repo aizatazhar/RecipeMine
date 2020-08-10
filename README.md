@@ -24,7 +24,3 @@
 
 5. Community feature for users to share and rate other recipes
     * Allows users to rate and contribute their own recipes
-
-### Tech stack
-* Flutter
-* Firebase
