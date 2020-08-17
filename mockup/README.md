@@ -2,9 +2,9 @@
 
 <p align="center">
   <span>
-    <img src="mockup/Loading Screen.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="mockup/Log in page.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="mockup/Searched (favourited).png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Loading Screen.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Log in page.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Searched (favourited).png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   </span>
 </p>
 
@@ -12,9 +12,9 @@
 
 <p align="center">
   <span>
-    <img src="mockup/Search interface.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="mockup/Sort.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="mockup/Filter.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Search interface.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Sort.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Filter.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   </span>
 </p>
 
@@ -22,15 +22,15 @@
 
 <p align="center">
   <span>
-    <img src="mockup/Clicking on recipe.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="mockup/Cooking assistant.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="mockup/Favourites.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Clicking on recipe.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Cooking assistant.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Favourites.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   </span> 
 </p>
 
 
 <p align="center">
   <span>
-    <img src="mockup/Pantry.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Pantry.png" width="206" height="366"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   </span> 
 </p>
