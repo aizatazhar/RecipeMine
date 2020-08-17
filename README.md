@@ -1,26 +1,61 @@
 # RecipeMine
+A cross-platform mobile recipe app built with Flutter and Firebase where users are able to search for and display recipes based on ingredients they already have at home. 
 <p align="center">
-   <img src="mockup/Logo cropped.png" width = "441", height = "150">
+   <img src="https://i.imgur.com/0zdSOPu.png"/>
 </p>
 
-### Main Features
-1. Rich database of recipes 
-    * Search/filter function that can take into account parameters such as
-        1. Ingredients - able to input a user's pantry (feature 4) to display recipes that the user has all the ingredients for
-        2. Community ratings
-        3. Estimated time to complete
-        4. Type of dish
+<p align="center">
+   <span>
+      <img src="https://i.imgur.com/8Rwap6p.png"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="https://i.imgur.com/WBIEdiE.png"/>
+   </span>
+   <br>
+   <br>
+   <span>
+      <img src="https://i.imgur.com/Q4Ch7vx.png"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="https://i.imgur.com/y5EgtWV.png"/>
+   </span>
+</p>
 
-2. Built-in cooking assistant to assist the cooking process
-    * Focus on creating a UI that is as user-friendly as possible
-    * Step-by step instructions with built-in timers for each step and a menu to view all active timers
+   
+## Demo Video ## 
+[![video](https://i.imgur.com/rF5Zadg.png)](https://drive.google.com/file/d/1v7HWmlfWu3Yo6OcFDp8tknaHKCgQeBhI/view)
+
+
+## Main Features ##
+1. Search
+    * Search algorithm ranks results based on various properties such as rating, cooking time and number of matching pantry ingredients
+    * Able to sort results based on various parameters such as
+        1. Community ratings
+        2. Cooking time
+        3. Number of ingredients in pantry
+        4. Serving size and more
+
+2. Cooking assistant
+    * Displays selected recipe with a user-friendly UI
+    * Step-by step instructions with automatic built-in timers for each step and a tab for setting your own desired timer
 
 3. Favourites
     * A collection of recipes that the user favourited
+    * Able to select recipes from favourites to be displayed
 
 4. Pantry
-    * A collection of ingredients that the user has at home
-    * Recipes displays the number of ingredients that a user has in their pantry
+    * Users can store their available ingredients in the app's pantry feature which can then be used for finding recipes through sorting and filtering
+    * Recipes display the number of ingredients that a user has in their pantry
 
-5. Community feature for users to share and rate other recipes
-    * Allows users to rate and contribute their own recipes
+5. Community
+    * Users are able to rate recipes and contribute their own recipes
+    * Able to edit user profiles as well as reset password
+
+## Installation ##
+### Option 1: apk download
+   1. [Download the apk](https://github.com/aizatazhar/RecipeMine/releases/tag/v1.0.0) and install the app on your Android machine
+
+### Option 2: Cloning
+   **Requirements**
+   * [Flutter](https://flutter.dev/docs/get-started/install)
+
+   **Setup**
+   1. Clone the above repo into your local directory: ```git clone https://github.com/aizatazhar/RecipeMine.git ```
+   2. Launch an emulator or connect your device with developer options enabled
+   3. Run ``` flutter run ```
