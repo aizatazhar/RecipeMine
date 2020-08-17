@@ -6,14 +6,14 @@ A cross-platform mobile recipe app built with Flutter and Firebase where users a
 
 <p align="center">
    <span>
-      <img src="https://i.imgur.com/8Rwap6p.png"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <img src="https://i.imgur.com/WBIEdiE.png"/>
+      <img src="https://i.imgur.com/8aWgrmr.png"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="https://i.imgur.com/9o58hNT.png"/>
    </span>
    <br>
    <br>
    <span>
-      <img src="https://i.imgur.com/Q4Ch7vx.png"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <img src="https://i.imgur.com/y5EgtWV.png"/>
+      <img src="https://i.imgur.com/WundKtg.png"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="https://i.imgur.com/poTZPnN.png"/>
    </span>
 </p>
 
